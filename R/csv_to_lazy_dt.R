@@ -1,3 +1,8 @@
+# Load the necessary libraries
+library(dtplyr)
+library(vroom)
+library(here)
+
 #' Import and Combine CSV Files into a Lazy Data Table
 #'
 #' This function searches for all CSV files in a specified directory, reads them
