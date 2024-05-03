@@ -1,20 +1,18 @@
 # Load required libraries
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(here)
 
 # Load required scripts
 source(here("R", "nrow_lazy_dt.R"))
 
-# Remove irrelevant variables---------------------------------------------------
+# Data Inspection --------------------------------------------------------------
 
-irrelevant_vars <- c("start_station_name", "start_station_id",
-                     "end_station_name", "end_station_id")
+## Check structure and type of data --------------------------------------------
 
-data_raw <- data_raw %>%
-  select(-all_of(irrelevant_vars))
+data_raw %>%
+  glimpse()
 
-# Check duplicate observations -------------------------------------------------
+## Check duplicate observations ------------------------------------------------
 
 duplicate_obs <- data_raw %>%
   group_by_all() %>%
@@ -22,7 +20,7 @@ duplicate_obs <- data_raw %>%
   ungroup() %>%
   nrow_lazy_dt()
   
-# Check missing values ---------------------------------------------------------
+## Check missing values ---------------------------------------------------------
 
 missing_obs <- data_raw %>%
     summarise(
