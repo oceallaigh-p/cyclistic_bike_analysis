@@ -5,7 +5,7 @@ library(geosphere)
 # Required scripts
 source(here("R", "count_anomalies.R"))
 source(here("R", "remove_anomalies.R"))
-source(here("R", "calculate_summary_stats.R"))
+source(here("R", "calculate_sum_stats.R"))
 
 # Data transformation ----------------------------------------------------------
 
@@ -83,7 +83,15 @@ data_processed <- data_processed %>%
 ### Check for anomalous ride distance
 
 ride_distance_stats <- data_processed %>%
-  summarise(
-    min_distance = min(ride_distance),
-    max_distance = max(ride_distance)
-  )
+  calculate_summary_stats(ride_distance)
+
+# Calulate IQR
+iqr_distance <- ride_distance_stats$q75 - ride_distance_stats$q25
+
+# Calculate thresholds
+max_distance <- ride_distance_stats$q75 + 3 * iqr_distance
+
+min_distance <- data_processed %>%
+  filter(ride_distance > 0) %>%
+  summarise(min_dist = quantile(ride_distance, 0.01)) %>%
+  pull() 
