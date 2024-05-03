@@ -3,6 +3,9 @@ library(tidyverse)
 library(geosphere)
 
 # Required scripts
+source(here("R", "count_anomalies.R"))
+source(here("R", "remove_anomalies.R"))
+source(here("R", "calculate_summary_stats.R"))
 
 # Data transformation ----------------------------------------------------------
 
@@ -62,4 +65,25 @@ data_processed <- data_processed %>%
       cbind(start_longitude, start_latitude),
       cbind(end_longitude, end_latitude)
     )
+  )
+
+## Remove outliers -------------------------------------------------------------
+
+### Check for anomalous ride duration
+min_duration <- 1
+max_duration <- 180
+
+anomalous_duration <- data_processed %>%
+  count_anomalies(ride_duration, min_duration, max_duration)
+
+### Remove rides with anomalous duration
+data_processed <- data_processed %>%
+  remove_anomalies(ride_duration, min_duration, max_duration)
+
+### Check for anomalous ride distance
+
+ride_distance_stats <- data_processed %>%
+  summarise(
+    min_distance = min(ride_distance),
+    max_distance = max(ride_distance)
   )
