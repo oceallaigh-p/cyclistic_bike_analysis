@@ -1,0 +1,13 @@
+
+/* Scrollable container with a max-height of 100px */
+.scrollable-chunk {
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+
+/* Change the color of the links to match logo */
+a {
+  color: #5793A3;
+  text-decoration: none;
+}
