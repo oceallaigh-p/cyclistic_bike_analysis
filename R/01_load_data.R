@@ -1,6 +1,8 @@
+# Required libraries
 library(tidyverse)
 library(here)
 
+# Required scripts
 source(here("R", "csv_to_lazy_dt.R"))
 
 # Load raw data ----------------------------------------------------------------
