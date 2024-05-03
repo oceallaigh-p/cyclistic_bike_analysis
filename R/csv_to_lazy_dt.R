@@ -1,5 +1,6 @@
 # Load the necessary libraries
 library(dtplyr)
+library(dplyr)
 library(vroom)
 library(here)
 
@@ -35,7 +36,7 @@ library(here)
 #' @importFrom dtplyr lazy_dt
 #' @importFrom here here
 #'
-load_data <- function() {
+csv_to_lazy_dt <- function() {
   return(
     list.files(
       path = here("data", "raw_data"),
