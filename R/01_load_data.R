@@ -1,4 +1,5 @@
 library(dplyr)
+library(here)
 
 source(here("R", "csv_to_lazy_dt.R"))
 
@@ -9,3 +10,4 @@ data_raw <- csv_to_lazy_dt()
 
 data_raw %>%
   glimpse()
+
