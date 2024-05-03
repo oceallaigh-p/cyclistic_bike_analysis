@@ -24,3 +24,12 @@ obs_nonmissing <- data_processed %>%
 
 ## Remove invalid categorical values -------------------------------------------
 
+data_processed <- data_processed %>%
+  filter(!rideable_type %in% "docked_bike")
+
+## Convert data types ----------------------------------------------------------
+data_processed <- data_processed %>%
+  mutate(
+    rideable_type = as.factor(rideable_type),
+    member_casual = as.factor(member_casual)
+  )
