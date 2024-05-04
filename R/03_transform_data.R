@@ -10,8 +10,10 @@ source(here("R", "calculate_sum_stats.R"))
 # Data transformation ----------------------------------------------------------
 
 ## Remove irrelevant variables -------------------------------------------------
-irrelevant_vars <- c("start_station_name", "start_station_id",
-                     "end_station_name", "end_station_id")
+irrelevant_vars <- c(
+  "start_station_name", "start_station_id",
+  "end_station_name", "end_station_id"
+)
 
 data_processed <- data_raw %>%
   select(-all_of(irrelevant_vars))
@@ -20,8 +22,10 @@ data_processed <- data_raw %>%
 missing_vars <- c("end_lat", "end_lng")
 
 data_processed <- data_processed %>%
-  filter(!is.na(end_lat),
-         !is.na(end_lng))
+  filter(
+    !is.na(end_lat),
+    !is.na(end_lng)
+  )
 
 obs_nonmissing <- data_processed %>%
   nrow_lazy_dt()
@@ -69,10 +73,11 @@ data_processed <- data_processed %>%
 
 ## Remove outliers -------------------------------------------------------------
 
-### Check for anomalous ride duration
+### Check for anomalous ride duration ------------------------------------------
 min_duration <- 1
 max_duration <- 180
 
+### Count anomalous durations
 anomalous_duration <- data_processed %>%
   count_anomalies(ride_duration, min_duration, max_duration)
 
@@ -80,19 +85,23 @@ anomalous_duration <- data_processed %>%
 data_processed <- data_processed %>%
   remove_anomalies(ride_duration, min_duration, max_duration)
 
-### Check for anomalous ride distance
+### Check for anomalous ride distance ------------------------------------------
 
 ride_distance_stats <- data_processed %>%
   calculate_summary_stats(ride_distance)
 
-# Calulate IQR
+### Calulate IQR
 iqr_distance <- ride_distance_stats$q75 - ride_distance_stats$q25
 
-# Calculate maximum thresholds
+### Calculate maximum threshold
 max_distance <- ride_distance_stats$q75 + 3 * iqr_distance
 
-# Calculate 99th percentile for the minimum threshold
+### Calculate 99th percentile for the minimum threshold
 min_distance <- data_processed %>%
   filter(ride_distance > 0) %>%
   summarise(min_dist = quantile(ride_distance, 0.01)) %>%
-  pull() 
+  pull()
+
+### Count anomalous distances
+anomalous_distance <- data_processed %>%
+  count_anomalies(ride_distance, min_distance, max_distance)
