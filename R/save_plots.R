@@ -17,7 +17,8 @@ library(ggplot2)
 #' Modify these parameters within the function as needed.
 #'
 #' @examples
-#' p <- ggplot(mtcars, aes(x = mpg, y = wt)) + geom_point()
+#' p <- ggplot(mtcars, aes(x = mpg, y = wt)) +
+#'   geom_point()
 #' save_plots("my_custom_plot.png", p)
 #'
 #' @importFrom ggplot2 ggsave
