@@ -1,3 +1,4 @@
+# Required libraries
 library(kableExtra)
 
 #' Apply Custom Style to Tables
