@@ -1,31 +1,53 @@
 # Required libraries
 library(tidyverse)
-library(cowplot) 
+library(here)
+library(cowplot)
+
+# Required scripts
+source(here("R", "find_mode.R"))
+source(here("R", "save_plots.R"))
 
 # Collect the lazy data table to a tibble ---------------------------------------
 data_processed <- data_processed %>%
   collect()
 
 # Examine monthly ridership data ------------------------------------------------
-data_processed %>%
-  group_by(ride_month,
-           rider_type) %>%
+p <- data_processed %>%
+  group_by(
+    ride_month,
+    rider_type
+  ) %>%
   summarise(count = n()) %>%
   ungroup() %>%
-  ggplot(aes(x = ride_month, 
-             y = count, 
-             fill = rider_type)) +
+  ggplot(aes(
+    x = ride_month,
+    y = count,
+    fill = rider_type
+  )) +
   geom_col(position = "dodge") +
   theme_minimal_grid() +
-  labs(title = "Monthly Ridership by Rider Type",
-       x = "Month",
-       y = "Ride Count",
-       fill = "Rider Type")
-  
+  labs(
+    title = "Monthly Ridership by Rider Type",
+    x = "Month",
+    y = "Ride Count",
+    fill = "Rider Type"
+  )
+
+# Save the plot
+file_name <- "monthly_ridership_bar.png"
+save_plots(file_name, p)
+
+
+
 
 # Examine weekly ridership data -------------------------------------------------
 
+
+
 # Examine daily ridership data --------------------------------------------------
+
+# Examine day with most rides
+
 
 # Examine hourly ridership data -------------------------------------------------
 
