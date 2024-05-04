@@ -88,9 +88,10 @@ ride_distance_stats <- data_processed %>%
 # Calulate IQR
 iqr_distance <- ride_distance_stats$q75 - ride_distance_stats$q25
 
-# Calculate thresholds
+# Calculate maximum thresholds
 max_distance <- ride_distance_stats$q75 + 3 * iqr_distance
 
+# Calculate 99th percentile for the minimum threshold
 min_distance <- data_processed %>%
   filter(ride_distance > 0) %>%
   summarise(min_dist = quantile(ride_distance, 0.01)) %>%
