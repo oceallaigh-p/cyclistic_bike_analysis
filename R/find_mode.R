@@ -25,9 +25,9 @@ library(dplyr)
 #' @importFrom dplyr filter
 #' @importFrom dplyr pull
 
-find_mode <- function(data, variable){
-  count({{ variable }}) %>%
+find_mode <- function(data, variable) {
+  data %>%
+    count({{ variable }}) %>%
     filter(n == max(n)) %>%
     pull({{ variable }})
 }
-
