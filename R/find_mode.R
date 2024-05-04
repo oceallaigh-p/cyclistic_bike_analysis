@@ -1,3 +1,4 @@
+# Required libraries
 library(dplyr)
 
 #' Calculate the Mode of a Specified Variable in a Dataset
