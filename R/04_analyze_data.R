@@ -19,8 +19,10 @@ p <- data_processed %>%
     ride_month,
     rider_type
   ) %>%
-  summarise(count = n()) %>%
-  ungroup() %>%
+  summarise(
+    count = n(),
+    .groups = "drop"
+  ) %>%
   ggplot(aes(
     x = ride_month,
     y = count,
@@ -44,9 +46,20 @@ save_plots(file_name, p)
 
 ## Find the day of the week with the most rides
 day_mode <- data_processed %>%
-  find_mode(.data$ride_day_of_week)
+  find_mode(ride_day_of_week)
+
 
 ## Plot average daily ridership by rider type
+## Note: The 'ride_week' column includes data for incomplete weeks at the beginning
+##       and end of the period covered. To accurately reflect the average number of
+##       rides per day of the week across all weeks, including these incomplete ones,
+##       we first group by 'ride_week', 'ride_day_of_week', and 'rider_type' to count
+##       the total rides for each specific combination per week. This approach ensures
+##       that each week, whether complete or not, contributes proportionally to the
+##       final averages. We then regroup by 'ride_day_of_week' and 'rider_type' and
+##       calculate the mean of these total rides. This second grouping and calculation
+##       provide an accurate average by normalizing the weekly ride counts across
+##       the dataset, ensuring that partial weeks do not skew the overall average.
 p <- data_processed %>%
   group_by(
     ride_week,
