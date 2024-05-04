@@ -40,28 +40,53 @@ file_name <- "monthly_ridership_bar.png"
 save_plots(file_name, p)
 
 
-
 # Examine daily ridership data -------------------------------------------------
 
 ## Find the day of the week with the most rides
 day_mode <- data_processed %>%
-  find_mode(ride_day_of_week)
+  find_mode(.data$ride_day_of_week)
 
 ## Plot average daily ridership by rider type
-
-
 p <- data_processed %>%
-  group_by(ride_day_of_week,
-           rider_type) %>%
-  summarise(avg_rides = n()) %>%
-  mutate(avg_rides = avg_rides / n_distinct(data_processed$ride_week)) %>%
-  ggplot(aes(x = ride_day_of_week, y = avg_rides, fill = rider_type)) +
-  geom_col(position = "dodge") +
-  labs(title = "Average Number of Rides Per Day of the Week by Rider Type",
-       x = "Day of the Week",
-       y = "Average Number of Rides",
-       fill = "Rider Type") +
-  theme_minimal_grid()
+  group_by(
+    ride_week,
+    ride_day_of_week,
+    rider_type
+  ) %>%
+  summarise(
+    total_rides = n(), # Total rides per day of week by rider type
+    .groups = "drop"
+  ) %>%
+  group_by(
+    ride_day_of_week,
+    rider_type
+  ) %>%
+  summarise(
+    mean_rides = mean(total_rides), # Avg number of rides per day of week by rider type
+    .groups = "drop"
+  ) %>%
+  ggplot(
+    aes(
+      x = ride_day_of_week,
+      y = mean_rides,
+      fill = rider_type
+    )
+  ) +
+  geom_col(
+    position = "dodge"
+  ) +
+  geom_text(
+    aes(label = round(mean_rides, 0)),
+    vjust = 1.6,
+    position = position_dodge(0.9),
+    size = 2.3
+  ) +
+  theme_minimal_grid() +
+  labs(
+    x = "Day of week",
+    y = "Average daily rides",
+    title = "Average number of rides by day of week and rider type"
+  )
 
 # Save the plot
 file_name <- "day_ridership_bar.png"
