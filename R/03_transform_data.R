@@ -105,3 +105,19 @@ min_distance <- data_processed %>%
 ### Count anomalous distances
 anomalous_distance <- data_processed %>%
   count_anomalies(ride_distance, min_distance, max_distance)
+
+### Remove rides with anomalous distance
+data_processed <- data_processed %>%
+  remove_anomalies(ride_distance, min_distance, max_distance)
+
+obs_nonanomalous <- data_processed %>%
+  nrow_lazy_dt()
+
+## Calculate summary statistics ------------------------------------------------  
+ride_distance_stats_clean <- data_processed %>%
+  calculate_summary_stats(ride_distance)
+
+# Calculate percentage of removed observations
+percent_removed <- ((obs_raw - obs_nonanomalous) / obs_raw) * 100
+
+
