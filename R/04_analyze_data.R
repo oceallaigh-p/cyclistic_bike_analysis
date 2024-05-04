@@ -12,6 +12,8 @@ data_processed <- data_processed %>%
   collect()
 
 # Examine monthly ridership data ------------------------------------------------
+
+## Plot monthly ridership by rider type
 p <- data_processed %>%
   group_by(
     ride_month,
@@ -46,7 +48,11 @@ save_plots(file_name, p)
 
 # Examine daily ridership data --------------------------------------------------
 
-# Examine day with most rides
+## Find the day of the week with the most rides
+day_mode <- data_processed %>%
+  find_mode(ride_day_of_week)
+
+
 
 
 # Examine hourly ridership data -------------------------------------------------
