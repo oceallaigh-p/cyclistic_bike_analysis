@@ -1,43 +1,33 @@
 # Required libraries
 library(dplyr)
 
-#' Calculate the Mode of a Specified Variable in a Dataset
+#' Find the Mode of a Column in a Tibble
 #'
-#' This function calculates the mode, which is the most frequently occurring
-#' value, of a specified variable in a dataset. It is particularly useful for
-#' statistical analysis and data exploration. If multiple values have the
-#' highest frequency, all such values are returned.
+#' This function calculates the mode(s) of a specified column in a tibble. The mode is defined
+#' as the value(s) that appear most frequently in the column. If there are multiple modes,
+#' all of them will be returned.
 #'
-#' @param data A data frame, tibble, or dtplyr lazy data table containing the
-#'        dataset.
-#' @param variable The unquoted name of the column for which the mode is to be
-#'        calculated. The variable should be passed without quotes thanks to
-#'        tidy evaluation.
+#' @param data A tibble containing the data to analyze.
+#' @param variable The name of the column (unquoted) whose mode is to be calculated.
 #'
-#' @return Returns a vector containing the mode(s) of the specified column.
-#'          If multiple modes exist (i.e., multiple values appear with the
-#'          highest frequency), all are returned.
+#' @return A vector containing the mode(s) of the specified column.
 #'
-#' @details The function first extracts the specified column from the data using
-#'          the `pull` function along with the curly-curly `{{ variable }}`
-#'          syntax for tidy evaluation. It then computes the frequency of each
-#'          unique value in the column. The mode is determined by identifying
-#'          the value(s) that occur most frequently.
+#' @details The function uses `dplyr` for data manipulation, counting each unique value in the specified
+#' column and then determining which value(s) appear most frequently. The use of `{{ variable }}` ensures
+#' tidy evaluation of the column name.
 #'
 #' @examples
-#' data <- data.frame(age = c(25, 30, 35, 25, 25, 30))
-#' mode_age <- find_mode(data, age)
-#' print(mode_age) # Outputs: 25
+#' # Assuming a tibble `df` with a column `age`
+#' df <- tibble(age = c(25, 30, 25, 40, 45, 30, 30, 25, 45))
+#' find_mode(df, age)
 #'
+#' @importFrom dplyr count
+#' @importFrom dplyr filter
 #' @importFrom dplyr pull
 
-find_mode <- function(data, variable) {
-  # Use the curly-curly operator to allow unquoted column names
-  column_data <- data %>%
+find_mode <- function(data, variable){
+  count({{ variable }}) %>%
+    filter(n == max(n)) %>%
     pull({{ variable }})
-
-  # Calculate the mode
-  unique_values <- unique(column_data)
-  count_unique <- tabulate(match(column_data, unique_values))
-  unique_values[count_unique == max(count_unique)]
 }
+
