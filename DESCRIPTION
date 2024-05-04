@@ -1,0 +1,19 @@
+Package: CyclisticAnalysis
+Type: Project
+Title: Analysis of Cyclistic Bike-Share Usage Patterns to Enhance Membership Conversion
+Version: 0.1
+Date: 2024-05-03
+Authors@R: person("Patrick", "O'Ceallaigh", email = "patrick@croppy.dev", role = c("aut", "cre"))
+Description: This analysis explores usage patterns within Cyclistic’s bike-share
+    program, launched in 2016 in Chicago. With a fleet of 5,824 geotracked
+    bicycles across 692 stations, the project aims to understand differences
+    between casual riders (users of single-ride or full-day passes) and annual
+    members to develop targeted marketing strategies. The goal is to increase
+    the conversion of casual riders into more profitable annual members by
+    leveraging insights from current usage data and customer interactions.
+    This strategic focus is expected to drive future growth by maximizing
+    annual memberships.
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.3.1
+
