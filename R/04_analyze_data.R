@@ -50,16 +50,18 @@ day_mode <- data_processed %>%
 
 
 # Plot average daily ridership by rider type -----------------------------------
-# Note: The 'ride_week' column includes data for incomplete weeks at the beginning
-#       and end of the period covered. To accurately reflect the average number of
-#       rides per day of the week across all weeks, including these incomplete ones,
-#       we first group by 'ride_week', 'ride_day_of_week', and 'rider_type' to count
-#       the total rides for each specific combination per week. This approach ensures
-#       that each week, whether complete or not, contributes proportionally to the
-#       final averages. We then regroup by 'ride_day_of_week' and 'rider_type' and
-#       calculate the mean of these total rides. This second grouping and calculation
-#       provide an accurate average by normalizing the weekly ride counts across
-#       the dataset, ensuring that partial weeks do not skew the overall average.
+# Note: The 'ride_week' column includes data for incomplete weeks at the
+#       beginning and end of the period covered. To accurately reflect the
+#       average number of rides per day of the week across all weeks, including
+#       these incomplete ones, we first group by 'ride_week', 'ride_day_of_week',
+#       and 'rider_type' to count the total rides for each specific combination
+#       per week. This approach ensures that each week, whether complete or not,
+#       contributes proportionally to the final averages. We then regroup by
+#       'ride_day_of_week' and 'rider_type' and calculate the mean of these
+#       total rides. This second grouping and calculation provide an accurate
+#       average by normalizing the weekly ride counts across the dataset,
+#       ensuring that partial weeks do not skew the overall average.
+
 p <- data_processed %>%
   group_by(ride_week, ride_day_of_week, rider_type) %>%
   summarise(total_rides = n(), .groups = "drop") %>%
@@ -137,7 +139,7 @@ p <- data_processed %>%
   facet_wrap(~weekday_weekend, ncol = 1) +
   theme_minimal_grid() +
   labs(
-    title = paste("Average hourly ridership by rider type and weekday or weekend"),
+    title = "Average hourly ridership by rider type and weekday or weekend",
     x = "Hour of Day",
     y = "Average Ride Count",
     fill = "Rider Type"
