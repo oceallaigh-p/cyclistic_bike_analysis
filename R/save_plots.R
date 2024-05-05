@@ -23,10 +23,10 @@ library(ggplot2)
 #'
 #' @importFrom ggplot2 ggsave
 
-save_plots <- function(file_name, plot_name) {
+save_plots <- function(filename, plot) {
   ggsave(
-    filename = paste0(file_name, ".png"),
-    plot = plot_name,
+    filename = paste0(filename, ".png"),
+    plot = plot,
     path = here("output", "plots"),
     width = 10,
     height = 8,
