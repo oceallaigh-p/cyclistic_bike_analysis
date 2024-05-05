@@ -141,13 +141,13 @@ p <- data_processed %>%
     fill = "Rider Type"
   )
 
-# Save the plot
+## Save the plot
 file_name <- "hourly_ridership_bar.png"
 save_plots(file_name, p)
 
 ----------------------------------------------------------------------------------------------------------------
 
-# Plot average hourly ridership by rider type and day of week
+## Plot average hourly ridership by rider type and day of week
 processed_df <- data_processed %>%
   group_by(
     ride_week,
@@ -169,13 +169,13 @@ processed_df <- data_processed %>%
     .groups = "drop"
   )
 
-# Get unique days of the week from the data
+## Get unique days of the week from the data
 days_of_week <- unique(processed_df$ride_day_of_week)
 
-# Create a list to store plots
+## Create a list to store plots
 plots_list <- list()
 
-# Loop over each day and create a plot
+## Loop over each day and create a plot
 for (day in days_of_week) {
   day_data <- filter(
     processed_df,
@@ -187,7 +187,7 @@ for (day in days_of_week) {
     y = mean_per_hour,
     fill = rider_type 
   )) +
-    geom_col(position = "dodge") + # Use geom_col with dodge to separate bars by rider type
+    geom_col(position = "dodge") + 
     theme_minimal_grid()+
     labs(
       title = paste("Average hourly ridership by rider type: ", day),
@@ -198,7 +198,7 @@ for (day in days_of_week) {
   plots_list[[day]] <- p
 }
 
-# Save the plot
+## Save the plot
 file_name <- "hourly_ridership_bar_"
 
 for (day in days_of_week) {
