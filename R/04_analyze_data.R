@@ -29,6 +29,12 @@ p <- data_processed %>%
     fill = rider_type
   )) +
   geom_col(position = "dodge") +
+  geom_text(
+    aes(label = round(count, 0)),
+    vjust = 1.6,
+    position = position_dodge(0.9),
+    size = 2.3
+  ) +
   theme_minimal_grid() +
   labs(
     title = "Monthly Ridership by Rider Type",
@@ -139,6 +145,12 @@ p <- data_processed %>%
     fill = rider_type
   )) +
   geom_col(position = "dodge") +
+  geom_text(
+    aes(label = round(mean_per_hour, 0)),
+    vjust = 1.6,
+    position = position_dodge(0.9),
+    size = 2.3
+  ) +
   theme_minimal_grid() +
   labs(
     title = "Average Hourly Ridership by Rider Type",
@@ -154,68 +166,57 @@ save_plots(
   plot = p
 )
 
-----------------------------------------------------------------------------------------------------------------
-
-  ## Plot average hourly ridership by rider type and day of week
+## Plot average hourly ridership by rider type and weekday or weekend
   processed_df <- data_processed %>%
   group_by(
     ride_week,
     ride_day_of_week,
     ride_start_hour,
-    rider_type
+    rider_type,
+    weekday_weekend
   ) %>%
   summarise(
     total_rides = n(),
     .groups = "drop"
   ) %>%
   group_by(
-    ride_day_of_week,
     ride_start_hour,
-    rider_type
+    rider_type,
+    weekday_weekend
   ) %>%
   summarise(
     mean_per_hour = mean(total_rides),
     .groups = "drop"
-  )
-
-## Get unique days of the week from the data
-days_of_week <- unique(processed_df$ride_day_of_week)
-
-## Create a list to store plots
-plots_list <- list()
-
-## Loop over each day and create a plot
-for (day in days_of_week) {
-  day_data <- filter(
-    processed_df,
-    ride_day_of_week == day
-  )
-
-  p <- day_data %>% ggplot(aes(
-    x = ride_start_hour,
-    y = mean_per_hour,
-    fill = rider_type
-  )) +
+  ) %>%
+    ggplot(aes(
+      x = ride_start_hour,
+      y = mean_per_hour,
+      fill = rider_type
+    )) +
     geom_col(position = "dodge") +
+    geom_text(
+      aes(label = round(mean_per_hour, 0)),
+      vjust = 1.6,
+      position = position_dodge(0.9),
+      size = 2.3
+    ) +
+    facet_wrap(~weekday_weekend, ncol = 1) +
     theme_minimal_grid() +
     labs(
-      title = paste("Average hourly ridership by rider type: ", day),
+      title = paste("Average hourly ridership by rider type and weekday or weekend"),
       x = "Hour of Day",
       y = "Average Ride Count",
       fill = "Rider Type"
     )
-  plots_list[[day]] <- p
-}
+
 
 ## Save the plot
-file_name <- "hourly_ridership_"
-
-for (day in days_of_week) {
-  save_plots(
-    filename = paste0(file_name, day),
+file_name <- "hourly_ridership_weekday_weekend"
+save_plots(
+    filename = file_name
     plot = plots_list[[day]]
   )
-}
+
 
 
 # Examine bike type data -------------------------------------------------------
@@ -235,6 +236,12 @@ p <- data_processed %>%
     fill = bike_type
   )) +
   geom_col(position = "dodge") +
+  geom_text(
+    aes(label = round(count, 0)),
+    vjust = 1.6,
+    position = position_dodge(0.9),
+    size = 2.3
+  ) +
   theme_minimal_grid() +
   labs(
     title = "Bike Type Distribution",
@@ -244,7 +251,7 @@ p <- data_processed %>%
   )
 
 ## Save the plot
-file_name <- "bike_type_distribution"
+file_name <- "bike_type"
 save_plots(
   filename = file_name,
   plot = p
@@ -266,6 +273,12 @@ p <- data_processed %>%
     fill = rider_type
   )) +
   geom_col() +
+  geom_text(
+    aes(label = round(mean_distance, 0)),
+    vjust = 1.6,
+    position = position_dodge(0.9),
+    size = 2.3
+  ) +
   theme_minimal_grid() +
   labs(
     title = "Average Ride Distance by Rider Type",
@@ -282,80 +295,48 @@ save_plots(
   plot = p
 )
 
-## Examine ride distance by rider type on weekends
+## Examine ride distance by rider type on weekends versus weekdays
 
 p <- data_processed %>%
   group_by(
-    ride_day_of_week,
-    rider_type
+    rider_type,
+    weekend
   ) %>%
   summarise(
     mean_distance = mean(ride_distance),
     .groups = "drop"
   ) %>%
-  filter(
-    ride_day_of_week %in% c("Sat", "Sun")
-  ) %>%
   ggplot(aes(
-    x = rider_type,
+    x = weekend,
     y = mean_distance,
     fill = rider_type
   )) +
   geom_col(position = "dodge") +
+  geom_text(
+    aes(label = round(mean_distance, 0)),
+    vjust = 1.6,
+    position = position_dodge(0.9),
+    size = 2.3
+  ) +
   theme_minimal_grid() +
   labs(
-    title = "Average Ride Distance by Rider Type on Weekends",
+    title = "Average Ride Distance by Rider Type - Weekends vs Weekdays",
     x = "Day of Week",
     y = "Average Distance (meters)",
     fill = "Rider Type"
   )
 
 ## Save the plot
-file_name <- "mean_ride_distance_weekends"
+file_name <- "mean_ride_distance_"
 save_plots(
   filename = file_name,
   plot = p
 )
 
-
-## Examine ride distance by rider type on weekdays
-
-p <- data_processed %>%
-  group_by(
-    ride_day_of_week,
-    rider_type
-  ) %>%
-  summarise(
-    mean_distance = mean(ride_distance),
-    .groups = "drop"
-  ) %>%
-  filter(
-    !(ride_day_of_week %in% c("Sat", "Sun"))
-  ) %>%
-  ggplot(aes(
-    x = rider_type,
-    y = mean_distance,
-    fill = rider_type
-  )) +
-  geom_col(position = "dodge") +
-  theme_minimal_grid() +
-  labs(
-    title = "Average Ride Distance by Rider Type on Weekdays",
-    x = "Day of Week",
-    y = "Average Distance (meters)",
-    fill = "Rider Type"
-  )
-
-## Save the plot
-file_name <- "mean_ride_distance_weekdays"
-save_plots(
-  filename = file_name,
-  plot = p
-)
 
 # Examine ride duration data ---------------------------------------------------
 
-rider_stats <- data_processed%>%
+rider_stats <- data_processed %>%
   group_by(
     rider_type
   ) %>%
@@ -365,10 +346,11 @@ rider_stats <- data_processed%>%
     .groups = "drop"
   )
 
-## Plot average ride duration by rider type
+## Plot average ride duration by rider type weekends versus weekdays
 p <- data_processed %>%
   group_by(
-    rider_type
+    rider_type,
+    ride_day_of_week
   ) %>%
   summarise(
     mean_duration = mean(ride_duration),
