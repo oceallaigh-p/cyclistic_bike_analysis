@@ -141,6 +141,10 @@ p <- data_processed %>%
     fill = "Rider Type"
   )
 
+# Save the plot
+file_name <- "hourly_ridership_bar.png"
+save_plots(file_name, p)
+
 # Plot average hourly ridership by rider type and day of week
 df <- data_processed %>%
   group_by(
