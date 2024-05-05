@@ -23,3 +23,41 @@ knitr::opts_chunk$set(
 )
 
 ```
+
+## Executive summary    
+
+
+## Intoduction    
+
+
+### Background    
+
+
+### Objectives    
+
+
+### Research question    
+
+
+## Data collection    
+
+
+### Data sources   
+
+### Data description  
+
+### Challenges and limitations    
+
+## Data cleaning    
+
+### Data inspection    
+
+#### Remove unnecessary variables
+
+#### Check duplicate observations    
+
+#### Check missing values    
+
+
+
+
