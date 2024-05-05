@@ -1,0 +1,25 @@
+---
+title: "Cyclistic bike-share analysis"
+author: "Paidraig 'Patrick' O'Ceallaigh"
+date: "2024-04-24"
+output: 
+  html_document:
+    path: "../output/html/index.html"
+    css: "../resources/css/styles.css"
+    df_print: paged
+    theme: sandstone
+    highlight: tango
+    toc: true
+    toc_depth: 4
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.align = "center",
+  fig.width = 6,
+  fig.asp = 0.618
+)
+
+```
