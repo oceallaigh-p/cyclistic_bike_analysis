@@ -354,3 +354,36 @@ save_plots(
 )
 
 # Examine ride duration data ---------------------------------------------------
+
+rider_stats <- data_processed%>%
+  group_by(
+    rider_type
+  ) %>%
+  summarise(
+    avg_ride_duration = mean(ride_duration),
+    avg_ride_distance = mean(ride_distance),
+    .groups = "drop"
+  )
+
+## Plot average ride duration by rider type
+p <- data_processed %>%
+  group_by(
+    rider_type
+  ) %>%
+  summarise(
+    mean_duration = mean(ride_duration),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(
+    x = rider_type,
+    y = mean_duration,
+    fill = rider_type
+  )) +
+  geom_col() +
+  theme_minimal_grid() +
+  labs(
+    title = "Average Ride Duration by Rider Type",
+    x = "Rider Type",
+    y = "Average Duration (seconds)",
+    fill = "Rider Type"
+  )
