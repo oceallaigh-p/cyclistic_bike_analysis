@@ -25,7 +25,7 @@ library(ggplot2)
 
 save_plots <- function(file_name, plot_name) {
   ggsave(
-    filename = file_name,
+    filename = paste0(file_name, ".png"),
     plot = plot_name,
     path = here("output", "plots"),
     width = 10,
