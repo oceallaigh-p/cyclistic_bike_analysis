@@ -107,4 +107,160 @@ save_plots(file_name, p)
 
 # Examine hourly ridership data -------------------------------------------------
 
+## Plot average hourly ridership by rider type
+p <- data_processed %>%
+  group_by(
+    ride_week,
+    ride_day_of_week,
+    ride_start_hour,
+    rider_type
+  ) %>%
+  summarise(
+    total_rides = n(),
+    .groups = "drop"
+  ) %>%
+  group_by(
+    ride_start_hour,
+    rider_type
+  ) %>%
+  summarise(
+    mean_per_hour = mean(total_rides),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(
+    x = ride_start_hour,
+    y = mean_per_hour,
+    fill = rider_type
+  )) +
+  geom_col(position = "dodge") +
+  theme_minimal_grid() +
+  labs(
+    title = "Average Hourly Ridership by Rider Type",
+    x = "Hour",
+    y = "Ride Count",
+    fill = "Rider Type"
+  )
+
+# Plot average hourly ridership by rider type and day of week
+df <- data_processed %>%
+  group_by(
+    ride_week,
+    ride_day_of_week,
+    ride_start_hour,
+    rider_type
+  ) %>%
+  summarise(
+    total_rides = n(),
+    .groups = "drop"
+  ) %>%
+  group_by(
+    ride_day_of_week,
+    ride_start_hour,
+    rider_type
+  ) %>%
+  summarise(
+    mean_per_hour = mean(total_rides),
+    .groups = "drop"
+  )
+
+
+# Plot average hourly ridership by rider type and day of week
+# Get unique days of the week from the data
+days_of_week <- unique(df$ride_day_of_week)
+
+# Create a list to store plots
+plots_list <- list()
+
+
+# %>%
+#   ggplot(aes(
+#     x = ride_start_hour,
+#     y = mean_per_hour,
+#     fill = rider_type
+#   )) +
+#   geom_col(position = "dodge")
+#   theme_minimal_grid() +
+#   labs(
+#     title = "Average Hourly Ridership by Rider Type and Day of Week",
+#     x = "Hour",
+#     y = "Ride Count",
+#     fill = "Rider Type"
+#   )
+
+
+# Assuming data_processed is already loaded and processed
+processed_data <- data_processed %>%
+  group_by(
+    ride_week,
+    ride_day_of_week,
+    ride_start_hour,
+    rider_type
+  ) %>%
+  summarise(
+    total_rides = n(),
+    .groups = "drop"
+  ) %>%
+  group_by(
+    ride_day_of_week,
+    ride_start_hour,
+    rider_type
+  ) %>%
+  summarise(
+    mean_per_hour = mean(total_rides),
+    .groups = "drop"
+  )
+
+# Plot average hourly ridership by rider type and day of week
+# Get unique days of the week from the data
+days_of_week <- unique(processed_data$ride_day_of_week)
+
+# Create a list to store plots
+plots_list <- list()
+
+# Loop over each day and create a plot
+for (day in days_of_week) {
+  day_data <- filter(
+    processed_data,
+    ride_day_of_week == day
+  )
+
+  p <- ggplot(day_data, aes(
+    x = ride_start_hour,
+    y = mean_per_hour,
+    fill = rider_type 
+  )) +
+    geom_col(position = "dodge") + # Use geom_col with dodge to separate bars by rider type
+    theme_minimal() +
+    labs(
+      title = paste("Average Rides for Each Hour: ", day),
+      x = "Hour of Day",
+      y = "Average Ride Count",
+      fill = "Rider Type" # Change legend title to 'Fill'
+    )
+  plots_list[[day]] <- p
+}
+
+# Or save all plots
+for (day in days_of_week) {
+  ggsave(paste0("Ridership_", day, ".png"), plot = plots_list[[day]], width = 10, height = 6)
+}
+----------------------------------------------------------------------------------------------------------------
+  library(dplyr)
+
+# Calculate average number of rides per hour of the day each week for each rider type
+average_rides_per_hour_weekly_rider_type <- data_processed %>%
+  group_by(ride_week, ride_start_hour, rider_type) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(ride_start_hour, rider_type) %>%
+  summarise(avg_rides = mean(count), .groups = "drop")
+
+
+# Calculate average number of rides per day of the week each week for each rider type
+average_rides_per_day_weekly_rider_type <- data_processed %>%
+  group_by(ride_week, ride_day_of_week, rider_type) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(ride_day_of_week, rider_type) %>%
+  summarise(avg_rides = mean(count), .groups = "drop")
+
+
 # Examine bike type data --------------------------------------------------------
