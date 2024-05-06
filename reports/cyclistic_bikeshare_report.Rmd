@@ -4,7 +4,6 @@ author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-04-24"
 output: 
   html_document:
-    path: "../output/html/index.html"
     css: "../resources/css/styles.css"
     df_print: paged
     theme: sandstone
@@ -27,7 +26,7 @@ knitr::opts_chunk$set(
 ## Executive summary    
 
 
-## Intoduction    
+## Introduction    
 
 
 ### Background    
