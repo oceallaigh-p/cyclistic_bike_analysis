@@ -4,7 +4,7 @@ author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-04-24"
 output: 
   html_document:
-    css: "../resources/css/styles.css"
+    css: "../resources/css/style.css"
     df_print: paged
     theme: sandstone
     highlight: tango
