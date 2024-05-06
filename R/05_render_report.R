@@ -12,5 +12,6 @@ output_file <- "index.html"
 
 # Render the Rmd file to the specified directory
 rmarkdown::render(input_file,
-                  output_dir = output_dir,
-                  output_file = output_file)
+  output_dir = output_dir,
+  output_file = output_file
+)
