@@ -19,6 +19,7 @@ for (file in files_to_process) {
     stop(paste0("The file ", file, " does not exist."))
   }
 
+  # Catch any errors that occur during processing
   tryCatch(
     {
       if (grepl("\\.R$", here("R", file))) {
