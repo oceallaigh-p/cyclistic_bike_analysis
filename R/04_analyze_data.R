@@ -20,21 +20,29 @@ data_processed <- collect(data_processed)
 p <- data_processed %>%
   group_by(ride_month, rider_type) %>%
   summarise(count = n(), .groups = "drop") %>%
-  ggplot(aes(x = ride_month, y = count, fill = rider_type)) +
+  group_by(ride_month) %>%
+  mutate(proportion = count / sum(count)) %>%
+  ungroup() %>%
+  ggplot(aes(x = ride_month, y = proportion, fill = rider_type)) +
   geom_col(position = "dodge") +
-  geom_text(
-    aes(label = round(count, 0)),
-    vjust = 1.6,
-    position = position_dodge(0.9),
-    size = 2.3
+  scale_x_date(
+    name = "Month",
+    date_labels = "%b %y",
+    date_breaks = "1 month",
+    expand = expansion(mult = c(0.01, 0.04))) +
+  scale_y_continuous(
+    name = "Percentage of Total Rides",
+    labels = scales::percent_format()) +
+  scale_fill_manual(
+    name = "Rider Type",
+    values = c("casual" = "#BF7358", "member" = "#5793A3")
   ) +
-  theme_minimal_grid() +
   labs(
-    title = "Monthly Ridership by Rider Type",
-    x = "Month",
-    y = "Ride Count",
-    fill = "Rider Type"
-  )
+    title = "Monthly ridership by rider type",
+    subtitle = "April 2023 - March 2024"
+  ) + 
+  theme_minimal_grid() +
+  theme(legend.position = "")
 
 # Save the plot
 file_name <- "monthly_ridership"
