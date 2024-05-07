@@ -29,20 +29,21 @@ p <- data_processed %>%
     aes(label = percent(proportion, accuracy = 1)),
     position = position_stack(vjust = 0.5),
     color = "white",
-    size = 3
+    size = 3.5
   ) +
   scale_x_date(
     name = "",
     date_labels = "%b %y",
     date_breaks = "1 month",
-    expand = expansion(mult = c(0.01, 0.04))
+    expand = expansion(mult = c(0.02, 0.02))
   ) +
   scale_y_continuous(
+    name = "",
     labels = percent_format(),
     expand = expansion(mult = c(0, 0.04))
   ) +
   scale_fill_viridis_d(
-    name = "",
+    name = "Rider type",
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -53,13 +54,15 @@ p <- data_processed %>%
   ) +
   theme_minimal_grid() +
   theme(
-    axis.title.y = element_blank(),
+    axis.title = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks = element_blank(),
-    axis.line.y = element_blank(),
+    axis.line = element_blank(),
+    legend.position = "bottom",
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 10, vjust = 1),
     panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    legend.position = "bottom"
+    panel.grid.minor = element_blank()
   )
 
 # Save the plot
@@ -104,18 +107,19 @@ p <- data_processed %>%
     color = "white",
     vjust = 1.6,
     position = position_dodge(0.9),
-    size = 2.3
+    size = 3.5
   ) +
   scale_x_discrete(
-    name = "Day of week",
-    expand = expansion(mult = c(0.01, 0.04))
+    name = "",
+    expand = expansion(mult = c(0.02, 0.04))
   ) +
   scale_y_continuous(
     name = "Average daily rides",
     expand = expansion(mult = c(0, 0.04))
   ) +
   scale_fill_viridis_d(
-    name = "",
+    name = "Rider type",
+    labels = c("Casual", "Member"),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -124,61 +128,25 @@ p <- data_processed %>%
     title = "Daily ride averages by rider type",
     subtitle = "April 2023 - March 2024"
   ) +
-  theme_minimal_hgrid() +
-  theme(legend.position = "bottom")
-
-
-# Save the plot
-file_name <- "day_ridership"
-save_plots(filename = file_name, plot = p)
-
-# ==============================================================================
-# Examine hourly ridership data
-# ==============================================================================
-
-# Create a heatmap of average hourly ridership by rider type -------------------
-p <- data_processed %>%
-  group_by(ride_week, ride_day_of_week, ride_start_hour, rider_type) %>%
-  summarise(total_rides = n(), .groups = "drop") %>%
-  group_by(ride_start_hour, rider_type) %>%
-  summarise(mean_per_hour = mean(total_rides), .groups = "drop") %>%
-  ggplot(aes(x = ride_start_hour, y = rider_type, fill = mean_per_hour)) +
-  geom_tile(color = "white") +
-  geom_text(
-    aes(label = round(mean_per_hour, 0)),
-    color = "white",
-    vjust = 1.6,
-    size = 2.3
-  ) +
-  scale_x_discrete(
-    name = "Hour of day",
-    expand = expansion(mult = c(0.01, 0.04))
-  ) +
-  scale_y_discrete(
-    name = "Rider type",
-    expand = expansion(mult = c(0.01, 0.04))
-  ) +
-  scale_fill_viridis_c(
-    name = "Average hourly rides",
-    option = "mako",
-    breaks = c(250, 500, 750)
-  ) +
-  labs(
-    title = "Average hourly ridership by rider type",
-    subtitle = "April 2023 - March 2024"
-  ) +
   theme_minimal_grid() +
   theme(
     axis.ticks = element_blank(),
     axis.line = element_blank(),
     legend.position = "bottom",
     legend.text = element_text(size = 10),
-    legend.title = element_text(size = 10, vjust = 1)
-    )
+    legend.title = element_text(size = 10, vjust = 1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
 
 # Save the plot
-file_name <- "hourly_ridership_heatmap"
+file_name <- "daily_ridership"
 save_plots(filename = file_name, plot = p)
+
+# ==============================================================================
+# Examine hourly ridership data
+# ==============================================================================
 
 # Create a heatmap of average hourly ridership by rider type and weekday vs weekend
 
@@ -195,12 +163,6 @@ p <- data_processed %>%
   summarise(mean_per_hour = mean(total_rides), .groups = "drop") %>%
   ggplot(aes(x = ride_start_hour, y = rider_type, fill = mean_per_hour)) +
   geom_tile(color = "white") +
-  geom_text(
-    aes(label = round(mean_per_hour, 0)),
-    color = "white",
-    vjust = 1.6,
-    size = 2.3
-  ) +
   scale_x_discrete(
     name = "Hour",
     expand = expansion(mult = c(0.01, 0.04))
@@ -210,7 +172,8 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_c(
     name = "Average hourly rides",
-    option = "mako"
+    option = "mako",
+    breaks = c(300, 600, 900)
   ) +
   facet_wrap(~weekday_weekend, ncol = 1) +
   labs(
@@ -228,7 +191,7 @@ p <- data_processed %>%
   )
 
 # Save the plot
-file_name <- "hourly_weekday_weekend_heatmap"
+file_name <- "hourly_ridership_heatmap"
 save_plots(filename = file_name, plot = p)
 
 
@@ -245,16 +208,15 @@ p <- data_processed %>%
   ggplot(aes(x = bike_type, y = proportion, fill = rider_type)) +
   geom_col(position = "dodge") +
   geom_text(
-    aes(label = paste0(round((proportion * 100), 0), "%")),
+    aes(label = percent(proportion, accuracy = 1)),
     color = "white",
     vjust = 1.6,
     position = position_dodge(0.9),
-    size = 2.3
+    size = 3.5
   ) +
   scale_x_discrete(
     name = "Bicycle type",
-    labels = c("Classic", "Electric"),
-    expand = expansion(mult = c(0.05, 0.05))
+    labels = c("Classic", "Electric")
   ) +
   scale_y_continuous(
     name = "Percentage of riders",
@@ -284,51 +246,12 @@ p <- data_processed %>%
   )
 
 # Save the plot
-file_name <- "bike_type"
+file_name <- "bike_preference"
 save_plots(filename = file_name, plot = p)
 
 # ==============================================================================
 # Examine ride distance data
 # ==============================================================================
-# Examine ride distance by rider type ------------------------------------------
-p <- data_processed %>%
-  group_by(rider_type) %>%
-  summarise(mean_distance = mean(ride_distance), .groups = "drop") %>%
-  ggplot(aes(x = rider_type, y = mean_distance, fill = rider_type)) +
-  geom_col() +
-  geom_text(
-    aes(label = round(mean_distance, 0)),
-    color = "white",
-    vjust = 1.6,
-    position = position_dodge(0.9),
-    size = 2.3
-  ) +
-  scale_fill_viridis_d(
-    name = "",
-    begin = 0.2,
-    end = 0.8,
-    option = "mako"
-  ) +
-  labs(
-    title = "Average Ride Distance by Rider Type",
-    x = "Rider Type",
-    y = "Average Distance (meters)",
-    fill = "Rider Type"
-  ) +
-  theme_minimal_grid() +
-  theme(
-    axis.ticks = element_blank(),
-    axis.line = element_blank(),
-    legend.position = "bottom",
-    legend.text = element_text(size = 10),
-    legend.title = element_text(size = 10, vjust = 1),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-# Save the plot
-file_name <- "mean_ride_distance"
-save_plots(filename = file_name, plot = p)
 
 # Examine ride distance by rider type on weekends versus weekdays --------------
 p <- data_processed %>%
@@ -374,7 +297,7 @@ p <- data_processed %>%
   )
 
 ## Save the plot
-file_name <- "mean_ride_distance_weekday_weekend"
+file_name <- "ride_distance_mean"
 save_plots(filename = file_name, plot = p)
 
 # ==============================================================================
@@ -433,5 +356,5 @@ p <- data_processed %>%
   )
 
 # Save the plot
-file_name <- "mean_ride_duration_weekday_weekend"
+file_name <- "ride_duration_mean"
 save_plots(filename = file_name, plot = p)
