@@ -75,8 +75,8 @@ data_processed <- data_processed %>%
       start_timestamp,
       units = "mins"
     )),
-    ride_month = factor(floor_date(start_timestamp, "month")),
-    ride_week = factor(floor_date(start_timestamp, "week")),
+    ride_month = as.Date(floor_date(start_timestamp, "month")),
+    ride_week = floor_date(start_timestamp, "week"),
     ride_day_of_week = factor(wday(start_timestamp, label = TRUE)),
     ride_start_hour = factor(hour(start_timestamp)),
     weekday_weekend = factor(ifelse(
