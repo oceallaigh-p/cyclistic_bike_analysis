@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
   fig.asp = 0.618
 )
 
+library(tidyverse)
+library(here)
+
+source(here("R", "style_tables.R"))
 ```
 
 ## Executive summary    
@@ -28,22 +32,82 @@ knitr::opts_chunk$set(
 
 ## Introduction    
 
+In the evolving landscape of urban mobility, bike-share programs have emerged as a cornerstone for convenient and sustainable transportation. Cyclistic, a prominent bike-share company based in Chicago, has carved a niche in this dynamic market since its inception in 2016. Featuring a diverse fleet of over 5,800 bicycles, including specialized models like reclining bikes and hand tricycles, Cyclistic ensures inclusivity and accessibility for a broad user base. The program's infrastructure is robust, with 692 docking stations across Chicago that support geotracking and seamless bike exchanges. While the company's diverse fleet and flexible pricing plans have been instrumental in attracting a wide range of users, the majority of rides are utilized for leisure, with approximately 30% serving commuters.
 
 ### Background    
 
+Under the guidance of Lily Moreno, the Director of Marketing, Cyclistic has achieved significant growth through strategic marketing and customer engagement initiatives. Historically, the company's marketing efforts have been geared towards building brand awareness and appealing to a broad consumer base, utilizing channels like email, social media, and direct promotions. Cyclistic offers a range of pricing options from single-ride passes to annual memberships, with the latter being identified as considerably more profitable. This insight has prompted a strategic pivot aimed at increasing the proportion of annual memberships, which are deemed crucial for the company's long-term financial health and market dominance.
+
+Despite the success, Cyclistic's executive team, known for their meticulous attention to detail, requires a data-driven approach to further refine and optimize marketing strategies. This is where the marketing analytics team, including junior data analysts like yourself, plays a pivotal role. Having joined the team six months ago, your objective has been to not only grasp Cyclistic's operational ethos but also to contribute to its mission through rigorous data analysis and actionable insights.
 
 ### Objectives    
 
+The primary objective of this analysis is to delineate the usage patterns of annual members versus casual riders. By understanding these differences, the team aims to uncover the underlying factors that influence a rider's decision to opt for casual passes or commit to an annual membership. This investigation will focus on various aspects such as duration of rides, preferred bike types, peak usage times, and the purposes of trips (leisure versus commuting).
+
+The insights derived from this analysis will serve as the foundation for developing targeted marketing strategies aimed at converting casual riders into annual members. This strategic shift is not only expected to enhance customer retention but also to maximize profitability. The upcoming recommendations will need to be backed by compelling data visualizations and insights that can persuade the executive team of their viability and potential impact.
+
+In summary, this analysis is not just about understanding how two segments of riders utilize the Cyclistic program, but about leveraging this understanding to foster a more sustainable growth trajectory through increased membership conversion.
 
 ### Research question    
 
+> How do annual members and casual riders use Cyclisitc bikes differently?
 
 ## Data collection    
 
-
 ### Data sources   
 
+For the comprehensive analysis of usage patterns between annual members and casual riders, the primary data source comprises the most recent twelve months of historical trip data from Cyclistic's bike-share program. This dataset is publicly accessible and consists of twelve individual files, each representing a month's worth of data, formatted in CSV. These files encapsulate extensive records of all bike trips taken during this period, capturing a variety of attributes related to each trip. The data has been made available under the terms specified in the provided license and can be downloaded here.
+
 ### Data description  
+
+The raw dataset is structured with each row representing a unique bike trip, characterized by the following variables and their respective types:
+
+```{r raw_dataset_table, warning=FALSE, message=FALSE, echo=FALSE}
+# Create a tibble for variable information
+variable_name <- c(
+  "`ride_id`", "`rideable_type`",
+  "`started_at`", "`ended_at`",
+  "`start_station_name`", "`start_station_id`",
+  "`end_station_name`", "`end_station_id`",
+  "`start_lat`", "`start_lng`",
+  "`end_lat`", "`end_lng`",
+  "`member_casual`"
+)
+
+variable_description <- c(
+  "A unique id for each bike ride",
+  "Type of bicyle used for the ride",
+  "Timestamp for the begining of the ride",
+  "Timestamp for the end of the ride",
+  "Name of the station from which the ride started ",
+  "ID of the staion from which the ride started",
+  "Name of the station at which the ride ended",
+  "ID of the station at which the ride ended",
+  "Latitude at which the ride started",
+  "Longitude at which the ride started",
+  "Latitude at which the ride ended",
+  "Longitude at which the ride ended",
+  "Type of rider"
+)
+
+variable_type <- c(
+  "<chr>", "<chr>", "<dttm>", "<dttm>",
+  "<chr>", "<chr>", "<chr>", "<chr>", "<dbl>",
+  "<dbl>", "<dbl>", "<dbl>", "<chr>"
+)
+
+variable_info <- tibble(variable_name, variable_type, variable_description)
+
+variable_info %>%
+  kable(
+    caption = "Variables",
+    col.names = c("Variable", "Type", "Description")
+  ) %>%
+  custom_table_theme()
+```
+
+
+This detailed and structured dataset provides a solid foundation for analyzing and comparing the different usage patterns of Cyclistic's bike-share system by annual members and casual riders. Through this analysis, the marketing analytics team aims to derive insights that can influence strategic marketing decisions, ultimately converting more casual riders into annual members.
 
 ### Challenges and limitations    
 
