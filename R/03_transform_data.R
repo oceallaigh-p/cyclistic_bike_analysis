@@ -79,7 +79,7 @@ data_processed <- data_processed %>%
     ride_week = floor_date(start_timestamp, "week"),
     ride_day_of_week = factor(wday(start_timestamp, label = TRUE)),
     ride_start_hour = factor(hour(start_timestamp)),
-    weekday_weekend = factor(ifelse(
+    day_type = factor(ifelse(
       ride_day_of_week %in% c("Sat", "Sun"),
       "Weekend",
       "Weekday"
