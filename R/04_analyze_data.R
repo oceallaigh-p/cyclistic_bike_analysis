@@ -156,10 +156,10 @@ p <- data_processed %>%
     ride_day_of_week,
     ride_start_hour,
     rider_type,
-    weekday_weekend
+    day_type
   ) %>%
   summarise(total_rides = n(), .groups = "drop") %>%
-  group_by(ride_start_hour, rider_type, weekday_weekend) %>%
+  group_by(ride_start_hour, rider_type, day_type) %>%
   summarise(mean_per_hour = mean(total_rides), .groups = "drop") %>%
   ggplot(aes(x = ride_start_hour, y = rider_type, fill = mean_per_hour)) +
   geom_tile(color = "white") +
@@ -175,7 +175,7 @@ p <- data_processed %>%
     option = "mako",
     breaks = c(300, 600, 900)
   ) +
-  facet_wrap(~weekday_weekend, ncol = 1) +
+  facet_wrap(~day_type, ncol = 1) +
   labs(
     title = "Average hourly ridership by rider type",
     subtitle = "Weekday vs. weekend (April 2023 - March 2024)"
@@ -255,9 +255,9 @@ save_plots(filename = file_name, plot = p)
 
 # Examine ride distance by rider type on weekends versus weekdays --------------
 p <- data_processed %>%
-  group_by(rider_type, weekday_weekend) %>%
+  group_by(rider_type, day_type) %>%
   summarise(mean_distance = mean(ride_distance), .groups = "drop") %>%
-  ggplot(aes(x = weekday_weekend, y = mean_distance, fill = rider_type)) +
+  ggplot(aes(x = day_type, y = mean_distance, fill = rider_type)) +
   geom_col(position = "dodge") +
   geom_text(
     aes(label = paste0(round(mean_distance, 0), " m")),
@@ -305,7 +305,7 @@ save_plots(filename = file_name, plot = p)
 # ==============================================================================
 # Calculate average ride duration and distance by rider type -------------------
 rider_stats <- data_processed %>%
-  group_by(weekday_weekend, rider_type) %>%
+  group_by(day_type, rider_type) %>%
   summarise(
     avg_ride_duration = mean(ride_duration),
     avg_ride_distance = mean(ride_distance),
@@ -314,9 +314,9 @@ rider_stats <- data_processed %>%
 
 # Plot average ride duration by rider type weekends versus weekdays ------------
 p <- data_processed %>%
-  group_by(rider_type, weekday_weekend) %>%
+  group_by(rider_type, day_type) %>%
   summarise(mean_duration = mean(ride_duration), .groups = "drop") %>%
-  ggplot(aes(x = weekday_weekend, y = mean_duration, fill = rider_type)) +
+  ggplot(aes(x = day_type, y = mean_duration, fill = rider_type)) +
   geom_col(position = "dodge") +
   geom_text(
     aes(label = paste0(round(mean_duration, 1), " min")),
@@ -358,3 +358,69 @@ p <- data_processed %>%
 # Save the plot
 file_name <- "ride_duration_mean"
 save_plots(filename = file_name, plot = p)
+
+# ------------------------------------------------------------------------------
+
+# Plot density of ride distances by rider type ---------------------------------
+p <- data_processed %>%
+  ggplot(aes(x = ride_distance, y = ..scaled.., fill = rider_type,)) +
+  geom_density(alpha = 0.95, position = "stack") +
+  scale_x_continuous(
+    name = "Ride distance (meters)",
+    expand = expansion(mult = c(0.02, 0.02))
+  ) +
+  scale_fill_viridis_d(
+    name = "Rider type",
+    labels = c("Casual", "Member"),
+    begin = 0.2,
+    end = 0.8,
+    option = "mako"
+  ) +
+  labs(
+    title = "Density of ride distances by rider type",
+    subtitle = "April 2023 - March 2024"
+  ) +
+  theme_minimal_grid() +
+  theme(
+    axis.ticks = element_blank(),
+    axis.line = element_blank(),
+    legend.position = "bottom",
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 10, vjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+# Plot the density of ride durations by rider type -----------------------------
+custom_breaks <- c(seq(0, 20, by = 2), seq(20, 60, by = 5))
+
+p <- data_processed %>%
+  ggplot(aes(x = ride_duration, y = ..scaled.., fill = rider_type)) +
+  geom_density(alpha = 0.95, position = "stack") +
+  coord_cartesian(xlim = c(0, 60)) +
+  scale_x_continuous(
+    name = "Ride duration (minutes)",
+    expand = expansion(mult = c(0.02, 0.02)),
+    breaks = c(seq(0, 20, by = 2), seq(20, 60, by = 5))
+  ) +              
+  scale_fill_viridis_d(
+    name = "Rider type",
+    labels = c("Casual", "Member"),
+    begin = 0.2,
+    end = 0.8,
+    option = "mako"
+  ) +
+  labs(
+    title = "Density of ride durations by rider type",
+    subtitle = "April 2023 - March 2024"
+  ) +
+  theme_minimal_grid() +
+  theme(
+    axis.ticks = element_blank(),
+    axis.line = element_blank(),
+    legend.position = "bottom",
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 10, vjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
