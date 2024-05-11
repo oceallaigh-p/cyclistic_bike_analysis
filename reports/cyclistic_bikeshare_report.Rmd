@@ -198,7 +198,27 @@ Upon inspection, it was discovered that certain variables related to station ide
 
 These findings indicate significant missing data in station identifiers and geolocation details, which could affect spatial analysis and ride linkage accuracy. Such gaps will necessitate careful consideration in subsequent stages of data cleaning and analysis to ensure that conclusions drawn are based on comprehensive and accurate information.
 
+#### Check categorical variables    
 
+Analyzing the consistency and accuracy of categorical variables is essential for ensuring data integrity. In this analysis, the `dplyr` package was employed to count and evaluate the distinct categories present in the `rideable_type` and `member_casual` variables.
+
+rideable_type: This variable categorizes the types of bikes used in the trips. While only `classic_bike` and `electric_bike` were expected based on company records, an additional category, `docked bike`, was identified, which was not anticipated:
+
+```{r count_rideable_type, echo=TRUE, eval=FALSE}
+count_rideable_type <- data_raw %>%
+  count_categorical(rideable_type)
+```
+
+The presence of `docked bike` raises questions about its meaning, as it could potentially refer to bikes that are either not clearly classified between the two expected types or perhaps represent bikes that have been temporarily removed from active service for maintenance. This ambiguity requires further investigation to accurately interpret the data involving this category.
+
+member_casual: For the member_casual variable, which distinguishes between members (annual subscribers) and casual riders (non-subscribers), the results were as expected. Only the two anticipated values, "member" and "casual," were found, confirming the accuracy of data entries for this variable:
+
+```{r count_member_casual, echo=TRUE, eval=FALSE}
+count_member_casual <- data_raw %>%
+  count_categorical(member_casual)
+```
+
+This assessment underscores the importance of validating categorical data against expected outcomes to ensure the reliability of analyses based on these classifications. For the `rideable_type` variable, particularly, the unexpected category will be noted for potential adjustments in the analysis framework or for clarification from data management teams.
 
 #### Remove unnecessary variables
 
