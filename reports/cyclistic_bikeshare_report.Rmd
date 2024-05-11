@@ -149,7 +149,7 @@ While the dataset is rich in information and provides a comprehensive view of bi
 
 The data inspection process serves as a preliminary check to ensure the quality and structure of the dataset before proceeding with detailed analysis. This stage is crucial for identifying potential issues that could affect the validity of the study’s conclusions. The following steps were undertaken to inspect the dataset comprehensively:
 
-#### Examine structure and type of data     
+#### Examine structure of data     
 
 To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the `glimpse()` function from the `dplyr` package, which provides a compact display of the types of each column along with a quick view of the first few entries in each:
 
@@ -161,7 +161,7 @@ data_raw %>%
 
 #### Check duplicate observations    
 
-Identifying and eliminating duplicate records is essential to ensure the integrity of the analysis. Given that each record in the dataset contains a unique identifier called `ride_id`, we anticipated minimal duplication. To verify this, the dataset was processed using the dplyr package, which is part of the comprehensive tidyverse suite of tools for data manipulation in R. We grouped the data by all columns to account for complete record duplication, filtered out any duplicates, and counted the remaining rows:
+Identifying and eliminating duplicate records is essential to ensure the integrity of the analysis. Given that each record in the dataset contains a unique identifier called `ride_id`, we anticipated minimal duplication. To verify this, the dataset was processed using the `dplyr` package, which is part of the comprehensive tidyverse suite of tools for data manipulation in R. We grouped the data by all columns to account for complete record duplication, filtered out any duplicates, and counted the remaining rows:
 
 ```{r duplicate_obs, echo=TRUE, eval=FALSE}
 duplicate_obs <- data_raw %>%
@@ -176,7 +176,7 @@ After this thorough check, no duplicate records were found in the dataset, confi
 
 #### Check missing values    
 
-Handling missing data is crucial as it can significantly impact the analysis. To assess and quantify missing values within the dataset, we utilized the dplyr and tidyr packages from the tidyverse collection, which are robust tools for data manipulation and reshaping in R. The procedure involved summarizing the missing values across all columns and transforming the results for a clearer presentation:     
+Handling missing data is crucial as it can significantly impact the analysis. To assess and quantify missing values within the dataset, we utilized the `dplyr` and `tidyr` packages from the tidyverse collection, which are robust tools for data manipulation in R. The procedure involved summarizing the missing values across all columns and transforming the results for a clearer presentation:     
 
 ```{r missing_values, echo=TRUE, eval=FALSE}
 missing_obs <- data_raw %>%
