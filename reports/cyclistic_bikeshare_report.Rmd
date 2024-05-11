@@ -24,6 +24,10 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(here)
 
+source(here("R", "01_load_data.R"))
+source(here("R", "02_inspect_data.R"))
+source(here("R", "03_transform_data.R"))
+source(here("R", "04_analyze_data.R"))
 source(here("R", "style_tables.R"))
 ```
 
@@ -56,7 +60,17 @@ In summary, this analysis is not just about understanding how two segments of ri
 
 ### Data sources   
 
-For the comprehensive analysis of usage patterns between annual members and casual riders, the primary data source comprises the most recent twelve months of historical trip data from Cyclistic's bike-share program. This dataset is publicly accessible and consists of twelve individual files, each representing a month's worth of data, formatted in CSV. These files encapsulate extensive records of all bike trips taken during this period, capturing a variety of attributes related to each trip. The data has been made available under the terms specified in the provided license and can be downloaded here.
+For the comprehensive analysis of usage patterns between annual members and casual riders, the primary data source comprises the most recent twelve months of historical trip data from Cyclistic's bike-share program. This dataset is publicly accessible and consists of twelve individual files, each representing a month's worth of data, formatted in CSV. These files encapsulate extensive records of all bike trips taken during this period, capturing a variety of attributes related to each trip. The data has been made available under the terms specified in the provided [license](https://divvybikes.com/data-license-agreement) and can be downloaded [here](https://divvy-tripdata.s3.amazonaws.com/index.html).
+
+```{r raw_data, warning=FALSE, message=FALSE, echo=FALSE}
+# Load the raw dataset image and float it to the center
+htmltools::img(
+  src = here("resources", "images", "raw_data.png"),
+  align = "center",
+  alt = "Cyclistic dataset: 04/2023 - 03/2024",
+  style = "width: 60%"
+)
+```
 
 ### Data description  
 
@@ -106,14 +120,44 @@ variable_info %>%
   custom_table_theme()
 ```
 
-
 This detailed and structured dataset provides a solid foundation for analyzing and comparing the different usage patterns of Cyclistic's bike-share system by annual members and casual riders. Through this analysis, the marketing analytics team aims to derive insights that can influence strategic marketing decisions, ultimately converting more casual riders into annual members.
 
 ### Challenges and limitations    
 
+While the dataset is rich in information and provides a comprehensive view of bike trips taken over the past year, there are several challenges and limitations that need to be considered:
+
+1. **Data Volume and Processing**
+    - **Challenge**: Combining data from 12 CSV files with over 5,000,000 rows can be computationally intensive and time-consuming.  
+    - **Mitigation**: Utilize efficient data manipulation packages in R such as `dtplyr` "lazy" data.table for its superior performance with large datasets and `dplyr` for its intuitive syntax and data manipulation capabilities.
+2. **Joining and Merging Data**
+    - **Challenge**: Merging data from multiple sources into a cohesive dataset requires careful data handling to ensure integrity.
+    - **Mitigation**: Use `vroom` for fast reading of CSV files and `dtplyr` and `dplyr` for efficient data manipulation and merging.
+3. **Data Cleaning and Preprocessing**
+    - **Challenge**: The raw data may contain missing values, outliers, or inconsistencies that need to be addressed before analysis.
+    - **Mitigation**: Use R functions (e.g., `dplyr`, `tidyr`) for data cleaning (handling missing values, duplicates, outliers).
+4. **Geospatial Operations**
+    - **Challenge**: Handling latitude and longitude data introduces specific challenges related to spatial data accuracy and consistency.
+        - Calculating distances between coordinates results in distances that are "as the crow flies" and may not reflect actual travel distances.
+    - **Mitigation**: Utilize geospatial packages like `geosphere`, sf`, and `leaflet` for geospatial analysis and visualization.
+5. **Data Privacy and Ethical Considerations**
+    - **Challenge**: Maintaining confidentiality and adhering to ethical data use standards is essential.
+    - **Mitigation**: Anonymize sensitive data using R functions before analysis. Ensure all data use complies with ethical standards and legal requirements.
+     
 ## Data cleaning    
 
-### Data inspection    
+### Data inspection  
+
+The data inspection process serves as a preliminary check to ensure the quality and structure of the dataset before proceeding with detailed analysis. This stage is crucial for identifying potential issues that could affect the validity of the study’s conclusions. The following steps were undertaken to inspect the dataset comprehensively:
+
+#### Examine structure and type of data     
+
+To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the `glimpse()` function from the `dplyr` package, which provides a compact display of the types of each column along with a quick view of the first few entries in each:
+
+```{r}
+data_raw %>% 
+  glimpse()
+```
+
 
 #### Remove unnecessary variables
 
