@@ -33,8 +33,8 @@ library(kableExtra)
 #' @importFrom kableExtra kable_minimal
 
 custom_table_theme <- function(kable_input) {
-  kable_minimal(
-    kable_input,
+  kable_input %>%
+  kable_styling(
     bootstrap_options = c("hover", "condensed", "responsive"),
     full_width = FALSE,
     position = "center"
