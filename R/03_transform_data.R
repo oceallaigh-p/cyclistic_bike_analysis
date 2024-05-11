@@ -23,8 +23,6 @@ data_processed <- data_raw %>%
 # ==============================================================================
 # Remove missing values
 # ==============================================================================
-missing_vars <- c("end_lat", "end_lng")
-
 data_processed <- data_processed %>%
   filter(
     !is.na(end_lat),
