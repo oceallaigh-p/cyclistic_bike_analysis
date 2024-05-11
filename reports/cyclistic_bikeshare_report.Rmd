@@ -161,7 +161,7 @@ data_raw %>%
 
 #### Check duplicate observations    
 
-Duplicate records can skew analysis and lead to inaccurate results. To identify and count duplicate observations, the data was grouped by all columns, and duplicates were filtered out:
+Identifying and eliminating duplicate records is essential to ensure the integrity of the analysis. Given that each record in the dataset contains a unique identifier called `ride_id`, we anticipated minimal duplication. To verify this, the dataset was processed using the dplyr package, which is part of the comprehensive tidyverse suite of tools for data manipulation in R. We grouped the data by all columns to account for complete record duplication, filtered out any duplicates, and counted the remaining rows:
 
 ```{r duplicate_obs, echo=TRUE, eval=FALSE}
 duplicate_obs <- data_raw %>%
@@ -171,11 +171,34 @@ duplicate_obs <- data_raw %>%
   nrow_lazy_dt()
 ```
 
+After this thorough check, no duplicate records were found in the dataset, confirming that each `ride_id` indeed represents a unique trip event. This finding solidifies the dataset’s reliability for subsequent analyses, ensuring that each entry uniquely contributes to the insights generated.
 
-#### Remove unnecessary variables
 
 #### Check missing values    
 
+Handling missing data is crucial as it can significantly impact the analysis. To assess and quantify missing values within the dataset, we utilized the dplyr and tidyr packages from the tidyverse collection, which are robust tools for data manipulation and reshaping in R. The procedure involved summarizing the missing values across all columns and transforming the results for a clearer presentation:     
+
+```{r missing_values, echo=TRUE, eval=FALSE}
+missing_obs <- data_raw %>%
+  summarise(across(everything(), ~ sum(is.na(.), na.rm = TRUE))) %>%
+  pivot_longer(
+    everything(),
+    names_to = "variable",
+    values_to = "missing_count"
+  ) %>%
+  filter(missing_count > 0) %>%
+  as_tibble()
+```
+
+Upon inspection, it was discovered that certain variables related to station identification and location data exhibited notable gaps:
+
+- `start_station_name` and `start_station_id` each had 874,450 missing observations.
+- `end_station_name` and `end_station_id` each had 929,226 missing observations.
+- `end_lat` and `end_lng`, which denote the latitude and longitude of the end station, each had 7,566 missing values.     
+
+These findings indicate significant missing data in station identifiers and geolocation details, which could affect spatial analysis and ride linkage accuracy. Such gaps will necessitate careful consideration in subsequent stages of data cleaning and analysis to ensure that conclusions drawn are based on comprehensive and accurate information.
 
 
+
+#### Remove unnecessary variables
 
