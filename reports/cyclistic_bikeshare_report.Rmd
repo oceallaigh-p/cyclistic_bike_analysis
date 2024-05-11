@@ -159,9 +159,20 @@ data_raw %>%
 ```
 
 
-#### Remove unnecessary variables
-
 #### Check duplicate observations    
+
+Duplicate records can skew analysis and lead to inaccurate results. To identify and count duplicate observations, the data was grouped by all columns, and duplicates were filtered out:
+
+```{r duplicate_obs, echo=TRUE, eval=FALSE}
+duplicate_obs <- data_raw %>%
+  group_by_all() %>%
+  filter(n() > 1) %>%
+  ungroup() %>%
+  nrow_lazy_dt()
+```
+
+
+#### Remove unnecessary variables
 
 #### Check missing values    
 
