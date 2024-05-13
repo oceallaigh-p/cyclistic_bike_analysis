@@ -458,15 +458,7 @@ To assess the patterns of usage across different months and distinguish between 
 
 
 ```{r monthly_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
-
 knitr::include_graphics(here("output", "plots", "monthly_ridership.png"))
-
-# htmltools::img(
-#   src = here("output", "plots", "monthly_ridership.png"),
-#   align = "center",
-#   alt = "Monthly ridership: 04/2023 - 03/2024",
-#   style = "width: 80%"
-# )
 ```
 
 Trend Analysis:
@@ -484,9 +476,31 @@ The observed decrease in casual ridership during the colder months likely reflec
 
 This analysis provides valuable insights into how different types of riders engage with the Cyclistic bike-share system across various seasons, aiding in strategic planning and decision-making to optimize service utilization year-round.
 
+#### Examine daily ridership
 
+To gain a deeper understanding of how Cyclistic's membership and casual riders utilize the service differently throughout the week, we conducted a comparative analysis of daily ridership patterns. This was visualized to pinpoint variations between weekdays and weekends for both user groups.
 
+```{r daily_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics(here("output", "plots", "daily_ridership.png"))
+```
 
+Comparative Analysis:
+
+Member Ridership: Represented in teal, member usage remains robust throughout the week with slight variability but generally high levels, suggesting a stable pattern likely linked to commuting habits.
+Casual Ridership: Illustrated in purple, casual ridership is significantly lower on weekdays but surges on weekends, particularly peaking on Saturday.
+Quantitative Observations:
+
+Members: Show the highest ridership on weekdays, especially mid-week, which aligns with regular commuting patterns.
+Casual Riders: Peak on Saturdays with 6,612 rides, with also high activity on Sundays (5,242 rides) and Fridays (5,153 rides). Monday to Thursday sees comparatively lower activity, ranging from 3,847 to 4,564 rides.
+Weekday vs. Weekend Analysis:
+Distinct patterns emerge between the two groups:
+
+Members: Likely utilize the service for consistent commuting throughout the week.
+Casual Riders: Show a marked increase in usage over weekends, indicating a preference for recreational or non-commuting travel.
+Implications for Service and Marketing:
+
+Weekend Promotions: The spike in weekend ridership among casual riders presents an opportunity for weekend-specific promotions or events to further boost casual usage.
+Weekday Reliability: Given the stable weekday demand from members, focusing on reliability and quick service during these times could enhance satisfaction, with potential avenues like loyalty programs or incentives for continued usage.
 
 
 
