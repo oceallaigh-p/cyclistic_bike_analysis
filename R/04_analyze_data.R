@@ -317,6 +317,63 @@ rider_stats <- data_processed %>%
     .groups = "drop"
   )
 
+# Plot average ride distance and duration by rider type ------------------------
+
+# Define custom labels for the facets
+custom_labels <- c(avg_ride_duration = "Average Duration (minutes)",
+                   avg_ride_distance = "Average Distance (meters)")
+
+p <- rider_stats %>%
+  pivot_longer(
+    cols = c(avg_ride_duration, avg_ride_distance),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  mutate(
+    label = case_when(
+      metric == "avg_ride_duration" ~ paste0(round(value, 1), " min"),
+      metric == "avg_ride_distance" ~ paste0(round(value, 0), " m")
+    )
+  ) %>%
+ggplot(aes(x = day_type, y = value, fill = rider_type)) +
+  geom_col(position = position_dodge(width = 0.8)) +
+  facet_wrap(~metric, scales = "free_y", labeller = labeller(metric = custom_labels)) +
+  geom_text(
+    aes(label = label),
+    color = "white",
+    position = position_dodge(0.9),
+    vjust = 1.6,
+    size = 3.5
+  ) +
+  scale_x_discrete(name = "") +
+  scale_y_continuous(
+    name = "Value",
+    labels = scales::comma
+  ) +
+  scale_fill_viridis_d(
+    name = "Rider Type",
+    begin = 0.2,
+    end = 0.8,
+    option = "mako"
+  ) +
+  labs(
+    title = "Average Ride Duration and Distance by Rider Type",
+    subtitle = "Comparison across Weekday and Weekend"
+  ) +
+  theme_minimal_grid() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 12, vjust = 1),
+    axis.text.x = element_text(angle = 0, hjust = 0.5)
+  )
+
+# Save the plot
+file_name <- "mean_distance_duration"
+save_plots(filename = file_name, plot = p)
+
 # Plot average ride duration by rider type weekends versus weekdays ------------
 p <- data_processed %>%
   group_by(rider_type, day_type) %>%
