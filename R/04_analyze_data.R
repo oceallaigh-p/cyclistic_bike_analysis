@@ -14,6 +14,11 @@ source(here("R", "save_plots.R"))
 data_processed <- collect(data_processed)
 
 # ==============================================================================
+# Export the processed data to a CSV file
+# ==============================================================================
+write_csv(data_processed, here("data", "processed_data", "processed_data.csv"))
+
+# ==============================================================================
 # Examine monthly ridership data
 # ==============================================================================
 
