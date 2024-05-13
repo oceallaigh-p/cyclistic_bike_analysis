@@ -444,11 +444,15 @@ The data analysis phase was designed to uncover actionable insights on how Cycli
 
 #### Force computation of the dataset    
 
-The initial step in the data analysis involved converting the data from a lazy_dt format to a tibble. This step was necessary because lazy_dt in R defers computation, meaning it doesn't actually perform operations until explicitly instructed. This feature is useful for optimizing performance and managing memory usage during data manipulation, especially with large datasets. However, to proceed with detailed analysis and visualization, it was crucial to collect the data into a tibble, which realizes the dataset and makes it directly accessible for the subsequent analytical tasks.
+The initial step in the data analysis involved converting the data from a `lazy_dt` format to a `tibble`. This step was necessary because `lazy_dt` in R defers computation, meaning it doesn't actually perform operations until explicitly instructed. This feature is useful for optimizing performance and managing memory usage during data manipulation, especially with large datasets. However, to proceed with detailed analysis and visualization, it was crucial to collect the data into a tibble, which realizes the dataset and makes it directly accessible for the subsequent analytical tasks.
 
 ```{r force_computation, echo=TRUE, eval=FALSE}
 data_processed <- collect(data_processed)
 ```
+
+This transformation ensures that all previous deferred operations are executed and the data is fully prepared for in-depth analysis and visualization processes.     
+
+#### Examine monthly ridership
 
 
 
