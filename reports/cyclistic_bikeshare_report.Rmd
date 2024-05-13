@@ -439,19 +439,9 @@ By meticulously defining and applying these thresholds, we ensure that the datas
 
 The data analysis phase was designed to uncover actionable insights on how Cyclistic's annual members and casual riders utilize the bike-share system differently. Through a combination of statistical methods and graphical techniques, the analysis aimed to highlight distinct usage patterns and preferences between the two rider types. Here are the key steps and findings from this in-depth analysis:
 
-### Exploratory data analysis
+### Exploratory data analysis     
 
-#### Force computation of the dataset    
-
-The initial step in the data analysis involved converting the data from a `lazy_dt` format to a `tibble`. This step was necessary because `lazy_dt` in R defers computation, meaning it doesn't actually perform operations until explicitly instructed. This feature is useful for optimizing performance and managing memory usage during data manipulation, especially with large datasets. However, to proceed with detailed analysis and visualization, it was crucial to collect the data into a tibble, which realizes the dataset and makes it directly accessible for the subsequent analytical tasks.
-
-```{r force_computation, echo=TRUE, eval=FALSE}
-data_processed <- collect(data_processed)
-```
-
-This transformation ensures that all previous deferred operations are executed and the data is fully prepared for in-depth analysis and visualization processes.     
-
-#### Examine monthly ridership
+#### Monthly ridership     
 
 To assess the patterns of usage across different months and distinguish between Cyclistic's annual members and casual riders, we analyzed the monthly ridership data. This analysis was visualized to highlight the proportion of rides per month for each rider type, focusing on seasonal trends and their implications.
 
@@ -475,7 +465,7 @@ The observed decrease in casual ridership during the colder months likely reflec
 
 This analysis provides valuable insights into how different types of riders engage with the Cyclistic bike-share system across various seasons, aiding in strategic planning and decision-making to optimize service utilization year-round.
 
-#### Examine daily ridership
+#### Daily ridership
 
 To gain a deeper understanding of how Cyclistic's membership and casual riders utilize the service differently throughout the week, we conducted a comparative analysis of daily ridership patterns. We first calculated the day of the week with the highest average number of rides (the mode) for each rider type. 
 
@@ -523,7 +513,7 @@ Implications for Service and Marketing:
 Weekend Promotions: The spike in weekend ridership among casual riders presents an opportunity for weekend-specific promotions or events to further boost casual usage.
 Weekday Reliability: Given the stable weekday demand from members, focusing on reliability and quick service during these times could enhance satisfaction, with potential avenues like loyalty programs or incentives for continued usage.
 
-#### Examine hourly ridership
+#### Hourly ridership
 
 To analyze hourly usage patterns of Cyclistic's bike-share system, we created heatmaps for weekdays and weekends. These heatmaps help visualize the intensity of ridership across different hours of the day, using a color scheme that ranges from dark purple (fewer rides) to bright teal (more rides), facilitating an intuitive understanding of rider activity levels.     
 
@@ -546,3 +536,46 @@ Implications for Service Planning:
 Weekdays: Efficient and high-capacity service during rush hours should be a priority to manage the high volume of commuters effectively.
 Weekends: Promotional activities like special weekend passes or discounts could be employed to attract more riders during these extended periods of moderate to high ridership, enhancing the appeal for leisure travel.
 This heatmap analysis provides critical insights into the hourly dynamics of bike usage, aiding in strategic planning to optimize service offerings tailored to the distinct patterns observed during weekdays and weekends.
+
+#### Bike type preference
+
+We examined the preferences for bike types among Cyclistic's casual and member riders to better understand how different types of bikes are used across these rider segments.     
+
+```{r bike_type_preferences_plot, warning=FALSE, message=FALSE, echo=FALSE}
+kintr::include_graphics(here("output", "plots", "bike_preference.png"))
+```
+
+
+Preference Distribution:
+
+Casual Riders: Show a notable preference for electric bikes, with 55% opting for electric bikes compared to 45% for classic bikes. This indicates that casual riders favor the convenience and ease of use that electric bikes offer.
+Members: Display a more balanced preference between bike types, slightly favoring classic bikes (51%) over electric bikes (49%). This suggests that members are comfortable using both types of bikes for their varied needs, including commuting and leisure.
+Implications:
+
+Casual Riders: The preference for electric bikes among casual riders suggests they value the ease and reduced effort these bikes provide, which is particularly appealing for occasional or leisure use.
+Members: The balanced bike type preference among members indicates their versatility in using the service for diverse activities, reflecting their familiarity and comfort with both bike types.
+Service and Marketing Strategies:
+
+Promotional Activities for Casual Riders: Given the strong interest in electric bikes among casual riders, marketing efforts could highlight the benefits of electric bikes, such as easier rides and reduced physical exertion. Promotions could include targeted ads, informational campaigns about electric bike features, and special trial offers.
+Service Improvements for Members: For members, ensuring the availability and maintenance of both types of bikes is crucial. Service strategies could focus on regularly servicing both electric and classic bikes, and possibly expanding the fleet based on usage data to meet member preferences.
+This analysis of bike type preferences provides valuable insights into the distinct needs and desires of casual and member riders, allowing Cyclistic to tailor its services and marketing efforts to better align with user preferences and enhance overall rider satisfaction.
+
+#### Ride distance
+
+To explore how ride distances vary between Cyclistic's casual and member riders and how these vary between weekdays and weekends, we conducted an analysis visualized through a bar chart. This allowed us to compare the average distances ridden by each rider type across different days of the week.
+
+```{r ride_distance_plot, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics(here("output", "plots", "ride_distance_mean.png"))
+```
+
+Observations from the Plot:
+
+Casual Riders (Purple): On weekdays, the average ride distance for casual riders is about 2,140 meters, which increases to approximately 2,290 meters on weekends. This indicates that casual riders are likely to engage in longer rides during weekends, possibly for leisure or exploration.
+Members (Teal): Members show a slightly lower average ride distance than casual riders, with about 2,086 meters on weekdays and an increase to roughly 2,182 meters on weekends. This pattern suggests that members also extend their ride distances on weekends, though the increase is less pronounced compared to casual riders.
+Comparative Analysis:
+
+Both casual riders and members tend to ride longer distances on weekends compared to weekdays, indicating a general trend of more extended leisure activities during weekends.
+Casual riders consistently travel longer distances than members on both weekdays and weekends, which might reflect their less routine-based use of the bike-share system and a possible preference for longer exploratory trips.
+
+
+
