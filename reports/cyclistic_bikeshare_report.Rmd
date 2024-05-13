@@ -542,7 +542,7 @@ This heatmap analysis provides critical insights into the hourly dynamics of bik
 We examined the preferences for bike types among Cyclistic's casual and member riders to better understand how different types of bikes are used across these rider segments.     
 
 ```{r bike_type_preferences_plot, warning=FALSE, message=FALSE, echo=FALSE}
-kintr::include_graphics(here("output", "plots", "bike_preference.png"))
+knitr::include_graphics(here("output", "plots", "bike_preference.png"))
 ```
 
 
@@ -564,13 +564,8 @@ This analysis of bike type preferences provides valuable insights into the disti
 
 We next wanted to examine how ride distances and durations vary between Cyclistic's casual and member riders. By comparing the average ride distances and durations for each rider type, we aimed to uncover insights into the typical ride lengths and durations preferred by casual and member riders.     
 
-```{r distance_duration_table, warning=FALSE, message=FALSE, echo=FALSE}
-rider_stats %>%
-  kable(
-    caption = "Average ride distance and duration by rider type",
-    format = "html"
-  ) %>%
-  custom_table_theme()
+```{r distance_duration_plot, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics(here("output", "plots", "mean_distance_duration.png"))
 
 ```
 
