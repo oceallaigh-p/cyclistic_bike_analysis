@@ -306,7 +306,7 @@ file_name <- "ride_distance_mean"
 save_plots(filename = file_name, plot = p)
 
 # ==============================================================================
-# Examine ride duration data
+# Examine ride distance and duration data
 # ==============================================================================
 # Calculate average ride duration and distance by rider type -------------------
 rider_stats <- data_processed %>%
@@ -374,85 +374,6 @@ ggplot(aes(x = day_type, y = value, fill = rider_type)) +
 file_name <- "mean_distance_duration"
 save_plots(filename = file_name, plot = p)
 
-# Plot average ride duration by rider type weekends versus weekdays ------------
-p <- data_processed %>%
-  group_by(rider_type, day_type) %>%
-  summarise(mean_duration = mean(ride_duration), .groups = "drop") %>%
-  ggplot(aes(x = day_type, y = mean_duration, fill = rider_type)) +
-  geom_col(position = "dodge") +
-  geom_text(
-    aes(label = paste0(round(mean_duration, 1), " min")),
-    color = "white",
-    vjust = 1.6,
-    position = position_dodge(0.9),
-    size = 3
-  ) +
-  scale_x_discrete(
-    name = "",
-    labels = c("Weekday", "Weekend")
-  ) +
-  scale_y_continuous(
-    name = "Average duration (minutes)",
-    expand = expansion(mult = c(0, 0.04))
-  ) +
-  scale_fill_viridis_d(
-    name = "Rider type",
-    labels = c("Casual", "Member"),
-    begin = 0.2,
-    end = 0.8,
-    option = "mako"
-  ) +
-  labs(
-    title = "Average ride duration by rider type",
-    subtitle = "Weekday vs weekend (April 2023 - March 2024)"
-  ) +
-  theme_minimal_grid() +
-  theme(
-    axis.ticks = element_blank(),
-    axis.line = element_blank(),
-    legend.position = "bottom",
-    legend.text = element_text(size = 10),
-    legend.title = element_text(size = 10, vjust = 1),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-# Save the plot
-file_name <- "ride_duration_mean"
-save_plots(filename = file_name, plot = p)
-
-# ------------------------------------------------------------------------------
-
-# Plot density of ride distances by rider type ---------------------------------
-p <- data_processed %>%
-  ggplot(aes(x = ride_distance, y = after_stat(scaled), fill = rider_type, )) +
-  geom_density(alpha = 0.95, position = "stack") +
-  scale_x_continuous(
-    name = "Ride distance (meters)",
-    expand = expansion(mult = c(0.02, 0.02))
-  ) +
-  scale_fill_viridis_d(
-    name = "Rider type",
-    labels = c("Casual", "Member"),
-    begin = 0.2,
-    end = 0.8,
-    option = "mako"
-  ) +
-  labs(
-    title = "Density of ride distances by rider type",
-    subtitle = "April 2023 - March 2024"
-  ) +
-  theme_minimal_grid() +
-  theme(
-    axis.ticks = element_blank(),
-    axis.line = element_blank(),
-    legend.position = "bottom",
-    legend.text = element_text(size = 10),
-    legend.title = element_text(size = 10, vjust = 1),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
 # Plot the density of ride durations by rider type -----------------------------
 custom_breaks <- c(seq(0, 20, by = 2), seq(20, 60, by = 5))
 
@@ -486,3 +407,7 @@ p <- data_processed %>%
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank()
   )
+
+# Save the plot
+file_name <- "ride_duration_density"
+save_plots(filename = file_name, plot = p)
