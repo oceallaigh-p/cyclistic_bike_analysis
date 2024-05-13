@@ -100,61 +100,10 @@ day_mode_casual <- data_processed %>%
 #       average by normalizing the weekly ride counts across the dataset,
 #       ensuring that partial weeks do not skew the overall average.
 
-# p <- data_processed %>%
-#   group_by(ride_week, ride_day_of_week, rider_type) %>%
-#   summarise(total_rides = n(), .groups = "drop") %>%
-#   group_by(ride_day_of_week, rider_type) %>%
-#   summarise(mean_rides = mean(total_rides), .groups = "drop") %>%
-#   ggplot(aes(x = ride_day_of_week, y = mean_rides, fill = rider_type)) +
-#   geom_col(position = "dodge") +
-#   geom_text(
-#     aes(label = round(mean_rides, 0)),
-#     color = "white",
-#     vjust = 1.6,
-#     position = position_dodge(0.9),
-#     size = 3.5
-#   ) +
-#   scale_x_discrete(
-#     name = "",
-#     expand = expansion(mult = c(0.02, 0.04))
-#   ) +
-#   scale_y_continuous(
-#     name = "Average daily rides",
-#     expand = expansion(mult = c(0, 0.04))
-#   ) +
-#   scale_fill_viridis_d(
-#     name = "Rider type",
-#     labels = c("Casual", "Member"),
-#     begin = 0.2,
-#     end = 0.8,
-#     option = "mako"
-#   ) +
-#   labs(
-#     title = "Daily ride averages by rider type",
-#     subtitle = "April 2023 - March 2024"
-#   ) +
-#   theme_minimal_grid() +
-#   theme(
-#     axis.ticks = element_blank(),
-#     axis.line = element_blank(),
-#     legend.position = "bottom",
-#     legend.text = element_text(size = 10),
-#     legend.title = element_text(size = 10, vjust = 1),
-#     panel.grid.major.x = element_blank(),
-#     panel.grid.minor = element_blank()
-#   )
-
-data_processed %>%
-  mutate(
-    month = month(ride_month, label = TRUE),
-    period = ifelse(month %in% c(
-      "November", "December", "January",
-      "February", "March"
-    ), "Colder", "Warmer")
-  ) %>%
-  group_by(ride_week, ride_day_of_week, rider_type, period) %>%
+p <- data_processed %>%
+  group_by(ride_week, ride_day_of_week, rider_type) %>%
   summarise(total_rides = n(), .groups = "drop") %>%
-  group_by(ride_day_of_week, rider_type, period) %>%
+  group_by(ride_day_of_week, rider_type) %>%
   summarise(mean_rides = mean(total_rides), .groups = "drop") %>%
   ggplot(aes(x = ride_day_of_week, y = mean_rides, fill = rider_type)) +
   geom_col(position = "dodge") +
@@ -180,7 +129,6 @@ data_processed %>%
     end = 0.8,
     option = "mako"
   ) +
-  facet_wrap(~period, ncol = 1) + # Add facets based on the 'period' variable
   labs(
     title = "Daily ride averages by rider type",
     subtitle = "April 2023 - March 2024"
@@ -195,6 +143,7 @@ data_processed %>%
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank()
   )
+
 
 # Save the plot
 file_name <- "daily_ridership"
