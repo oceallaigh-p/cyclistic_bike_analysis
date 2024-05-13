@@ -560,7 +560,23 @@ Promotional Activities for Casual Riders: Given the strong interest in electric 
 Service Improvements for Members: For members, ensuring the availability and maintenance of both types of bikes is crucial. Service strategies could focus on regularly servicing both electric and classic bikes, and possibly expanding the fleet based on usage data to meet member preferences.
 This analysis of bike type preferences provides valuable insights into the distinct needs and desires of casual and member riders, allowing Cyclistic to tailor its services and marketing efforts to better align with user preferences and enhance overall rider satisfaction.
 
-#### Ride distance
+#### Ride distance and duration
+
+We next wanted to examine how ride distances and durations vary between Cyclistic's casual and member riders. By comparing the average ride distances and durations for each rider type, we aimed to uncover insights into the typical ride lengths and durations preferred by casual and member riders.     
+
+```{r distance_duration_table, warning=FALSE, message=FALSE, echo=FALSE}
+rider_stats %>%
+  kable(
+    caption = "Average ride distance and duration by rider type",
+    format = "html"
+  ) %>%
+  custom_table_theme()
+
+```
+
+
+
+##### Ride distance
 
 To explore how ride distances vary between Cyclistic's casual and member riders and how these vary between weekdays and weekends, we conducted an analysis visualized through a bar chart. This allowed us to compare the average distances ridden by each rider type across different days of the week.
 
@@ -577,5 +593,6 @@ Comparative Analysis:
 Both casual riders and members tend to ride longer distances on weekends compared to weekdays, indicating a general trend of more extended leisure activities during weekends.
 Casual riders consistently travel longer distances than members on both weekdays and weekends, which might reflect their less routine-based use of the bike-share system and a possible preference for longer exploratory trips.
 
+This analysis provides a nuanced view of how ride distances vary among different rider types and days, offering strategic insights that can help Cyclistic tailor its service offerings and marketing approaches to better cater to the distinct preferences of casual and member riders.
 
-
+##### Ride duration
