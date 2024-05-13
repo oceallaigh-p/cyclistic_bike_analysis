@@ -339,12 +339,11 @@ additional_variables <- tribble(
 
 # Display only the variables with missing data
 additional_variables %>%
-kable(
+  kable(
     caption = "Additional variables",
     format = "html"
   ) %>%
   custom_table_theme()
-
 ```
 
 
@@ -478,7 +477,29 @@ This analysis provides valuable insights into how different types of riders enga
 
 #### Examine daily ridership
 
-To gain a deeper understanding of how Cyclistic's membership and casual riders utilize the service differently throughout the week, we conducted a comparative analysis of daily ridership patterns. This was visualized to pinpoint variations between weekdays and weekends for both user groups.
+To gain a deeper understanding of how Cyclistic's membership and casual riders utilize the service differently throughout the week, we conducted a comparative analysis of daily ridership patterns. We first calculated the day of the week with the highest average number of rides (the mode) for each rider type. 
+
+```{r daily_ridership_table, warning=FALSE, message=FALSE, echo=FALSE}
+# day_mode_table <- tribble(
+#     ~" ", ~Mode,
+#     "Annual members", day_mode_member,
+#     "Casual riders", day_mode_casual
+#   )
+
+tribble(
+  ~" ", ~Mode,
+  "Annual members", day_mode_member,
+  "Casual riders", day_mode_casual
+) %>%
+  kable(
+    caption = "Day with the highest average number of rides",
+    format = "html"
+  ) %>%
+  custom_table_theme()
+```
+
+With these calculations, we identified that the mode for member ridership is Thursday, and for casual riders, it is Saturday. This information guided us to visualize and compare the average daily ridership for members and casual riders throughout the week.     
+
 
 ```{r daily_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
 knitr::include_graphics(here("output", "plots", "daily_ridership.png"))
@@ -502,6 +523,26 @@ Implications for Service and Marketing:
 Weekend Promotions: The spike in weekend ridership among casual riders presents an opportunity for weekend-specific promotions or events to further boost casual usage.
 Weekday Reliability: Given the stable weekday demand from members, focusing on reliability and quick service during these times could enhance satisfaction, with potential avenues like loyalty programs or incentives for continued usage.
 
+#### Examine hourly ridership
 
+To analyze hourly usage patterns of Cyclistic's bike-share system, we created heatmaps for weekdays and weekends. These heatmaps help visualize the intensity of ridership across different hours of the day, using a color scheme that ranges from dark purple (fewer rides) to bright teal (more rides), facilitating an intuitive understanding of rider activity levels.     
 
+```{r hourly_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics(here("output", "plots", "hourly_ridership_heatmap.png"))
+```
 
+Weekday Ridership Patterns (Top Heatmap):
+The weekday heatmap reveals clear peaks during typical rush hours, represented in bright teal, indicating significant commuting activity. The pattern shows ridership starting at lower levels in the early morning (dark purple), escalating to a peak during rush hours, and tapering off towards the evening and late night.
+
+Weekend Ridership Patterns (Bottom Heatmap):
+In contrast, the weekend heatmap displays a more gradual increase in ridership that begins later in the morning and maintains a relatively high level throughout the day into the evening. This pattern, characterized by consistently lighter shades, suggests leisure or non-commuter behavior, with sustained activity from late morning to evening, without the sharp peaks and troughs observed on weekdays.
+
+Comparative Analysis of Weekdays vs. Weekends:
+
+Weekdays: The pronounced peaks during morning and evening rush hours underscore a commuter-driven usage pattern. This emphasizes the need for robust service to accommodate the surge in work-related travel.
+Weekends: The more evenly distributed, sustained ridership levels indicate a more relaxed schedule, likely reflecting leisure activities. This suggests potential for promotional strategies to enhance leisure usage.
+Implications for Service Planning:
+
+Weekdays: Efficient and high-capacity service during rush hours should be a priority to manage the high volume of commuters effectively.
+Weekends: Promotional activities like special weekend passes or discounts could be employed to attract more riders during these extended periods of moderate to high ridership, enhancing the appeal for leisure travel.
+This heatmap analysis provides critical insights into the hourly dynamics of bike usage, aiding in strategic planning to optimize service offerings tailored to the distinct patterns observed during weekdays and weekends.
