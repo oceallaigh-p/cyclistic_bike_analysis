@@ -454,6 +454,35 @@ This transformation ensures that all previous deferred operations are executed a
 
 #### Examine monthly ridership
 
+To assess the patterns of usage across different months and distinguish between Cyclistic's annual members and casual riders, we analyzed the monthly ridership data. This analysis was visualized to highlight the proportion of rides per month for each rider type, focusing on seasonal trends and their implications.
+
+
+```{r monthly_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
+
+knitr::include_graphics(here("output", "plots", "monthly_ridership.png"))
+
+# htmltools::img(
+#   src = here("output", "plots", "monthly_ridership.png"),
+#   align = "center",
+#   alt = "Monthly ridership: 04/2023 - 03/2024",
+#   style = "width: 80%"
+# )
+```
+
+Trend Analysis:
+Throughout most of the warmer months, from April to October, there is a significant presence of casual riders (visualized in purple), suggesting a higher activity level or preference for the bike-share system among this group during favorable weather conditions. Casual riders often accounted for 32% to 40% of the total rides during these months.
+
+Conversely, from November to February, there is a noticeable decline in the proportion of rides taken by casual riders, indicated by a shrinking purple section in the bars. This change highlights a substantial seasonal effect, with casual rider usage visibly reducing during the colder months.
+
+Quantitative Observations:
+
+Warmer Months: High activity among casual riders, comprising a significant portion of the ridership.
+Colder Months: A marked decrease in casual rider activity, where their proportions notably diminish.
+
+Implications:
+The observed decrease in casual ridership during the colder months likely reflects the impact of less favorable weather conditions. Colder temperatures and inclement weather appear to deter occasional riders, who may prefer not to engage with the bike-share system under such conditions. This seasonal pattern underscores the need for targeted strategies to maintain or increase ridership during the off-peak season, potentially through marketing initiatives or incentives aimed at encouraging more consistent use among casual riders.
+
+This analysis provides valuable insights into how different types of riders engage with the Cyclistic bike-share system across various seasons, aiding in strategic planning and decision-making to optimize service utilization year-round.
 
 
 
