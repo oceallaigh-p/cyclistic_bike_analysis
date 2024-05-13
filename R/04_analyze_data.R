@@ -255,57 +255,6 @@ file_name <- "bike_preference"
 save_plots(filename = file_name, plot = p)
 
 # ==============================================================================
-# Examine ride distance data
-# ==============================================================================
-
-# Examine ride distance by rider type on weekends versus weekdays --------------
-p <- data_processed %>%
-  group_by(rider_type, day_type) %>%
-  summarise(mean_distance = mean(ride_distance), .groups = "drop") %>%
-  ggplot(aes(x = day_type, y = mean_distance, fill = rider_type)) +
-  geom_col(position = "dodge") +
-  geom_text(
-    aes(label = paste0(round(mean_distance, 0), " m")),
-    color = "white",
-    vjust = 1.6,
-    position = position_dodge(0.9),
-    size = 3.5
-  ) +
-  scale_x_discrete(
-    name = "",
-    labels = c("Weekday", "Weekend")
-  ) +
-  scale_y_continuous(
-    name = "Average distance (meters)",
-    expand = expansion(mult = c(0, 0.05))
-  ) +
-  scale_fill_viridis_d(
-    name = "Rider type",
-    labels = c("Casual", "Member"),
-    begin = 0.2,
-    end = 0.8,
-    option = "mako"
-  ) +
-  labs(
-    title = "Average ride distance by rider rype",
-    subtitle = "Weekday vs. weekend (April 2023 - March 2024)",
-  ) +
-  theme_minimal_grid() +
-  theme(
-    axis.ticks = element_blank(),
-    axis.line = element_blank(),
-    legend.position = "bottom",
-    legend.text = element_text(size = 10),
-    legend.title = element_text(size = 10, vjust = 1),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-## Save the plot
-file_name <- "ride_distance_mean"
-save_plots(filename = file_name, plot = p)
-
-# ==============================================================================
 # Examine ride distance and duration data
 # ==============================================================================
 # Calculate average ride duration and distance by rider type -------------------
