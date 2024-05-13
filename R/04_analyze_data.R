@@ -368,7 +368,7 @@ save_plots(filename = file_name, plot = p)
 
 # Plot density of ride distances by rider type ---------------------------------
 p <- data_processed %>%
-  ggplot(aes(x = ride_distance, y = ..scaled.., fill = rider_type, )) +
+  ggplot(aes(x = ride_distance, y = after_stat(scaled), fill = rider_type, )) +
   geom_density(alpha = 0.95, position = "stack") +
   scale_x_continuous(
     name = "Ride distance (meters)",
@@ -400,7 +400,7 @@ p <- data_processed %>%
 custom_breaks <- c(seq(0, 20, by = 2), seq(20, 60, by = 5))
 
 p <- data_processed %>%
-  ggplot(aes(x = ride_duration, y = ..scaled.., fill = rider_type)) +
+  ggplot(aes(x = ride_duration, y = after_stat(scaled), fill = rider_type)) +
   geom_density(alpha = 0.95, position = "stack") +
   coord_cartesian(xlim = c(0, 60)) +
   scale_x_continuous(
