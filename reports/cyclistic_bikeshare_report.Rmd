@@ -570,14 +570,7 @@ knitr::include_graphics(here("output", "plots", "mean_distance_duration.png"))
 ```
 
 
-
 ##### Ride distance
-
-To explore how ride distances vary between Cyclistic's casual and member riders and how these vary between weekdays and weekends, we conducted an analysis visualized through a bar chart. This allowed us to compare the average distances ridden by each rider type across different days of the week.
-
-```{r ride_distance_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "ride_distance_mean.png"))
-```
 
 Observations from the Plot:
 
@@ -591,3 +584,20 @@ Casual riders consistently travel longer distances than members on both weekdays
 This analysis provides a nuanced view of how ride distances vary among different rider types and days, offering strategic insights that can help Cyclistic tailor its service offerings and marketing approaches to better cater to the distinct preferences of casual and member riders.
 
 ##### Ride duration
+
+Average Ride Distance:
+Casual riders consistently travel longer distances than member riders, regardless of whether it’s a weekday or weekend. This could suggest that casual riders are more likely to use the service for longer trips or exploratory rides.
+Both rider types increase their average ride distances on weekends compared to weekdays. This could be due to more free time available or different trip purposes on weekends (e.g., leisure, sightseeing) compared to weekdays (e.g., commuting).
+The difference in average ride distance between casual and member riders is greater on weekends (111 m) than on weekdays (134 m). This might indicate that the usage patterns of casual riders vary more between weekdays and weekends compared to member riders.
+Average Ride Duration:
+Casual riders spend significantly more time riding than member riders. On weekdays, casual riders spend about 42% more time riding than members (15.6 minutes vs. 11 minutes). This difference is even more pronounced on weekends, with casual riders spending about 56% more time riding than members (19.5 minutes vs. 12.5 minutes).
+Both rider types spend more time riding on weekends compared to weekdays, which could be due to more leisure time available.
+The increase in ride duration from weekdays to weekends is more pronounced for casual riders (25% increase) compared to member riders (14% increase). This could suggest that casual riders’ usage of the service is more influenced by the day of the week compared to member riders.
+Implications:
+These patterns could have various implications for service operation and marketing. For example, promotional campaigns or special offers could be targeted towards casual riders on weekends when they are more likely to take longer and more frequent rides.
+Understanding these patterns could also help with resource allocation. For instance, knowing that rides are likely to be longer for all users on weekends could inform decisions about bike availability and distribution.
+
+### Summary of findings
+
+### Recommendations
+
