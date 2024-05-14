@@ -1,5 +1,6 @@
 # Required libraries
 library(tidyverse)
+library(ggridges)
 library(here)
 library(scales)
 library(cowplot)
