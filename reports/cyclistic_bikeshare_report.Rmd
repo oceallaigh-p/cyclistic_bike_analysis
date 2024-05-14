@@ -126,8 +126,6 @@ This detailed and structured dataset provides a solid foundation for analyzing a
 
 While the dataset is rich in information and provides a comprehensive view of bike trips taken over the past year, there are several challenges and limitations that need to be considered:
 
-The analysis of Cyclistic’s bike-share system is subject to several challenges and limitations that need to be acknowledged:
-
 1. ***Large Dataset***: The dataset is extensive, comprising over 5,000,000 bike trip observations across 13 variables. This vast volume of data can pose computational challenges and may require sophisticated data processing techniques to handle efficiently.
 
 2. ***Data Privacy***: Due to data privacy regulations and ethical considerations, the use of riders’ personally identifiable information is prohibited. This limitation prevents the ability to link pass purchases to specific credit card numbers, which restricts the analysis in certain ways. For instance, it is not possible to ascertain whether casual riders reside within the Cyclistic service area or if they have purchased multiple single passes.
