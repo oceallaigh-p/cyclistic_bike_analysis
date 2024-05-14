@@ -74,7 +74,7 @@ htmltools::img(
 
 ### Data description  
 
-The raw dataset is structured with each row representing a unique bike trip, characterized by the following variables and their respective types:
+The raw dataset for this analysis encompasses a substantial volume of 5,750,177 individual observations, organized into 13 distinct variables. Each observation corresponds to a unique bike trip, with the characteristics of each trip delineated by the respective variables and their types. The dataset's structure is designed to capture essential details about the rides, including:
 
 ```{r raw_dataset_table, warning=FALSE, message=FALSE, echo=FALSE}
 # Create a tibble for variable information
@@ -126,22 +126,16 @@ This detailed and structured dataset provides a solid foundation for analyzing a
 
 While the dataset is rich in information and provides a comprehensive view of bike trips taken over the past year, there are several challenges and limitations that need to be considered:
 
-1. **Data Volume and Processing**
-    - **Challenge**: Combining data from 12 CSV files with over 5,000,000 rows can be computationally intensive and time-consuming.  
-    - **Mitigation**: Utilize efficient data manipulation packages in R such as `dtplyr` "lazy" data.table for its superior performance with large datasets and `dplyr` for its intuitive syntax and data manipulation capabilities.
-2. **Joining and Merging Data**
-    - **Challenge**: Merging data from multiple sources into a cohesive dataset requires careful data handling to ensure integrity.
-    - **Mitigation**: Use `vroom` for fast reading of CSV files and `dtplyr` and `dplyr` for efficient data manipulation and merging.
-3. **Data Cleaning and Preprocessing**
-    - **Challenge**: The raw data may contain missing values, outliers, or inconsistencies that need to be addressed before analysis.
-    - **Mitigation**: Use R functions (e.g., `dplyr`, `tidyr`) for data cleaning (handling missing values, duplicates, outliers).
-4. **Geospatial Operations**
-    - **Challenge**: Handling latitude and longitude data introduces specific challenges related to spatial data accuracy and consistency.
-        - Calculating distances between coordinates results in distances that are "as the crow flies" and may not reflect actual travel distances.
-    - **Mitigation**: Utilize geospatial packages like `geosphere`, sf`, and `leaflet` for geospatial analysis and visualization.
-5. **Data Privacy and Ethical Considerations**
-    - **Challenge**: Maintaining confidentiality and adhering to ethical data use standards is essential.
-    - **Mitigation**: Anonymize sensitive data using R functions before analysis. Ensure all data use complies with ethical standards and legal requirements.
+The analysis of Cyclistic’s bike-share system is subject to several challenges and limitations that need to be acknowledged:
+
+1. ***Large Dataset***: The dataset is extensive, comprising over 5,000,000 bike trip observations across 13 variables. This vast volume of data can pose computational challenges and may require sophisticated data processing techniques to handle efficiently.
+
+2. ***Data Privacy***: Due to data privacy regulations and ethical considerations, the use of riders’ personally identifiable information is prohibited. This limitation prevents the ability to link pass purchases to specific credit card numbers, which restricts the analysis in certain ways. For instance, it is not possible to ascertain whether casual riders reside within the Cyclistic service area or if they have purchased multiple single passes.
+
+3. ***Missing Geospatial Data***: Some of the geospatial data, including station names and station IDs, is missing from the dataset. This absence of data limits the scope of investigation into these aspects of the dataset. For example, it might restrict the analysis of usage patterns related to specific stations or geographical areas.
+
+4. ***Ride Distance Calculations***: The calculation of ride distances is based on the latitude and longitude data provided in the dataset. These calculations yield “as the crow flies” distances, which are straight-line measurements between the start and end points of each ride. This approach does not account for the actual path taken by the rider, including detours, road layouts, or other factors that might affect the real distance traveled. Consequently, the calculated distances may not accurately reflect the actual distances covered during each ride.
+These limitations should be taken into account when interpreting the results of the analysis. Despite these challenges, the dataset still offers valuable insights into the usage patterns of Cyclistic’s bike-share system by different rider types.
      
 ## Data cleaning    
 
@@ -470,12 +464,6 @@ This analysis provides valuable insights into how different types of riders enga
 To gain a deeper understanding of how Cyclistic's membership and casual riders utilize the service differently throughout the week, we conducted a comparative analysis of daily ridership patterns. We first calculated the day of the week with the highest average number of rides (the mode) for each rider type. 
 
 ```{r daily_ridership_table, warning=FALSE, message=FALSE, echo=FALSE}
-# day_mode_table <- tribble(
-#     ~" ", ~Mode,
-#     "Annual members", day_mode_member,
-#     "Casual riders", day_mode_casual
-#   )
-
 tribble(
   ~" ", ~Mode,
   "Annual members", day_mode_member,
