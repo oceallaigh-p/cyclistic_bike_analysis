@@ -11,3 +11,19 @@ a {
   color: #5793A3;
   text-decoration: none;
 }
+
+/* Add a tiled watermark background */
+body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../images/cyclistic_logo.png');
+  background-size: 10%;
+  background-repeat: repeat;
+  opacity: 0.5; /* Adjust the opacity as needed */
+  z-index: -1;
+  transform: rotate(45deg); /* Adjust the rotation angle as needed */
+}
