@@ -126,24 +126,24 @@ This detailed and structured dataset provides a solid foundation for analyzing a
 
 While the dataset is rich in information and provides a comprehensive view of bike trips taken over the past year, there are several challenges and limitations that need to be considered:
 
-1. ***Large Dataset***: The dataset is extensive, comprising over 5,000,000 bike trip observations across 13 variables. This vast volume of data can pose computational challenges and may require sophisticated data processing techniques to handle efficiently.
+1. *Large Dataset*: The dataset is extensive, comprising over 5,000,000 bike trip observations across 13 variables. This vast volume of data can pose computational challenges and may require sophisticated data processing techniques to handle efficiently.
 
-2. ***Data Privacy***: Due to data privacy regulations and ethical considerations, the use of riders’ personally identifiable information is prohibited. This limitation prevents the ability to link pass purchases to specific credit card numbers, which restricts the analysis in certain ways. For instance, it is not possible to ascertain whether casual riders reside within the Cyclistic service area or if they have purchased multiple single passes.
+2. *Data Privacy*: Due to data privacy regulations and ethical considerations, the use of riders’ personally identifiable information is prohibited. This limitation prevents the ability to link pass purchases to specific credit card numbers, which restricts the analysis in certain ways. For instance, it is not possible to ascertain whether casual riders reside within the Cyclistic service area or if they have purchased multiple single passes.
 
-3. ***Missing Geospatial Data***: Some of the geospatial data, including station names and station IDs, is missing from the dataset. This absence of data limits the scope of investigation into these aspects of the dataset. For example, it might restrict the analysis of usage patterns related to specific stations or geographical areas.
+3. *Missing Geospatial Data*: Some of the geospatial data, including station names and station IDs, is missing from the dataset. This absence of data limits the scope of investigation into these aspects of the dataset. For example, it might restrict the analysis of usage patterns related to specific stations or geographical areas.
 
-4. ***Ride Distance Calculations***: The calculation of ride distances is based on the latitude and longitude data provided in the dataset. These calculations yield “as the crow flies” distances, which are straight-line measurements between the start and end points of each ride. This approach does not account for the actual path taken by the rider, including detours, road layouts, or other factors that might affect the real distance traveled. Consequently, the calculated distances may not accurately reflect the actual distances covered during each ride.
+4. *Ride Distance Calculations*: The calculation of ride distances is based on the latitude and longitude data provided in the dataset. These calculations yield “as the crow flies” distances, which are straight-line measurements between the start and end points of each ride. This approach does not account for the actual path taken by the rider, including detours, road layouts, or other factors that might affect the real distance traveled. Consequently, the calculated distances may not accurately reflect the actual distances covered during each ride.
 These limitations should be taken into account when interpreting the results of the analysis. Despite these challenges, the dataset still offers valuable insights into the usage patterns of Cyclistic’s bike-share system by different rider types.
      
 ## Data cleaning    
 
 ### Data inspection  
 
-The data inspection process serves as a preliminary check to ensure the quality and structure of the dataset before proceeding with detailed analysis. This stage is crucial for identifying potential issues that could affect the validity of the study’s conclusions. The following steps were undertaken to inspect the dataset comprehensively:
+The data inspection process serves as a preliminary check to ensure the quality and structure of the dataset before proceeding with detailed analysis. This stage is crucial for identifying potential issues that could affect the validity of the study’s conclusions. The following steps were undertaken to inspect the dataset comprehensively:     
 
 #### Examine structure of data     
 
-To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the `glimpse()` function from the `dplyr` package, which provides a compact display of the types of each column along with a quick view of the first few entries in each:
+To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the `glimpse()` function from the `dplyr` package, which provides a compact display of the types of each column along with a quick view of the first few entries in each:     
 
 ```{r structure_of_data, warning=FALSE, message=FALSE, echo=FALSE}
 knitr::include_graphics(here("resources", "images", "glimpse_raw.png"))
@@ -218,7 +218,7 @@ The presence of `docked bike` raises questions about its meaning, as it could po
 
 ##### Member_casual variable     
 
-member_casual: For the member_casual variable, which distinguishes between members (annual subscribers) and casual riders (non-subscribers), the results were as expected. Only the two anticipated values, "member" and "casual," were found, confirming the accuracy of data entries for this variable:
+For the `member_casual` variable, which distinguishes between members (annual subscribers) and casual riders (non-subscribers), the results were as expected. Only the two anticipated values, "member" and "casual," were found, confirming the accuracy of data entries for this variable:
 
 ```{r count_member_casual, echo=TRUE, eval=FALSE}
 count_member_casual <- data_raw %>%
@@ -363,7 +363,7 @@ data_processed <- data_processed %>%
   )
 ```
 
-These transformations enhance the dataset and prepare it for in-depth exploratory and predictive analyses, ensuring that the data is well-suited for comprehensive and advanced analytical tasks.
+These transformations enhance the dataset and prepare it for in-depth exploratory analyses, ensuring that the data is well-suited for comprehensive and advanced analytical tasks.
 
 #### Remove outliers    
 
@@ -440,18 +440,9 @@ To assess the patterns of usage across different months and distinguish between 
 knitr::include_graphics(here("output", "plots", "monthly_ridership.png"))
 ```
 
-Trend Analysis:
-Throughout most of the warmer months, from April to October, there is a significant presence of casual riders (visualized in purple), suggesting a higher activity level or preference for the bike-share system among this group during favorable weather conditions. Casual riders often accounted for 32% to 40% of the total rides during these months.
+The bar plot shows that from April 2023 to March 2024, members consistently outnumber casual riders, though the proportions vary by month. Throughout most of the warmer months, from April to October, there is a significant presence of casual riders (visualized in purple), suggesting a higher activity level or preference for the bike-share system among this group during favorable weather conditions. Casual riders often accounted for 32% to 40% of the total rides during these months.
 
-Conversely, from November to February, there is a noticeable decline in the proportion of rides taken by casual riders, indicated by a shrinking purple section in the bars. This change highlights a substantial seasonal effect, with casual rider usage visibly reducing during the colder months.
-
-Quantitative Observations:
-
-Warmer Months: High activity among casual riders, comprising a significant portion of the ridership.
-Colder Months: A marked decrease in casual rider activity, where their proportions notably diminish.
-
-Implications:
-The observed decrease in casual ridership during the colder months likely reflects the impact of less favorable weather conditions. Colder temperatures and inclement weather appear to deter occasional riders, who may prefer not to engage with the bike-share system under such conditions. This seasonal pattern underscores the need for targeted strategies to maintain or increase ridership during the off-peak season, potentially through marketing initiatives or incentives aimed at encouraging more consistent use among casual riders.
+Conversely, from November to February, there is a noticeable decline in the proportion of rides taken by casual riders, indicated by a shrinking purple section in the bars. Casual riders only accounted for 16% to 26% of the total rides during these months. This change highlights a substantial seasonal effect, with casual rider usage visibly reducing during the colder months.
 
 This analysis provides valuable insights into how different types of riders engage with the Cyclistic bike-share system across various seasons, aiding in strategic planning and decision-making to optimize service utilization year-round.
 
@@ -472,7 +463,7 @@ tribble(
   custom_table_theme()
 ```
 
-With these calculations, we identified that the mode for member ridership is Thursday, and for casual riders, it is Saturday. This information guided us to visualize and compare the average daily ridership for members and casual riders throughout the week.     
+With these calculations, we identified that the mode for Cyclistic members is Thursday, and for casual riders, it is Saturday. This information guided us to visualize and compare the average daily ridership for members and casual riders throughout the week.     
 
 
 ```{r daily_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
@@ -481,17 +472,20 @@ knitr::include_graphics(here("output", "plots", "daily_ridership.png"))
 
 Comparative Analysis:
 
+The bar plot presents the average daily rides for casual riders (in purple) and members (in teal) across each day of the week, from Sunday to Saturday. The data reveals distinct usage patterns between the two groups.
+
 Member Ridership: Represented in teal, member usage remains robust throughout the week with slight variability but generally high levels, suggesting a stable pattern likely linked to commuting habits.
 Casual Ridership: Illustrated in purple, casual ridership is significantly lower on weekdays but surges on weekends, particularly peaking on Saturday.
 Quantitative Observations:
 
 Members: Show the highest ridership on weekdays, especially mid-week, which aligns with regular commuting patterns.
 Casual Riders: Peak on Saturdays with 6,612 rides, with also high activity on Sundays (5,242 rides) and Fridays (5,153 rides). Monday to Thursday sees comparatively lower activity, ranging from 3,847 to 4,564 rides.
+
 Weekday vs. Weekend Analysis:
 Distinct patterns emerge between the two groups:
-
 Members: Likely utilize the service for consistent commuting throughout the week.
 Casual Riders: Show a marked increase in usage over weekends, indicating a preference for recreational or non-commuting travel.
+
 Implications for Service and Marketing:
 
 Weekend Promotions: The spike in weekend ridership among casual riders presents an opportunity for weekend-specific promotions or events to further boost casual usage.
@@ -580,6 +574,15 @@ Implications:
 These patterns could have various implications for service operation and marketing. For example, promotional campaigns or special offers could be targeted towards casual riders on weekends when they are more likely to take longer and more frequent rides.
 Understanding these patterns could also help with resource allocation. For instance, knowing that rides are likely to be longer for all users on weekends could inform decisions about bike availability and distribution.
 
-### Summary of findings
+## Summary of findings
 
-### Recommendations
+Monthly ridership
+Implications:
+The observed decrease in casual ridership during the colder months likely reflects the impact of less favorable weather conditions. Colder temperatures and inclement weather appear to deter occasional riders, who may prefer not to engage with the bike-share system under such conditions. This seasonal pattern underscores the need for targeted strategies to maintain or increase ridership during the off-peak season, potentially through marketing initiatives or incentives aimed at encouraging more consistent use among casual riders.
+
+Daily ridership
+Members: Likely utilize the service for consistent commuting throughout the week.
+Casual Riders: Show a marked increase in usage over weekends, indicating a preference for recreational or non-commuting travel.
+Implications for Service and Marketing:
+
+## Recommendations
