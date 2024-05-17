@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------- */
-/*                      Link color to match logo                              */
+/*                   Change Link color to match logo                          */
 /* -------------------------------------------------------------------------- */
 
 a {
@@ -8,11 +8,11 @@ a {
 }
 
 a:hover {
-  color: #F6FC7E;
+  color: #D7DC6E;
 }
 
 /* -------------------------------------------------------------------------- */
-/*                            Whhite space                              */
+/*                            White space                                     */
 /* -------------------------------------------------------------------------- */
 
 .title {
@@ -22,17 +22,16 @@ a:hover {
 
 .section h1,
 .section h2{ 
-  padding-top: 2.5em !important; 
+  padding-top: 1em !important; 
   margin-bottom: 0.75em;
 }
 
 .section h3, 
 .section h4, 
 .section h5 {
-  padding-top: 2em !important;
+  padding-top: 0.5em !important;
   margin-bottom: 0.75em;
 }
-
 
 /*----------------------------------------------------------------------------*/
 /*                                TOC                                         */
@@ -53,6 +52,8 @@ a:hover {
 }
 
 #TOC {
+  top: auto;
+  width: 100% !important;
   border: none;
 }
 
@@ -64,14 +65,15 @@ a:hover {
     position: relative;
     margin-bottom: 2em;
     /* liner gradient tints the image darker for readability*/
-    background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ), url(../images/bikeshare_hero.jpg); 
-    height: 400px;
+    background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ), url(../images/bikeshare_hero.png); 
+    height: 500px;
     background-size: cover;
     background-color: #5793A3;
-    background-position: 50% 55%;
+    background-position: 50% 70%;
     display: flex; /* Change to `display: none` for no hero image */
     justify-content: center;
     align-items: center;
+    z-index: 100;
 }
 
 .top-text {
