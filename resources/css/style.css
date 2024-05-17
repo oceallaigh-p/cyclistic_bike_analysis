@@ -17,7 +17,6 @@ a:hover {
 
 .title {
   margin-top: 2em !important;
-  /* margin-bottom: 0.75em; */
 }
 .subtitle {
   margin-top: -0.25em !important; 
@@ -56,7 +55,7 @@ a:hover {
 }
 
 #TOC {
-  top: auto;
+  top: 0;
   width: 100% !important;
   border: none;
 }
@@ -70,10 +69,10 @@ a:hover {
     margin-bottom: 2em;
     /* liner gradient tints the image darker for readability*/
     background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ), url(../images/bikeshare_hero.png); 
-    height: 500px;
+    height: 88vh;
     background-size: cover;
     background-color: #5793A3;
-    background-position: 50% 70%;
+    background-position: 50% 75%;
     display: flex; /* Change to `display: none` for no hero image */
     justify-content: center;
     align-items: center;
