@@ -4,12 +4,14 @@ author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-04-24"
 output: 
   html_document:
+    includes:
+      in_header: "../resources/html/hero-image.html"
     css: "../resources/css/style.css"
     df_print: paged
     theme: sandstone
     highlight: tango
     toc: true
-    toc_depth: 4
+    toc_depth: 3
     toc_float: true
 ---
 
@@ -31,7 +33,12 @@ source(here("R", "04_analyze_data.R"))
 source(here("R", "style_tables.R"))
 ```
 
+
+
 ## Executive summary    
+
+The executive summary provides a concise overview of the analysis conducted on Cyclistic's bike-share program data, focusing on the usage patterns of annual members and casual riders. The analysis aimed to uncover insights into how these two rider segments utilize the bike-share system differently, with the ultimate goal of informing targeted marketing strategies to convert casual riders into annual members. Here are the key findings and recommendations derived from the analysis:
+
 
 
 ## Introduction    
@@ -54,9 +61,11 @@ In summary, this analysis is not just about understanding how two segments of ri
 
 ### Research question    
 
-> How do annual members and casual riders use Cyclisitc bikes differently?
+> How do annual members and casual riders use Cyclisitc bikes differently?     
 
-## Data collection    
+This research question encapsulates the core objective of the analysis, focusing on the distinct usage patterns and preferences of annual members and casual riders within the Cyclistic bike-share program. By delving into this question, the analysis aims to uncover actionable insights that can inform strategic marketing decisions and drive the conversion of casual riders into annual members.
+
+## Data collection     
 
 ### Data sources   
 
@@ -134,8 +143,9 @@ While the dataset is rich in information and provides a comprehensive view of bi
 
 4. *Ride Distance Calculations*: The calculation of ride distances is based on the latitude and longitude data provided in the dataset. These calculations yield “as the crow flies” distances, which are straight-line measurements between the start and end points of each ride. This approach does not account for the actual path taken by the rider, including detours, road layouts, or other factors that might affect the real distance traveled. Consequently, the calculated distances may not accurately reflect the actual distances covered during each ride.
 These limitations should be taken into account when interpreting the results of the analysis. Despite these challenges, the dataset still offers valuable insights into the usage patterns of Cyclistic’s bike-share system by different rider types.
-     
-## Data cleaning    
+
+
+## Data cleaning      
 
 ### Data inspection  
 
@@ -207,6 +217,7 @@ These findings indicate significant missing data in station identifiers and geol
 Analyzing the consistency and accuracy of categorical variables is essential for ensuring data integrity. In this analysis, the `dplyr` package was employed to count and evaluate the distinct categories present in the `rideable_type` and `member_casual` variables.
 
 ##### Rideable_type variable     
+
 The `rideable_type` variable categorizes the types of bikes used in the trips. While only `classic_bike` and `electric_bike` were expected based on company records, an additional category, `docked bike`, was identified, which was not anticipated:
 
 ```{r count_rideable_type, echo=TRUE, eval=FALSE}
@@ -249,7 +260,7 @@ data_processed <- data_raw %>%
 
 This step not only reduced the complexity of the data but also minimized the impact of the missing data on the overall analysis, ensuring a more focused and efficient analytical process.
 
-#### Remove missing values
+#### Remove missing values     
 
 The presence of missing values can hinder the accuracy and reliability of the analysis. To address this issue, the dataset was filtered to exclude rows with missing values in the latitude and longitude columns for both the start and end stations. This step was crucial for ensuring the integrity of geospatial analyses and visualizations that rely on accurate location data:     
 
@@ -262,7 +273,7 @@ data_processed <- data_processed %>%
 ```
 
 
-#### Remove invalid categories
+#### Remove invalid categories     
 
 During the initial data inspection phase, it was noted that all categorical variables conformed to expected categories except for one unexpected entry in the rideable_type variable. The rideable_type included an unforeseen category labeled "docked bike," which was not anticipated based on the operational definitions provided for the dataset. This category's presence raised questions about its definition, as it could potentially represent a classification error, bikes taken out of active circulation for maintenance, or another unspecified category.
 
@@ -275,7 +286,7 @@ data_processed <- data_processed %>%
 
 This exclusion is a critical step in refining the dataset, ensuring that subsequent analyses are based on reliable and valid categorical data, and aligns with the predefined scope of the study.
 
-#### Convert data types
+#### Convert data types     
 
 In R, particularly within the tidyverse, it's crucial to ensure that categorical variables are correctly typed as factors. This conversion facilitates efficient handling of categorical data in functions used for statistical modeling and plotting. Factors help define a set of unique values that R recognizes, optimizing both memory use and processing.
 
@@ -291,7 +302,7 @@ data_processed <- data_processed %>%
 
 This conversion is part of the data preprocessing to prepare the dataset for more complex analytical tasks, ensuring that the data adheres to the best practices for data analysis in R.
 
-#### Rename variables
+#### Rename variables     
 
 To improve readability and consistency within the dataset, variable names were standardized:    
 
@@ -311,7 +322,7 @@ data_processed <- data_processed %>%
 
 Standardizing variable names enhances clarity and coherence within the dataset, making it easier to interpret and analyze the data effectively. This step is essential for maintaining consistency and ensuring that all variables are clearly labeled and identifiable throughout the analysis process.
 
-#### Create additional variables
+#### Create additional variables     
 
 To enhance the dataset with additional information that could provide deeper insights into riding patterns, several new variables were created. Each variable is derived from existing data but is designed to facilitate more specific analyses:
 
@@ -365,11 +376,12 @@ data_processed <- data_processed %>%
 
 These transformations enhance the dataset and prepare it for in-depth exploratory analyses, ensuring that the data is well-suited for comprehensive and advanced analytical tasks.
 
-#### Remove outliers    
+#### Remove outliers      
 
 Removing outliers is crucial to maintaining the integrity of the data analysis. We focused on eliminating atypical values in ride duration and distance that could potentially distort the results.     
 
-##### Ride duration
+##### Ride duration     
+
 
 ```{r anomalous_duration, echo=TRUE, eval=FALSE}
 # Check for anomalous ride duration
@@ -425,11 +437,12 @@ obs_nonanomalous <- data_processed %>%
 
 By meticulously defining and applying these thresholds, we ensure that the dataset is free of extreme values, thereby enhancing the reliability and accuracy of the analyses derived from it.
 
+
 ## Data analysis     
 
 The data analysis phase was designed to uncover actionable insights on how Cyclistic's annual members and casual riders utilize the bike-share system differently. Through a combination of statistical methods and graphical techniques, the analysis aimed to highlight distinct usage patterns and preferences between the two rider types. Here are the key steps and findings from this in-depth analysis:
 
-### Exploratory data analysis     
+### Temporal patterns     
 
 #### Monthly ridership     
 
@@ -515,28 +528,8 @@ Weekdays: Efficient and high-capacity service during rush hours should be a prio
 Weekends: Promotional activities like special weekend passes or discounts could be employed to attract more riders during these extended periods of moderate to high ridership, enhancing the appeal for leisure travel.
 This heatmap analysis provides critical insights into the hourly dynamics of bike usage, aiding in strategic planning to optimize service offerings tailored to the distinct patterns observed during weekdays and weekends.
 
-#### Bike type preference
 
-We examined the preferences for bike types among Cyclistic's casual and member riders to better understand how different types of bikes are used across these rider segments.     
-
-```{r bike_type_preferences_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "bike_preference.png"))
-```
-
-
-Preference Distribution:
-
-Casual Riders: Show a notable preference for electric bikes, with 55% opting for electric bikes compared to 45% for classic bikes. This indicates that casual riders favor the convenience and ease of use that electric bikes offer.
-Members: Display a more balanced preference between bike types, slightly favoring classic bikes (51%) over electric bikes (49%). This suggests that members are comfortable using both types of bikes for their varied needs, including commuting and leisure.
-Implications:
-
-Casual Riders: The preference for electric bikes among casual riders suggests they value the ease and reduced effort these bikes provide, which is particularly appealing for occasional or leisure use.
-Members: The balanced bike type preference among members indicates their versatility in using the service for diverse activities, reflecting their familiarity and comfort with both bike types.
-Service and Marketing Strategies:
-
-Promotional Activities for Casual Riders: Given the strong interest in electric bikes among casual riders, marketing efforts could highlight the benefits of electric bikes, such as easier rides and reduced physical exertion. Promotions could include targeted ads, informational campaigns about electric bike features, and special trial offers.
-Service Improvements for Members: For members, ensuring the availability and maintenance of both types of bikes is crucial. Service strategies could focus on regularly servicing both electric and classic bikes, and possibly expanding the fleet based on usage data to meet member preferences.
-This analysis of bike type preferences provides valuable insights into the distinct needs and desires of casual and member riders, allowing Cyclistic to tailor its services and marketing efforts to better align with user preferences and enhance overall rider satisfaction.
+### Ride characteristics
 
 #### Ride distance and duration
 
@@ -574,7 +567,35 @@ Implications:
 These patterns could have various implications for service operation and marketing. For example, promotional campaigns or special offers could be targeted towards casual riders on weekends when they are more likely to take longer and more frequent rides.
 Understanding these patterns could also help with resource allocation. For instance, knowing that rides are likely to be longer for all users on weekends could inform decisions about bike availability and distribution.
 
-## Summary of findings
+### Rider preferences
+
+#### Bike type preference
+
+We examined the preferences for bike types among Cyclistic's casual and member riders to better understand how different types of bikes are used across these rider segments.     
+
+```{r bike_type_preferences_plot, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics(here("output", "plots", "bike_preference.png"))
+```
+
+
+Preference Distribution:
+
+Casual Riders: Show a notable preference for electric bikes, with 55% opting for electric bikes compared to 45% for classic bikes. This indicates that casual riders favor the convenience and ease of use that electric bikes offer.
+Members: Display a more balanced preference between bike types, slightly favoring classic bikes (51%) over electric bikes (49%). This suggests that members are comfortable using both types of bikes for their varied needs, including commuting and leisure.
+Implications:
+
+Casual Riders: The preference for electric bikes among casual riders suggests they value the ease and reduced effort these bikes provide, which is particularly appealing for occasional or leisure use.
+Members: The balanced bike type preference among members indicates their versatility in using the service for diverse activities, reflecting their familiarity and comfort with both bike types.
+Service and Marketing Strategies:
+
+Promotional Activities for Casual Riders: Given the strong interest in electric bikes among casual riders, marketing efforts could highlight the benefits of electric bikes, such as easier rides and reduced physical exertion. Promotions could include targeted ads, informational campaigns about electric bike features, and special trial offers.
+Service Improvements for Members: For members, ensuring the availability and maintenance of both types of bikes is crucial. Service strategies could focus on regularly servicing both electric and classic bikes, and possibly expanding the fleet based on usage data to meet member preferences.
+This analysis of bike type preferences provides valuable insights into the distinct needs and desires of casual and member riders, allowing Cyclistic to tailor its services and marketing efforts to better align with user preferences and enhance overall rider satisfaction.
+
+
+## Findings and Recommendations  
+
+### Key Findings
 
 Monthly ridership
 Implications:
@@ -585,4 +606,8 @@ Members: Likely utilize the service for consistent commuting throughout the week
 Casual Riders: Show a marked increase in usage over weekends, indicating a preference for recreational or non-commuting travel.
 Implications for Service and Marketing:
 
-## Recommendations
+### Recommendations
+
+Based on the findings from the data analysis, the following recommendations are proposed to optimize Cyclistic's bike-share system and enhance the user experience for both annual members and casual riders: 
+
+
