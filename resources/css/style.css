@@ -8,7 +8,7 @@ a {
 }
 
 a:hover {
-  color: #D7DC6E;
+  color: #CDD269;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -17,7 +17,11 @@ a:hover {
 
 .title {
   margin-top: 2em !important;
-  margin-bottom: 0.75em;
+  /* margin-bottom: 0.75em; */
+}
+.subtitle {
+  margin-top: -0.25em !important; 
+  margin-bottom: 1em !important;
 }
 
 .section h1,
