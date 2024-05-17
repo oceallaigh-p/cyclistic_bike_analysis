@@ -1,5 +1,6 @@
 ---
-title: "Cyclistic bike-share analysis"
+title: "Cyclistic bike-share ridership analysis"
+subtitle: "Understanding rider usage patterns to optimize marketing strategies"
 author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-04-24"
 output: 
@@ -48,8 +49,6 @@ In the evolving landscape of urban mobility, bike-share programs have emerged as
 ### Background    
 
 Under the guidance of Lily Moreno, the Director of Marketing, Cyclistic has achieved significant growth through strategic marketing and customer engagement initiatives. Historically, the company's marketing efforts have been geared towards building brand awareness and appealing to a broad consumer base, utilizing channels like email, social media, and direct promotions. Cyclistic offers a range of pricing options from single-ride passes to annual memberships, with the latter being identified as considerably more profitable. This insight has prompted a strategic pivot aimed at increasing the proportion of annual memberships, which are deemed crucial for the company's long-term financial health and market dominance.
-
-Despite the success, Cyclistic's executive team, known for their meticulous attention to detail, requires a data-driven approach to further refine and optimize marketing strategies. This is where the marketing analytics team, including junior data analysts like yourself, plays a pivotal role. Having joined the team six months ago, your objective has been to not only grasp Cyclistic's operational ethos but also to contribute to its mission through rigorous data analysis and actionable insights.
 
 ### Objectives    
 
@@ -443,6 +442,16 @@ By meticulously defining and applying these thresholds, we ensure that the datas
 The data analysis phase was designed to uncover actionable insights on how Cyclistic's annual members and casual riders utilize the bike-share system differently. Through a combination of statistical methods and graphical techniques, the analysis aimed to highlight distinct usage patterns and preferences between the two rider types. Here are the key steps and findings from this in-depth analysis:
 
 ### Temporal patterns     
+
+#### Annual ridership
+
+To get a general understanding of the patterns of Cyclistic's bike-share users, we first examined the proportion of rides for both annual members and casual riders. 
+
+```{r ridership_pie, warning=FALSE, message=FALSE, echo=FALSE}
+knitr::include_graphics(here("output", "plots", "ridership_ridertype_pie.png"))
+```
+
+The pie chart illustrates that annual members accounted for the majority of rides, representing 66% of the total rides, while casual riders made up the remaining 34%. This distribution highlights the significant dominance of annual members in utilizing the bike-share system, but does not provide insights into how these riders differ in their usage patterns.
 
 #### Monthly ridership     
 
