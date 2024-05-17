@@ -3,6 +3,7 @@ library(tidyverse)
 library(ggridges)
 library(here)
 library(scales)
+library(ggforce)
 library(cowplot)
 
 # Required scripts
@@ -18,6 +19,77 @@ data_processed <- collect(data_processed)
 # Export the processed data to a CSV file
 # ==============================================================================
 write_csv(data_processed, here("data", "processed_data", "processed_data.csv"))
+
+# ==============================================================================
+# Examine the overall ridership data
+# ==============================================================================
+rides_ridertype <- data_processed %>%
+  count(rider_type)
+
+# prepare the pie data
+pie_data <- rides_ridertype %>%
+  arrange(n) %>% # arrange so pie slices end up sorted
+  mutate(
+    end_angle = 2 * pi * cumsum(n) / sum(n), # ending angle for each pie slice
+    start_angle = lag(end_angle, default = 0), # starting angle for each pie slice
+    mid_angle = 0.5 * (start_angle + end_angle), # middle of each pie slice, for text labels
+    hjust = ifelse(mid_angle > pi, 1, 0),
+    vjust = ifelse(mid_angle < pi / 2 | mid_angle > 3 * pi / 2, 0, 1)
+  )
+
+p <- pie_data %>%
+  ggplot() + 
+  aes(
+  x0 = 0, y0 = 0,
+  r0 = 0, r = 1,
+  start = start_angle, end = end_angle,
+  fill = rider_type
+) +
+  geom_arc_bar() +
+  geom_text( # place number of rides inside pie slices
+    aes(
+      x = 0.60 * sin(mid_angle),
+      y = 0.60 * cos(mid_angle),
+      label = paste(comma(n), "rides")
+    ),
+    color = "white",
+    size = 3.5
+  ) +
+  geom_text( # place rider type outside of pie
+    aes(
+      x = 1.05 * sin(mid_angle),
+      y = 1.05 * cos(mid_angle),
+      label = str_to_sentence(rider_type),
+      hjust = hjust,
+      vjust = vjust
+    )
+  ) +
+  coord_fixed(
+    xlim = c(-1.5, 1.5),
+    ylim = c(-1.2, 1.5)
+  ) +
+  scale_fill_viridis_d(
+    name = "Proportion",
+    begin = 0.2,
+    end = 0.8,
+    option = "mako",
+    labels = (pie_data$n / sum(pie_data$n)) %>% scales::percent(accuracy = 0.1),
+    guide = guide_legend(reverse = TRUE)
+  ) + 
+  labs(
+    title = "Total rides by rider type",
+    subtitle = "April 2023 - March 2024"
+  ) +
+  theme_map() +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 10, vjust = 1)
+  )
+
+# Save the plot
+file_name <- "ridership_ridertype_pie"
+save_plots(filename = file_name, plot = p)
 
 # ==============================================================================
 # Examine monthly ridership data
@@ -270,8 +342,10 @@ rider_stats <- data_processed %>%
 # Plot average ride distance and duration by rider type ------------------------
 
 # Define custom labels for the facets
-custom_labels <- c(avg_ride_duration = "Average Duration (minutes)",
-                   avg_ride_distance = "Average Distance (meters)")
+custom_labels <- c(
+  avg_ride_duration = "Average Duration (minutes)",
+  avg_ride_distance = "Average Distance (meters)"
+)
 
 p <- rider_stats %>%
   pivot_longer(
@@ -285,7 +359,7 @@ p <- rider_stats %>%
       metric == "avg_ride_distance" ~ paste0(round(value, 0), " m")
     )
   ) %>%
-ggplot(aes(x = day_type, y = value, fill = rider_type)) +
+  ggplot(aes(x = day_type, y = value, fill = rider_type)) +
   geom_col(position = position_dodge(width = 0.8)) +
   facet_wrap(~metric, scales = "free_y", labeller = labeller(metric = custom_labels)) +
   geom_text(
