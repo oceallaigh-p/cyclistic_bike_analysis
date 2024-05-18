@@ -1,19 +1,23 @@
 ---
 title: "Cyclistic bike-share ridership analysis"
-subtitle: "Understanding rider usage patterns to optimize marketing strategies"
 author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-04-24"
-output: 
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '3'
   html_document:
     includes:
       in_header: "../resources/html/hero-image.html"
-    css: "../resources/css/style.css"
+    css: ../resources/css/style.css
     df_print: paged
     theme: sandstone
     highlight: tango
     toc: true
     toc_depth: 3
     toc_float: true
+subtitle: Understanding rider usage patterns to optimize marketing strategies
+always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
@@ -32,6 +36,7 @@ source(here("R", "02_inspect_data.R"))
 source(here("R", "03_transform_data.R"))
 source(here("R", "04_analyze_data.R"))
 source(here("R", "style_tables.R"))
+#source(here("R", "render_graphics.R"))
 ```
 
 
@@ -70,14 +75,22 @@ This research question encapsulates the core objective of the analysis, focusing
 
 For the comprehensive analysis of usage patterns between annual members and casual riders, the primary data source comprises the most recent twelve months of historical trip data from Cyclistic's bike-share program. This dataset is publicly accessible and consists of twelve individual files, each representing a month's worth of data, formatted in CSV. These files encapsulate extensive records of all bike trips taken during this period, capturing a variety of attributes related to each trip. The data has been made available under the terms specified in the provided [license](https://divvybikes.com/data-license-agreement) and can be downloaded [here](https://divvy-tripdata.s3.amazonaws.com/index.html).
 
+```{r raw_data_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("resources", "images", "raw_data.png"))
+```
+
+```{r raw_data_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("resources", "images", "raw_data.png"))
+```
+
 ```{r raw_data, warning=FALSE, message=FALSE, echo=FALSE}
-# Load the raw dataset image and float it to the center
-htmltools::img(
-  src = here("resources", "images", "raw_data.png"),
-  align = "center",
-  alt = "Cyclistic dataset: 04/2023 - 03/2024",
-  style = "width: 60%"
-)
+# # Load the raw dataset image and float it to the center
+# htmltools::img(
+#   src = here("resources", "images", "raw_data.png"),
+#   align = "center",
+#   alt = "Cyclistic dataset: 04/2023 - 03/2024",
+#   style = "width: 60%"
+# )
 ```
 
 ### Data description  
@@ -154,8 +167,21 @@ The data inspection process serves as a preliminary check to ensure the quality 
 
 To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the `glimpse()` function from the `dplyr` package, which provides a compact display of the types of each column along with a quick view of the first few entries in each:     
 
+```{r structure_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("resources", "images", "glimpse_raw.png"))
+```
+
+```{r structure_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("resources", "images", "glimpse_raw.png"))
+```
+
+
 ```{r structure_of_data, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("resources", "images", "glimpse_raw.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("resources", "images", "glimpse_raw.png"))
+# } else {
+#   knitr::include_graphics(here::here("resources", "images", "glimpse_raw.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 #### Check duplicate observations    
@@ -215,7 +241,7 @@ These findings indicate significant missing data in station identifiers and geol
 
 Analyzing the consistency and accuracy of categorical variables is essential for ensuring data integrity. In this analysis, the `dplyr` package was employed to count and evaluate the distinct categories present in the `rideable_type` and `member_casual` variables.
 
-##### Rideable_type variable     
+##### `Rideable_type` variable     
 
 The `rideable_type` variable categorizes the types of bikes used in the trips. While only `classic_bike` and `electric_bike` were expected based on company records, an additional category, `docked bike`, was identified, which was not anticipated:
 
@@ -325,7 +351,7 @@ Standardizing variable names enhances clarity and coherence within the dataset, 
 
 To enhance the dataset with additional information that could provide deeper insights into riding patterns, several new variables were created. Each variable is derived from existing data but is designed to facilitate more specific analyses:
 
-```{r additional_var_table, warning=FALSE, message=FALSE, echo=FALSE, results='asis'}
+```{r additional_var_table, warning=FALSE, message=FALSE, echo=FALSE}
 additional_variables <- tribble(
   ~Variable, ~Description,
   "`ride_duration`", "Represents the duration of the ride in minutes. This is calculated from the difference between the start and end timestamps, providing a quantitative measure of ride length.",
@@ -337,7 +363,7 @@ additional_variables <- tribble(
   "`ride_distance`", "Measures the straight-line distance of the ride, calculated using the Haversine formula to determine the 'as the crow flies' distance between the start and end coordinates. This provides an estimate of the spatial extent of each ride."
 )
 
-# Display only the variables with missing data
+# Display the additional variables table
 additional_variables %>%
   kable(
     caption = "Additional variables",
@@ -373,7 +399,7 @@ data_processed <- data_processed %>%
   )
 ```
 
-These transformations enhance the dataset and prepare it for in-depth exploratory analyses, ensuring that the data is well-suited for comprehensive and advanced analytical tasks.
+These transformations enhance the dataset and prepares it for in-depth exploratory analyses, ensuring that the data is well-suited for comprehensive and advanced analytical tasks.
 
 #### Remove outliers      
 
@@ -447,8 +473,20 @@ The data analysis phase was designed to uncover actionable insights on how Cycli
 
 To get a general understanding of the patterns of Cyclistic's bike-share users, we first examined the proportion of rides for both annual members and casual riders. 
 
+```{r ridership_pie_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("output", "plots", "ridership_ridertype_pie.png"))
+```
+
+```{r ridership_pie_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("output", "plots", "ridership_ridertype_pie.png"))
+```
+
 ```{r ridership_pie, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "ridership_ridertype_pie.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("output", "plots", "ridership_ridertype_pie.png"))
+# } else {
+#   knitr::include_graphics(here::here("output", "plots", "ridership_ridertype_pie.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 The pie chart illustrates that annual members accounted for the majority of rides, representing 66% of the total rides, while casual riders made up the remaining 34%. This distribution highlights the significant dominance of annual members in utilizing the bike-share system, but does not provide insights into how these riders differ in their usage patterns.
@@ -457,9 +495,20 @@ The pie chart illustrates that annual members accounted for the majority of ride
 
 To assess the patterns of usage across different months and distinguish between Cyclistic's annual members and casual riders, we analyzed the monthly ridership data. This analysis was visualized to highlight the proportion of rides per month for each rider type, focusing on seasonal trends and their implications.
 
+```{r monthly_ridership_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("output", "plots", "monthly_ridership.png"))
+```
+
+```{r monthly_ridership_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("output", "plots", "monthly_ridership.png"))
+```
 
 ```{r monthly_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "monthly_ridership.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("output", "plots", "monthly_ridership.png"))
+# } else {
+#   knitr::include_graphics(here::here("output", "plots", "monthly_ridership.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 The bar plot shows that from April 2023 to March 2024, members consistently outnumber casual riders, though the proportions vary by month. Throughout most of the warmer months, from April to October, there is a significant presence of casual riders (visualized in purple), suggesting a higher activity level or preference for the bike-share system among this group during favorable weather conditions. Casual riders often accounted for 32% to 40% of the total rides during these months.
@@ -488,8 +537,20 @@ tribble(
 With these calculations, we identified that the mode for Cyclistic members is Thursday, and for casual riders, it is Saturday. This information guided us to visualize and compare the average daily ridership for members and casual riders throughout the week.     
 
 
+```{r daily_ridership_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("output", "plots", "daily_ridership.png"))
+```
+
+```{r daily_ridership_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("output", "plots", "daily_ridership.png"))
+```
+
 ```{r daily_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "daily_ridership.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("output", "plots", "daily_ridership.png"))
+# } else {
+#   knitr::include_graphics(here::here("output", "plots", "daily_ridership.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 Comparative Analysis:
@@ -517,8 +578,20 @@ Weekday Reliability: Given the stable weekday demand from members, focusing on r
 
 To analyze hourly usage patterns of Cyclistic's bike-share system, we created heatmaps for weekdays and weekends. These heatmaps help visualize the intensity of ridership across different hours of the day, using a color scheme that ranges from dark purple (fewer rides) to bright teal (more rides), facilitating an intuitive understanding of rider activity levels.     
 
+```{r hourly_ridership_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("output", "plots", "hourly_ridership_heatmap.png"))
+```
+
+```{r hourly_ridership_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("output", "plots", "hourly_ridership_heatmap.png"))
+```
+
 ```{r hourly_ridership_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "hourly_ridership_heatmap.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("output", "plots", "hourly_ridership_heatmap.png"))
+# } else {
+#   knitr::include_graphics(here::here("output", "plots", "hourly_ridership_heatmap.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 Weekday Ridership Patterns (Top Heatmap):
@@ -544,8 +617,20 @@ This heatmap analysis provides critical insights into the hourly dynamics of bik
 
 We next wanted to examine how ride distances and durations vary between Cyclistic's casual and member riders. By comparing the average ride distances and durations for each rider type, we aimed to uncover insights into the typical ride lengths and durations preferred by casual and member riders.     
 
+```{r distance_duration_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("output", "plots", "mean_distance_duration.png"))
+```
+
+```{r distance_duration_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("output", "plots", "mean_distance_duration.png"))
+```
+
 ```{r distance_duration_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "mean_distance_duration.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("output", "plots", "mean_distance_duration.png"))
+# } else {
+#   knitr::include_graphics(here::here("output", "plots", "mean_distance_duration.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 
@@ -582,8 +667,20 @@ Understanding these patterns could also help with resource allocation. For insta
 
 We examined the preferences for bike types among Cyclistic's casual and member riders to better understand how different types of bikes are used across these rider segments.     
 
+```{r bike_preference_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
+knitr::include_graphics(here::here("output", "plots", "bike_preference.png"))
+```
+
+```{r bike_preference_pdf, warning=FALSE, message=FALSE, echo=FALSE, eval=!knitr::is_html_output(), out.width="0.8\\textwidth"}
+knitr::include_graphics(here::here("output", "plots", "bike_preference.png"))
+```
+
 ```{r bike_type_preferences_plot, warning=FALSE, message=FALSE, echo=FALSE}
-knitr::include_graphics(here("output", "plots", "bike_preference.png"))
+# if (knitr::is_html_output()) {
+#   knitr::include_graphics(here::here("output", "plots", "bike_preference.png"))
+# } else {
+#   knitr::include_graphics(here::here("output", "plots", "bike_preference.png"), out.width='0.8\\textwidth')
+# }
 ```
 
 
@@ -618,5 +715,6 @@ Implications for Service and Marketing:
 ### Recommendations
 
 Based on the findings from the data analysis, the following recommendations are proposed to optimize Cyclistic's bike-share system and enhance the user experience for both annual members and casual riders: 
+1. Increase maximum ride duration limit for members: Given that casual riders tend to take longer rides than members, increasing the maximum ride duration limit for members could provide more flexibility and accommodate longer trips, especially on weekends when ridership is higher. This adjustment could enhance the user experience for members and encourage casual riders to consider becoming annual members.
 
-
+2. Increase the number of electric bikes: Casual riders have shown a strong preference for electric bikes, indicating a preference for convenience and ease of use. To cater to this demand, Cyclistic should consider expanding its fleet of electric bikes to ensure availability and meet the needs of casual riders. This strategic investment could cause more casual riders to convert to annual memberships and increase overall ridership.
