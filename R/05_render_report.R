@@ -1,17 +1,43 @@
 # Required libraries
 library(here)
+library(pagedown)
 
 # ==============================================================================
 # Render the Rmd file to the specified directory
 # ==============================================================================
 
-# Path variables for knitted html
+# Path variables for knitted html and pdf
 input_file <- here("Rmd", "cyclistic_bikeshare_report.Rmd")
-output_dir <- here("output", "html")
-output_file <- "cyclistic_bikeshare_report.html"
+output_file_html <- here("output", "html", "cyclistic_bikeshare_report.html")
+output_file_pdf <- here("reports", "cyclistic_bikeshare_report.pdf")
 
-# Render the Rmd file to the specified directory
-rmarkdown::render(input_file,
-  output_dir = output_dir,
-  output_file = output_file
+render_reports_both <- function(input_rmd, output_html, output_pdf) {
+  # Render HTML report
+  rmarkdown::render(
+    input = input_rmd,
+    output_format = "html_document",
+    output_file = output_html
+  )
+  
+  # Render PDF report
+  rmarkdown::render(
+    input = input_rmd,
+    output_format = "pdf_document",
+    output_file = output_pdf
+  )
+
+  # Convert HTML to PDF
+  # pagedown::chrome_print(
+  #   input = output_html,
+  #   output = output_pdf,
+  #   wait = 5
+  # )
+  
+}
+
+# Render the report
+render_reports_both(
+  input_rmd = input_file,
+  output_html = output_file_html,
+  output_pdf = output_file_pdf
 )
