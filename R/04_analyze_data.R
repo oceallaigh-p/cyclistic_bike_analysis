@@ -362,9 +362,17 @@ p <- rider_stats %>%
       metric == "avg_ride_distance" ~ paste0(round(value, 0), " m")
     )
   ) %>%
-  ggplot(aes(x = day_type, y = value, fill = rider_type)) +
+  ggplot(aes(
+    x = day_type,
+    y = value,
+    fill = rider_type
+  )) +
   geom_col(position = position_dodge(width = 0.8)) +
-  facet_wrap(~metric, scales = "free_y", labeller = labeller(metric = custom_labels)) +
+  facet_wrap(
+    ~metric,
+    scales = "free_y",
+    labeller = labeller(metric = custom_labels)
+  ) +
   geom_text(
     aes(label = label),
     color = "white",
@@ -379,7 +387,7 @@ p <- rider_stats %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider Type",
-    labels = str_to_sentence(unique(data_processed$rider_type)),
+    labels = str_to_sentence(unique(rider_stats$rider_type)),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -406,7 +414,11 @@ save_plots(filename = file_name, plot = p)
 custom_breaks <- c(seq(0, 20, by = 2), seq(20, 60, by = 5))
 
 p <- data_processed %>%
-  ggplot(aes(x = ride_duration, y = after_stat(scaled), fill = rider_type)) +
+  ggplot(aes(
+    x = ride_duration,
+    y = after_stat(scaled),
+    fill = rider_type
+  )) +
   geom_density(alpha = 0.95, position = "stack") +
   coord_cartesian(xlim = c(0, 60)) +
   scale_x_continuous(
