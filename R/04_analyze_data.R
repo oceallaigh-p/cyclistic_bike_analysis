@@ -38,13 +38,13 @@ pie_data <- rides_ridertype %>%
   )
 
 p <- pie_data %>%
-  ggplot() + 
+  ggplot() +
   aes(
-  x0 = 0, y0 = 0,
-  r0 = 0, r = 1,
-  start = start_angle, end = end_angle,
-  fill = rider_type
-) +
+    x0 = 0, y0 = 0,
+    r0 = 0, r = 1,
+    start = start_angle, end = end_angle,
+    fill = rider_type
+  ) +
   geom_arc_bar() +
   geom_text( # place number of rides inside pie slices
     aes(
@@ -75,7 +75,7 @@ p <- pie_data %>%
     option = "mako",
     labels = (pie_data$n / sum(pie_data$n)) %>% scales::percent(accuracy = 0.1),
     guide = guide_legend(reverse = TRUE)
-  ) + 
+  ) +
   labs(
     title = "Total rides by rider type",
     subtitle = "April 2023 - March 2024"
@@ -122,6 +122,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
+    label = str_to_sentence(unique(data_processed$rider_type)),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -181,7 +182,7 @@ p <- data_processed %>%
   ggplot(aes(x = ride_day_of_week, y = mean_rides, fill = rider_type)) +
   geom_col(position = "dodge") +
   geom_text(
-    aes(label = round(mean_rides, 0)),
+    aes(label = comma(round(mean_rides, 0))),
     color = "white",
     vjust = 1.6,
     position = position_dodge(0.9),
@@ -197,7 +198,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
-    labels = c("Casual", "Member"),
+    labels = str_to_sentence(unique(data_processed$rider_type)),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -294,7 +295,9 @@ p <- data_processed %>%
   ) +
   scale_x_discrete(
     name = "Bicycle type",
-    labels = c("Classic", "Electric")
+    labels = str_to_sentence(
+      str_replace_all(unique(data_processed$bike_type), "_", " ")
+    )
   ) +
   scale_y_continuous(
     name = "Percentage of riders",
@@ -303,7 +306,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
-    labels = c("Casual", "Member"),
+    labels = str_to_sentence(unique(data_processed$rider_type)),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -372,10 +375,11 @@ p <- rider_stats %>%
   scale_x_discrete(name = "") +
   scale_y_continuous(
     name = "Value",
-    labels = scales::comma
+    labels = comma
   ) +
   scale_fill_viridis_d(
     name = "Rider Type",
+    labels = str_to_sentence(unique(data_processed$rider_type)),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -412,7 +416,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
-    labels = c("Casual", "Member"),
+    labels = str_to_sentence(unique(data_processed$rider_type)),
     begin = 0.2,
     end = 0.8,
     option = "mako"
