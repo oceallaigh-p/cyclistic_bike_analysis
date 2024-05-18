@@ -30,9 +30,9 @@ rides_ridertype <- data_processed %>%
 pie_data <- rides_ridertype %>%
   arrange(n) %>% # arrange so pie slices end up sorted
   mutate(
-    end_angle = 2 * pi * cumsum(n) / sum(n), # ending angle for each pie slice
-    start_angle = lag(end_angle, default = 0), # starting angle for each pie slice
-    mid_angle = 0.5 * (start_angle + end_angle), # middle of each pie slice, for text labels
+    end_angle = 2 * pi * cumsum(n) / sum(n), # end angle for each pie slice
+    start_angle = lag(end_angle, default = 0), # start angle for each pie slice
+    mid_angle = 0.5 * (start_angle + end_angle), # middle of each pie slice
     hjust = ifelse(mid_angle > pi, 1, 0),
     vjust = ifelse(mid_angle < pi / 2 | mid_angle > 3 * pi / 2, 0, 1)
   )
@@ -73,7 +73,8 @@ p <- pie_data %>%
     begin = 0.2,
     end = 0.8,
     option = "mako",
-    labels = (pie_data$n / sum(pie_data$n)) %>% scales::percent(accuracy = 0.1),
+    labels = (pie_data$n / sum(pie_data$n)) %>%
+      scales::percent(accuracy = 0.1),
     guide = guide_legend(reverse = TRUE)
   ) +
   labs(
@@ -101,7 +102,11 @@ p <- data_processed %>%
   group_by(ride_month) %>%
   mutate(proportion = n / sum(n)) %>%
   ungroup() %>%
-  ggplot(aes(x = ride_month, y = proportion, fill = rider_type)) +
+  ggplot(aes(
+    x = ride_month,
+    y = proportion,
+    fill = rider_type
+  )) +
   geom_col() +
   geom_text(
     aes(label = percent(proportion, accuracy = 1)),
@@ -175,11 +180,22 @@ day_mode_casual <- data_processed %>%
 #       ensuring that partial weeks do not skew the overall average.
 
 p <- data_processed %>%
-  group_by(ride_week, ride_day_of_week, rider_type) %>%
+  group_by(
+    ride_week,
+    ride_day_of_week,
+    rider_type
+  ) %>%
   summarise(total_rides = n(), .groups = "drop") %>%
-  group_by(ride_day_of_week, rider_type) %>%
+  group_by(
+    ride_day_of_week,
+    rider_type
+  ) %>%
   summarise(mean_rides = mean(total_rides), .groups = "drop") %>%
-  ggplot(aes(x = ride_day_of_week, y = mean_rides, fill = rider_type)) +
+  ggplot(aes(
+    x = ride_day_of_week,
+    y = mean_rides,
+    fill = rider_type
+  )) +
   geom_col(position = "dodge") +
   geom_text(
     aes(label = comma(round(mean_rides, 0))),
@@ -227,7 +243,7 @@ save_plots(filename = file_name, plot = p)
 # Examine hourly ridership data
 # ==============================================================================
 
-# Create a heatmap of average hourly ridership by rider type and weekday vs weekend
+# Create a heatmap of average hourly ridership by rider type and day type
 
 p <- data_processed %>%
   group_by(
@@ -238,16 +254,25 @@ p <- data_processed %>%
     day_type
   ) %>%
   summarise(total_rides = n(), .groups = "drop") %>%
-  group_by(ride_start_hour, rider_type, day_type) %>%
+  group_by(
+    ride_start_hour,
+    rider_type,
+    day_type
+  ) %>%
   summarise(mean_per_hour = mean(total_rides), .groups = "drop") %>%
-  ggplot(aes(x = ride_start_hour, y = rider_type, fill = mean_per_hour)) +
+  ggplot(aes(
+    x = ride_start_hour,
+    y = rider_type,
+    fill = mean_per_hour
+  )) +
   geom_tile(color = "white") +
   scale_x_discrete(
     name = "Hour",
     expand = expansion(mult = c(0.01, 0.04))
   ) +
   scale_y_discrete(
-    name = "Rider type"
+    name = "Rider type",
+    labels = str_to_sentence(unique(data_processed$rider_type))
   ) +
   scale_fill_viridis_c(
     name = "Average hourly rides",
@@ -279,12 +304,19 @@ save_plots(filename = file_name, plot = p)
 # ==============================================================================
 # Plot bike preferences by rider type ------------------------------------------
 p <- data_processed %>%
-  group_by(bike_type, rider_type) %>%
+  group_by(
+    bike_type,
+    rider_type
+  ) %>%
   summarise(count = n(), .groups = "drop") %>%
   group_by(rider_type) %>%
   mutate(proportion = count / sum(count)) %>%
   ungroup() %>%
-  ggplot(aes(x = bike_type, y = proportion, fill = rider_type)) +
+  ggplot(aes(
+    x = bike_type,
+    y = proportion,
+    fill = rider_type
+  )) +
   geom_col(position = "dodge") +
   geom_text(
     aes(label = percent(proportion, accuracy = 1)),
@@ -335,7 +367,10 @@ save_plots(filename = file_name, plot = p)
 # ==============================================================================
 # Calculate average ride duration and distance by rider type -------------------
 rider_stats <- data_processed %>%
-  group_by(day_type, rider_type) %>%
+  group_by(
+    day_type,
+    rider_type
+  ) %>%
   summarise(
     avg_ride_duration = mean(ride_duration),
     avg_ride_distance = mean(ride_distance),
