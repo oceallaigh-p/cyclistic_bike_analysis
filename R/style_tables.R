@@ -34,9 +34,9 @@ library(kableExtra)
 
 custom_table_theme <- function(kable_input) {
   kable_input %>%
-  kable_styling(
-    bootstrap_options = c("hover", "condensed", "responsive"),
-    full_width = FALSE,
-    position = "center"
-  )
+    kable_styling(
+      bootstrap_options = c("hover", "condensed", "responsive"),
+      full_width = FALSE,
+      position = "center"
+    )
 }
