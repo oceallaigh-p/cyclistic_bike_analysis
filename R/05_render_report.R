@@ -25,14 +25,6 @@ render_reports_both <- function(input_rmd, output_html, output_pdf) {
     output_format = "pdf_document",
     output_file = output_pdf
   )
-
-  # Convert HTML to PDF
-  # pagedown::chrome_print(
-  #   input = output_html,
-  #   output = output_pdf,
-  #   wait = 5
-  # )
-  
 }
 
 # Render the report
