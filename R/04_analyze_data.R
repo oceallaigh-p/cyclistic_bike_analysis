@@ -127,7 +127,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
-    label = str_to_sentence(unique(data_processed$rider_type)),
+    labels = c("Casual", "Member"),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -196,7 +196,7 @@ p <- data_processed %>%
     y = mean_rides,
     fill = rider_type
   )) +
-  geom_col(position = "dodge") +
+  geom_col(position = position_dodge(width = 0.8)) +
   geom_text(
     aes(label = comma(round(mean_rides, 0))),
     color = "white",
@@ -214,7 +214,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
-    labels = str_to_sentence(unique(data_processed$rider_type)),
+    labels = c("Casual", "Member"),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -272,7 +272,7 @@ p <- data_processed %>%
   ) +
   scale_y_discrete(
     name = "Rider type",
-    labels = str_to_sentence(unique(data_processed$rider_type))
+    labels = c("Casual", "Member"),
   ) +
   scale_fill_viridis_c(
     name = "Average hourly rides",
@@ -327,9 +327,7 @@ p <- data_processed %>%
   ) +
   scale_x_discrete(
     name = "Bicycle type",
-    labels = str_to_sentence(
-      str_replace_all(unique(data_processed$bike_type), "_", " ")
-    )
+    labels = c("Classic bike", "Electric bike")
   ) +
   scale_y_continuous(
     name = "Percentage of riders",
@@ -338,7 +336,7 @@ p <- data_processed %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider type",
-    labels = str_to_sentence(unique(data_processed$rider_type)),
+    labels = c("Casual", "Member"),
     begin = 0.2,
     end = 0.8,
     option = "mako"
@@ -422,7 +420,7 @@ p <- rider_stats %>%
   ) +
   scale_fill_viridis_d(
     name = "Rider Type",
-    labels = str_to_sentence(unique(rider_stats$rider_type)),
+    labels = c("Casual", "Member"),
     begin = 0.2,
     end = 0.8,
     option = "mako"
