@@ -1,5 +1,4 @@
 # Required libraries
-library(tidyverse)
 library(here)
 
 # Required scripts
