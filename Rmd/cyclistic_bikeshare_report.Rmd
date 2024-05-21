@@ -197,7 +197,7 @@ After this thorough check, no duplicate records were found in the dataset, confi
 
 #### Check missing values    
 
-Handling missing data is crucial as it can significantly impact the analysis. To assess and quantify missing values within the dataset, we utilized the `dply`r and `tidyr` packages from the tidyverse collection, which are robust tools for data manipulation in R. The procedure involved summarizing the missing values across all columns and transforming the results for a clearer presentation.     
+Handling missing data is crucial as it can significantly impact the analysis. To assess and quantify missing values within the dataset, we utilized the `dplyr` and `tidyr` packages from the tidyverse collection, which are robust tools for data manipulation in R. The procedure involved summarizing the missing values across all columns and transforming the results for a clearer presentation.     
 
 ```{r missing_values, echo=TRUE, eval=FALSE}
 missing_obs <- data_raw %>%
