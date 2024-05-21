@@ -1,6 +1,5 @@
 # Required libraries
 library(here)
-library(pagedown)
 
 # ==============================================================================
 # Render the Rmd file to the specified directory
