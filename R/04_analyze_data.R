@@ -1,5 +1,7 @@
 # Required libraries
-library(tidyverse)
+library(dplyr)
+library(readr)
+library(stringr)
 library(ggridges)
 library(here)
 library(scales)
