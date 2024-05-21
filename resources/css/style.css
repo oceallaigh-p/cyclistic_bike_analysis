@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------- */
-/*                   Change Link color to match logo                          */
+/* Change Link color to match logo                                            */
 /* -------------------------------------------------------------------------- */
 
 a {
@@ -12,7 +12,7 @@ a:hover {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                            White space                                     */
+/* White space                                                                */
 /* -------------------------------------------------------------------------- */
 
 .title {
@@ -37,7 +37,7 @@ a:hover {
 }
 
 /*----------------------------------------------------------------------------*/
-/*                                TOC                                         */
+/* TOC                                                                        */
 /*----------------------------------------------------------------------------*/
 
 /* Logo above TOC */
@@ -61,14 +61,14 @@ a:hover {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                            Hero image                                      */
+/* Hero image                                                                 */
 /* -------------------------------------------------------------------------- */
 
 .hero-image {
     position: relative;
     margin-bottom: 2em;
     /* liner gradient tints the image darker for readability*/
-    background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ), url(../images/chicago_bikeshare.png); 
+    background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ), url(../images/chicago_bikeshare_2.png); 
     height: 100vh;
     background-size: cover;
     background-color: #5793A3;
