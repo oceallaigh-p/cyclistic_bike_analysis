@@ -17,7 +17,7 @@ render_reports_both <- function(input_rmd, output_html, output_pdf) {
     output_format = "html_document",
     output_file = output_html
   )
-  
+
   # Render PDF report
   rmarkdown::render(
     input = input_rmd,
