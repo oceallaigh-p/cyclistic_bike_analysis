@@ -8,9 +8,9 @@ The following is a case study of the fictional Cyclistic bike-share company. It 
 
 The case study is based on a real-world scenario and the data provided is a subset of the actual data collected by Cyclistic. The dataset is provided by Motivate International Inc. and is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).    
 
-The analysis is done using R. The RMarkdown file for the report is available in the GitHub repository at [`Rmd/cyclistic_bikeshare_report.Rmd'](https://github.com/oceallaigh-p/cyclistic_bike_analysis/blob/main/Rmd/cyclistic_bikeshare_report.Rmd) and the R code is available in the [R](https://github.com/oceallaigh-p/cyclistic_bike_analysis/tree/main/R) folder. 
+The analysis is done using R. The RMarkdown file for the report is available in the GitHub repository at [Rmd/cyclistic_bikeshare_report.Rmd](https://github.com/oceallaigh-p/cyclistic_bike_analysis/blob/main/Rmd/cyclistic_bikeshare_report.Rmd) and the R code is available in the [R](https://github.com/oceallaigh-p/cyclistic_bike_analysis/tree/main/R) folder. 
 
-The final report for the analysis is available at [Cyclistic bike-share report](https://oceallaigh-p.github.io/cyclistic_bike_analysis/output/html/cyclistic_bikeshare_report.html), and a pdf version is available for download at [Cyclistic bike-share report pdf](https://github.com/oceallaigh-p/cyclistic_bike_analysis/blob/main/reports/cyclistic_bikeshare_report.pdf).
+The final report for the analysis is available at [Cyclistic bike-share report](https://oceallaigh-p.github.io/cyclistic_bike_analysis/output/html/cyclistic_bikeshare_report.html), and a pdf version is available at [Cyclistic bike-share report pdf](https://github.com/oceallaigh-p/cyclistic_bike_analysis/blob/main/reports/cyclistic_bikeshare_report.pdf).
 
 ### Case study: How does a bike-share navigate speedy success?    
 
