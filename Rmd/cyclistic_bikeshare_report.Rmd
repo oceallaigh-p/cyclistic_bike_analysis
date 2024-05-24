@@ -58,12 +58,13 @@ Recommendations:
 
 2. Increase the number of electric bikes: To meet the demand of casual riders who prefer electric bikes, expanding the fleet could encourage more casual riders to convert to annual memberships.     
 
-3. Implement a loyalty program: A point-based system rewarding casual riders for frequent use and offering incentives to become members could make the transition more appealing to casual riders. Exclusive perks for members could further demonstrate the added value and benefits of membership.
+3. Implement a loyalty program: A point-based system rewarding casual riders for frequent use and offering incentives to become members could make the transition more appealing to casual riders. Exclusive perks for members could further demonstrate the added value and benefits of membership.    
+
 These recommendations aim to optimize Cyclistic’s bike-share system and encourage casual riders to convert to annual memberships. By catering to the diverse needs and preferences of both rider types, Cyclistic can increase ridership and revenue.     
 
 ## Introduction    
 
-In the evolving landscape of urban mobility, bike-share programs have become a cornerstone for convenient and sustainable transportation. Cyclistic, a prominent bike-share company based in Chicago, has carved out a niche in this dynamic market since its inception in 2016. With a diverse fleet of over 5,800 bicycles, including specialized models like reclining bikes and hand tricycles, Cyclistic ensures inclusivity and accessibility for a broad user base. The program's infrastructure is robust, with 692 docking stations across Chicago that support geotracking and seamless bike exchanges. While the company's diverse fleet and flexible pricing plans have been instrumental in attracting a wide range of users, the majority of rides are for leisure, with approximately 30% serving commuters.     
+In the evolving landscape of urban mobility, bike-share programs have become a cornerstone for convenient and sustainable transportation. Cyclistic, a bike-share company based in Chicago, has carved out a niche in this dynamic market since its inception in 2016. With a diverse fleet of over 5,800 bicycles, including specialized models like reclining bikes and hand tricycles, Cyclistic ensures inclusivity and accessibility for a broad user base. The program's infrastructure is robust, with 692 docking stations across Chicago that support geotracking and seamless bike exchanges. While the company's diverse fleet and flexible pricing plans have been instrumental in attracting a wide range of users, the majority of rides are for leisure, with approximately 30% serving commuters.     
 
 ### Background    
 
@@ -71,7 +72,7 @@ Under the guidance of Lily Moreno, the Director of Marketing, Cyclistic has achi
 
 ### Objectives    
 
-The primary objective of this analysis is to delineate the usage patterns of annual members versus casual riders. By understanding these differences, the team aims to uncover the underlying factors that influence a rider's decision to opt for casual passes or commit to an annual membership. This investigation will focus on various aspects such as duration of rides, preferred bike types, peak usage times, and the purposes of trips (leisure versus commuting).
+The primary objective of this analysis is to delineate the usage patterns of annual members versus casual riders. By understanding these differences, the team aims to uncover the underlying factors that influence a rider's decision to opt for casual passes or commit to an annual membership. This investigation will focus on various aspects such as distance and duration of rides, preferred bike types, peak usage times, and the purposes of trips (leisure versus commuting).
 
 The insights derived from this analysis will serve as the foundation for developing targeted marketing strategies aimed at converting casual riders into annual members. This strategic shift is not only expected to enhance customer retention but also to maximize profitability. 
 
@@ -144,7 +145,7 @@ variable_info %>%
   custom_table_theme()
 ```
 
-This detailed and structured dataset provides a solid foundation for analyzing and comparing the different usage patterns of Cyclistic's bike-share system by annual members and casual riders. Through this analysis, the marketing analytics team aims to derive insights that can influence strategic marketing decisions, ultimately converting more casual riders into annual members.     
+This detailed and structured dataset provides a solid foundation for analyzing and comparing the different usage patterns of Cyclistic's bike-share system by annual members and casual riders.    
 
 ### Challenges and limitations    
 
@@ -169,7 +170,7 @@ The data inspection process serves as a preliminary check to ensure the quality 
 
 #### Examine structure of data     
 
-To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the glimpse() function from the dplyr package, which provides a compact display of the types of each column along with a quick view of the first few entries in each.     
+To begin, we examined the overall structure and type of the data contained within the dataset. This was accomplished using the `glimpse()` function from the `dplyr` package, which provides a compact display of the types of each column along with a quick view of the first few entries in each.     
 
 ```{r structure_html, warning=FALSE, message=FALSE, echo=FALSE, eval=knitr::is_html_output()}
 knitr::include_graphics(here::here("resources", "images", "glimpse_raw.png"))
@@ -181,9 +182,7 @@ knitr::include_graphics(here::here("resources", "images", "glimpse_raw.png"))
 
 #### Check duplicate observations    
 
-Identifying and eliminating duplicate records is essential to ensure the integrity of the analysis. Given that each record in the dataset contains a unique identifier called `ride_id`, we anticipated minimal duplication. To verify this, the dataset was processed using the `dplyr` package, which is part of the comprehensive tidyverse suite of tools for data manipulation in R. We grouped the data by all columns to account for complete record duplication, filtered out any duplicates, and counted the remaining rows.
-
-Identifying and eliminating duplicate records is essential to ensure the integrity of the analysis. Given that each record in the dataset contains a unique identifier called `ride_id`, we anticipated minimal duplication. To verify this, the dataset was processed using the `dplyr` package, which is part of the comprehensive tidyverse suite of tools for data manipulation in R. We grouped the data by all columns to account for complete record duplication, filtered out any duplicates, and counted the remaining rows:
+Identifying and eliminating duplicate records is essential to ensure the integrity of the analysis. Given that each record in the dataset contains a unique identifier called `ride_id`, we anticipated minimal duplication. To verify this, the dataset was processed using the `dplyr` package, which is part of the comprehensive tidyverse suite of tools for data manipulation in R. We grouped the data by all columns to account for complete record duplication, filtered out any duplicates, and counted the remaining rows.     
 
 ```{r duplicate_obs, echo=TRUE, eval=FALSE}
 duplicate_obs <- data_raw %>%
@@ -245,7 +244,7 @@ count_rideable_type <- data_raw %>%
   count_categorical(rideable_type)
 ```
 
-The presence of `docked bike` raises questions about its meaning, as it could potentially refer to bikes that are either not clearly classified between the two expected types or perhaps represent bikes that have been temporarily removed from active service for maintenance. This ambiguity requires further investigation to accurately interpret the data involving this category.
+The presence of `docked_bike` raises questions about its meaning, as it could potentially refer to bikes that are either not clearly classified between the two expected types or perhaps represent bikes that have been temporarily removed from active service for maintenance. This ambiguity requires further investigation to accurately interpret the data involving this category.
 
 ##### Member_casual variable     
 
@@ -298,14 +297,14 @@ During the initial data inspection phase, it was noted that all categorical vari
 
 Given the uncertainty surrounding the "docked bike" category and its deviation from the expected "classic bike" and "electric bike" dichotomy, a decision was made to exclude this category from the current analysis. This approach ensures that the analysis remains focused on well-defined and understood categories, thus maintaining the integrity of the analytical outcomes.     
 
-The exclusion of the docked_bike category was implemented using the `filter()` function from the `dplyr` package.     
+The exclusion of the `docked_bike` category was implemented using the `filter()` function from the `dplyr` package.     
 
 ```{r remove_invalid_categories, echo=TRUE, eval=FALSE}
 data_processed <- data_processed %>%
   filter(!rideable_type %in% "docked_bike")
 ```
 
-Removing the `docked_bike` category ensures that the dataset is consistent with the expected bike types and that the subsequent analyses are based on accurate and reliable data. This step is essential for maintaining the quality and validity of the analysis results. For future analyses, further clarification on the definition and implications of the docked_bike category may be necessary to incorporate this data effectively.     
+Removing the `docked_bike` category ensures that the dataset is consistent with the expected bike types and that the subsequent analyses are based on accurate and reliable data. This step is essential for maintaining the quality and validity of the analysis results. For future analyses, further clarification on the definition and implications of the `docked_bike` category may be necessary to incorporate this data effectively.     
 
 #### Convert data types     
 
@@ -546,7 +545,9 @@ knitr::include_graphics(here::here("output", "plots", "hourly_ridership_heatmap.
 
 The heatmaps reveal distinct hourly ridership patterns between annual members and casual riders on weekdays and weekends. The top heatmap, representing weekday ridership, shows that annual members have consistent bike usage throughout the day, with two distinct peaks observed during typical commuting times in the morning (06:00 to 10:00) and evening (15:00 to 20:00). This pattern aligns with the expectation that annual members primarily use the bike-share system for commuting purposes, resulting in higher ridership during weekday mornings and evenings. In contrast, casual riders exhibit much less ride activity during weekday mornings and afternoons. While they do display some activity, their peak usage hours are concentrated in the late afternoon and early evening (16:00 to 19:00), and it is significantly lower than that of annual members. This pattern suggests that casual riders are more likely to use the bike-share system for leisure or recreational purposes during the late afternoon and early evening hours. Both rider groups show a decline in activity during late night and early morning hours, indicating minimal bike usage during these times.     
 
-The bottom heatmap, representing weekend ridership, displays a different usage pattern compared to weekdays. Annual members maintain consistent bike usage throughout the day on weekends, from 08:00 until 22:00, with the most rides occurring between 11:00 and 18:00. This pattern suggests that annual members engage in more leisurely rides on weekends, possibly for recreational purposes or errands. Casual riders also exhibit steady bike usage throughout the day on weekends, albeit with a slightly shorter active period from 09:00 to 21:00, with peak usage between 12:00 and 17:00. The heatmaps provide a detailed view of the hourly ridership patterns for annual members and casual riders, highlighting the temporal dynamics of bike-sharing activity and the distinct usage behaviors between the two rider types. Again, there was very little activity in the late night and early morning for both groups, but the period of lower activity was shorter on weekends (01:00 to 07:00) compared to weekdays (00:00 to 05:00).     
+The bottom heatmap, representing weekend ridership, displays a different usage pattern compared to weekdays. Annual members maintain consistent bike usage throughout the day on weekends, from 08:00 until 22:00, with the most rides occurring between 11:00 and 18:00. This pattern suggests that annual members engage in more leisurely rides on weekends, possibly for recreational purposes or errands. Casual riders also exhibit steady bike usage throughout the day on weekends, albeit with a slightly shorter active period from 09:00 to 21:00, with peak usage between 12:00 and 17:00. Again, there was very little activity in the late night and early morning for both groups, but the period of lower activity was shorter on weekends (01:00 to 07:00) compared to weekdays (00:00 to 05:00).
+
+The heatmaps provide a detailed view of the hourly ridership patterns for annual members and casual riders, highlighting the temporal dynamics of bike-sharing activity and the distinct usage behaviors between the two rider types.      
 
 ### Ride characteristics     
 
