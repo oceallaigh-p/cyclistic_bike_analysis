@@ -1,11 +1,11 @@
 ---
 title: "Cyclistic bike-share ridership analysis"
 author: "Paidraig 'Patrick' O'Ceallaigh"
-date: "2024-04-24"
+date: "2024-05-03"
 output:
   pdf_document:
     toc: true
-    toc_depth: '3'
+    toc_depth: 3
   html_document:
     includes:
       in_header: "../resources/html/hero-image.html"
@@ -565,7 +565,7 @@ knitr::include_graphics(here::here("output", "plots", "mean_distance_duration.pn
 
 ##### Ride distance     
 
-The ride distance plot illustrates that casual riders tend to travel longer distances than annual members, with an average ride distance of approximately 2,140 meters on weekdays and 2,290 meters on weekends. In contrast, annual members have slightly shorter average ride distances, with about 2,086 meters on weekdays and 2,182 meters on weekends. This pattern suggests that casual riders consistently travel longer distances than annual members, indicating a preference for more extended rides, which might reflect their more leisure-based use of the bike-share system and a possible preference for longer exploratory trips.     
+The ride distance plot illustrates that casual riders tend to travel longer distances than annual members, with an average ride distance of approximately `r comma(round(rider_stats$avg_ride_distance[1], 0))` meters (`r round(conv_unit(rider_stats$avg_ride_distance[1], "m", "mi"), 2)` miles) on weekdays and `r comma(round(rider_stats$avg_ride_distance[3], 0))` meters (`r round(conv_unit(rider_stats$avg_ride_distance[3], "m", "mi"), 2)` miles)  on weekends. In contrast, annual members have slightly shorter average ride distances, with about `r round(rider_stats$avg_ride_distance[2], 0)` meters (`r round(conv_unit(rider_stats$avg_ride_distance[2], "m", "mi"), 2)` miles) on weekdays and `r comma(round(rider_stats$avg_ride_distance[4], 0))` meters (`r round(conv_unit(rider_stats$avg_ride_distance[4], "m", "mi"), 2)` miles) on weekends. This pattern suggests that casual riders consistently travel longer distances than annual members, indicating a preference for more extended rides, which might reflect their more leisure-based use of the bike-share system and a possible preference for longer exploratory trips.     
 
 This analysis provides a nuanced view of how ride distances vary among different rider types and days, offering strategic insights that can help Cyclistic tailor its service offerings and marketing approaches to better cater to the distinct preferences of casual and member riders.     
 
