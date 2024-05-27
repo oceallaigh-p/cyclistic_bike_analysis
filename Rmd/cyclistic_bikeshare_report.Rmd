@@ -147,7 +147,7 @@ table_data <- variable_info %>%
   )
 
 table_format <- ifelse(knitr::is_html_output(), "html", "latex")
-custom_table_theme(table_data, table_format)
+style_tables(table_data, table_format)
 ```
 
 This detailed and structured dataset provides a solid foundation for analyzing and comparing the different usage patterns of Cyclistic's bike-share system by annual members and casual riders.    
@@ -234,7 +234,7 @@ table_data <- missing_info %>%
     booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
   )
 
-custom_table_theme(table_data, table_format)
+style_tables(table_data, table_format)
 ```
 
 These findings indicate significant missing data in station identifiers and geolocation details, which could affect spatial analysis and ride linkage accuracy. Such gaps will necessitate careful consideration in subsequent stages of data cleaning and analysis to ensure that conclusions drawn are based on comprehensive and accurate information.     
@@ -375,7 +375,7 @@ table_data <- additional_variables %>%
   ) %>%
   column_spec(2, width = "35em")
 
-custom_table_theme(table_data, table_format)
+style_tables(table_data, table_format)
 ```
 
 These new variables offer valuable insights into ride duration, temporal and spatial patterns, and day-of-week trends, providing a comprehensive view of rider behavior and bike usage patterns. It is expected that these variables will play a crucial role in the subsequent analyses, enabling a more detailed exploration of the differences between annual members and casual riders. This variable creation process was executed using the `mutate()` function from the `dplyr` package.     
@@ -436,7 +436,7 @@ For ride distance, outliers were addressed by setting statistical thresholds bas
 
 ```{r anomalous_distance, echo=TRUE, eval=FALSE}
 ride_distance_stats <- data_processed %>%
-  calculate_summary_stats(ride_distance)
+  calculate_sum_stats(ride_distance)
 
 # Calulate IQR
 iqr_distance <- ride_distance_stats$q75 - ride_distance_stats$q25
@@ -524,7 +524,7 @@ table_data <- tribble(
   )
 
 table_format <- ifelse(knitr::is_html_output(), "html", "latex")
-custom_table_theme(table_data, table_format)
+style_tables(table_data, table_format)
 ```
 
 Thursday was the day with the highest average number of rides for annual members, while Saturday was the peak day for casual riders. These findings indicate distinct usage patterns between the two rider types, with annual members showing a preference for weekday rides and casual riders favoring weekends for bike trips. To further visualize these daily ridership trends, we created a bar plot that illustrates the average daily rides for annual members and casual riders across each day of the week.     
