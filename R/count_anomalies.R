@@ -2,35 +2,37 @@
 library(dplyr)
 library(tibble)
 
-#' Count Anomalies in Ride Data
+#' Count Anomalies
 #'
-#' This function processes ride data to identify and count rides that are 
-#' anomalously short or long. It works with data frames, tibbles, or 
-#' `dtplyr::lazy_dt` objects. The results, including the counts and 
-#' percentages of anomalies, are returned as a tibble.
+#' Calculate the number and percentage of anomalies in a specified column based
+#' on given minimum and maximum thresholds.
 #'
-#' @param data A data frame, tibble, or `dtplyr::lazy_dt` object containing 
-#'   the ride data.
-#' @param col_name Unquoted name of the column containing ride durations.
-#' @param min The minimum threshold for ride duration to be considered normal.
-#' @param max The maximum threshold for ride duration to be considered normal.
+#' @param data A data frame, tibble, or `dtplyr::lazy_dt` containing the data.
+#' @param col_name The column within the data to check for anomalies. This should
+#'   be an unquoted column name.
+#' @param min The minimum threshold for determining anomalies.
+#' @param max The maximum threshold for determining anomalies.
 #'
-#' @return A tibble containing the number and percentage of rides that are
-#'   considered short and long according to the provided thresholds.
+#' @return A tibble containing the number and percentage of short and long rides.
 #'
-#' @details The function calculates the total number of rides, the number of 
-#'   rides shorter than `min`, and the number of rides longer than `max`. 
-#'   It also calculates the percentage of rides that fall into these 
-#'   categories. The result is a tibble with columns for short and long ride 
-#'   counts and percentages.
+#' @details This function calculates the number and percentage of values in a
+#'   specified column that fall below the minimum threshold (`min`) or exceed the
+#'   maximum threshold (`max`). It returns a tibble with these counts and
+#'   percentages.
 #'
 #' @examples
-#' # Assuming df is your dataset with a column 'duration' for ride times
-#' anomaly_counts <- count_anomalies(df, duration, 5, 120)
+#' \dontrun{
+#' library(dplyr)
+#' library(tibble)
+#'
+#' data <- data.frame(ride_length = c(5, 10, 15, 20, 25, 30, 35, 40, 45, 50))
+#' result <- count_anomalies(data, ride_length, min = 10, max = 40)
+#' print(result)
+#' }
 #'
 #' @importFrom dplyr summarise
-#' @importFrom dplyr mutate 
-#' @importFrom dplyr select 
+#' @importFrom dplyr mutate
+#' @importFrom dplyr select
 #' @importFrom tibble as_tibble
 count_anomalies <- function(data, col_name, min, max) {
   data %>%
@@ -44,5 +46,5 @@ count_anomalies <- function(data, col_name, min, max) {
       long_ride_percent = (long_rides / total_rides) * 100
     ) %>%
     select(short_rides, short_ride_percent, long_rides, long_ride_percent) %>%
-    as_tibble()  
+    as_tibble()
 }
