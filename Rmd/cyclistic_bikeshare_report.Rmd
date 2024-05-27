@@ -14,13 +14,12 @@ output:
     toc_depth: 3
     toc_float: true
   pdf_document:
+    includes:
+      in_header: "../resources/latex/preamble.tex"
     toc: true
     toc_depth: 3
 subtitle: Understanding rider usage patterns to optimize marketing strategies
 always_allow_html: true
-header-includes:
-  - \usepackage{booktabs}
-  - \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
