@@ -3,9 +3,6 @@ title: "Cyclistic bike-share ridership analysis"
 author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-05-03"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 3
   html_document:
     includes:
       in_header: "../resources/html/hero-image.html"
@@ -16,8 +13,14 @@ output:
     toc: true
     toc_depth: 3
     toc_float: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
 subtitle: Understanding rider usage patterns to optimize marketing strategies
 always_allow_html: true
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
@@ -137,12 +140,16 @@ variable_type <- c(
 
 variable_info <- tibble(variable_name, variable_type, variable_description)
 
-variable_info %>%
+table_data <- variable_info %>%
   kable(
     caption = "Variables",
-    col.names = c("Variable", "Type", "Description")
-  ) %>%
-  custom_table_theme()
+    col.names = c("Variable", "Type", "Description"),
+    format = ifelse(knitr::is_html_output(), "html", "latex"),
+    booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
+  )
+
+table_format <- ifelse(knitr::is_html_output(), "html", "latex")
+custom_table_theme(table_data, table_format)
 ```
 
 This detailed and structured dataset provides a solid foundation for analyzing and comparing the different usage patterns of Cyclistic's bike-share system by annual members and casual riders.    
@@ -218,15 +225,18 @@ missing_values <- c(0, 0, 0, 0, 874450, 874450, 929226, 929226, 0, 0, 7566, 7566
 missing_info <- tibble(variable_name, missing_values)
 
 # Display only the variables with missing data
-missing_info %>%
+table_data <- missing_info %>%
   filter(
     missing_values > 0
   ) %>%
   kable(
     caption = "Missing values",
-    col.names = c("Variable", "Missing values")
-  ) %>%
-  custom_table_theme()
+    col.names = c("Variable", "Missing values"),
+    format = ifelse(knitr::is_html_output(), "html", "latex"),
+    booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
+  ) 
+
+custom_table_theme(table_data, table_format)
 ```
 
 These findings indicate significant missing data in station identifiers and geolocation details, which could affect spatial analysis and ride linkage accuracy. Such gaps will necessitate careful consideration in subsequent stages of data cleaning and analysis to ensure that conclusions drawn are based on comprehensive and accurate information.     
@@ -359,14 +369,15 @@ additional_variables <- tribble(
 )
 
 # Display the additional variables table
-additional_variables %>%
+table_data <- additional_variables %>%
   kable(
     caption = "Additional variables",
     format = ifelse(knitr::is_html_output(), "html", "latex"),
     booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
   ) %>%
-  column_spec(2, width = "35em") %>%
-  custom_table_theme()
+  column_spec(2, width = "35em")
+
+custom_table_theme(table_data, table_format)
 ```
 
 These new variables offer valuable insights into ride duration, temporal and spatial patterns, and day-of-week trends, providing a comprehensive view of rider behavior and bike usage patterns. It is expected that these variables will play a crucial role in the subsequent analyses, enabling a more detailed exploration of the differences between annual members and casual riders. This variable creation process was executed using the `mutate()` function from the `dplyr` package.     
@@ -503,16 +514,19 @@ The monthly ridership analysis provided insights into seasonal variations in rid
 To this end, we calculated the average daily ridership for annual members and casual riders and identified the days of the week with the highest average number of rides for each rider group. The results are presented in the table below:     
 
 ```{r daily_ridership_table, warning=FALSE, message=FALSE, echo=FALSE}
-tribble(
-  ~" ", ~Mode,
+table_data <- tribble(
+  ~" ", ~Day,
   "Annual members", day_mode_member,
   "Casual riders", day_mode_casual
 ) %>%
   kable(
     caption = "Day with the highest average number of rides",
-    format = "html"
-  ) %>%
-  custom_table_theme()
+    format = ifelse(knitr::is_html_output(), "html", "latex"),
+    booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
+  ) 
+
+table_format <- ifelse(knitr::is_html_output(), "html", "latex")
+custom_table_theme(table_data, table_format)
 ```
 
 Thursday was the day with the highest average number of rides for annual members, while Saturday was the peak day for casual riders. These findings indicate distinct usage patterns between the two rider types, with annual members showing a preference for weekday rides and casual riders favoring weekends for bike trips. To further visualize these daily ridership trends, we created a bar plot that illustrates the average daily rides for annual members and casual riders across each day of the week.     
@@ -595,7 +609,8 @@ The bar plot illustrates that casual riders show a notable preference for electr
 
 Annual members of Cyclistic demonstrate a consistent and engagement-driven usage pattern. They account for 66% of the total rides over a twelve-month period, highlighting their predominant role in the system. Their ridership remains stable throughout the year, ranging from 60% to 84% of monthly rides, with minimal seasonal variation. Members show a steady daily ridership, peaking on Thursdays and maintaining high levels on weekdays, averaging between 9,000 and 10,834 rides per day. This indicates a primary use for commuting, reflected in their peak hours during typical morning and evening commuting times (06:00-10:00 and 15:00-20:00). Their average ride distance is slightly shorter, around 2,086 to 2,182 meters, and their ride duration is consistent, at approximately 11 to 12.5 minutes. Members have a balanced preference for bike types, slightly favoring classic bikes (51%) over electric bikes (49%).     
 
-In contrast, casual riders exhibit more variable and seasonally influenced usage patterns. They make up 34% of the total rides, with a significant presence during the warmer months, where they account for 32% to 40% of the monthly rides. Their ridership drops to 16% to 26% during colder months. Casual riders prefer weekends, with peak ridership on Saturdays, averaging 6,612 rides, and showing higher activity on Sundays and Fridays. Their peak usage hours on weekdays are in the late afternoon and early evening (16:00-19:00), indicating a leisure-based use. Casual riders travel longer distances, averaging 2,140 to 2,290 meters, and spend more time riding, with durations of 15.6 minutes on weekdays and 19.5 minutes on weekends. They show a notable preference for electric bikes, with 55% opting for them, highlighting their preference for ease of use and convenience during longer, recreational rides.     
+In contrast, casual riders exhibit more variable and seasonally influenced usage patterns. They make up 34% of the total rides, with a significant presence during the warmer months, where they account for 32% to 40% of the monthly rides. Their ridership drops to 16% to 26% during colder months. Casual riders prefer weekends, with peak ridership on Saturdays, averaging 6,612 rides, and showing higher activity on Sundays and Fridays. Their peak usage hours on weekdays are in the late afternoon and early evening (16:00-19:00), indicating a leisure-based use. Casual riders travel longer distances, averaging 2,140 to 2,290 meters, and spend more time riding, with durations of 15.6 minutes on weekdays and 19.5 minutes on weekends. They show a notable preference for electric bikes, with 55% opting for them, highlighting their preference for ease of use and convenience during longer, recreational rides.   
+
 Comparing the two groups, annual members are more consistent and commuting-oriented, whereas casual riders are influenced by season and leisure activities, preferring longer and more leisurely rides. This contrast in behavior and preferences offers valuable insights for tailoring marketing strategies and operational plans to meet the distinct needs of each rider segment.     
 
 ### Recommendations     
@@ -604,7 +619,7 @@ Based on the findings from the data analysis, the following recommendations are 
 
 1. Increase maximum ride duration for members during off-peak times:   
 
-  - The current maximum ride duration for members is 45 minutes, compared to 180 minutes for casual riders. Given the difference in the way the two groups appear to use the system, increasing the maximum ride duration limit for members during non-peak hours could encourage longer rides and accommodate leisurely trips. This adjustment could enhance the user experience for members and potentially attract casual riders looking for extended rides. By offering more flexibility in ride duration, Cyclistic can cater to the diverse needs of riders and encourage casual riders to consider becoming annual members.     
+  - The current maximum ride duration for members is 45 minutes, compared to 180 minutes for casual riders. Given the difference in the way the two groups appear to use the system, increasing the maximum ride duration limit for members during non-peak hours could encourage longer rides and accommodate leisurely trips. This adjustment could enhance the user experience for current members and potentially lead to the conversion of casual riders to members. By offering more flexibility in ride duration, Cyclistic can cater to the diverse needs of riders and encourage casual riders to consider becoming annual members.     
 
 2. Increase the number of electric bikes:    
 
