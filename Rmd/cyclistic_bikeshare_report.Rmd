@@ -3,6 +3,11 @@ title: "Cyclistic bike-share ridership analysis"
 author: "Paidraig 'Patrick' O'Ceallaigh"
 date: "2024-05-03"
 output:
+  pdf_document:
+    includes:
+      in_header: "../resources/latex/preamble.tex"
+    toc: true
+    toc_depth: 3
   html_document:
     includes:
       in_header: "../resources/html/hero-image.html"
@@ -13,11 +18,6 @@ output:
     toc: true
     toc_depth: 3
     toc_float: true
-  pdf_document:
-    includes:
-      in_header: "../resources/latex/preamble.tex"
-    toc: true
-    toc_depth: 3
 subtitle: Understanding rider usage patterns to optimize marketing strategies
 always_allow_html: true
 ---
@@ -39,7 +39,6 @@ source(here("R", "02_inspect_data.R"))
 source(here("R", "03_transform_data.R"))
 source(here("R", "04_analyze_data.R"))
 source(here("R", "style_tables.R"))
-# source(here("R", "render_graphics.R"))
 ```
 
 
@@ -56,7 +55,7 @@ Key Findings:
 
 Recommendations:     
 
-1. Increase maximum ride duration for members during off-peak times: This could encourage longer rides, enhance user experience, and attract casual riders looking for extended rides.     
+1. Increase maximum ride duration for members during off-peak times: This could encourage longer rides, enhance user experience, and potentially be an impetus for casual riders to become annual members.     
 
 2. Increase the number of electric bikes: To meet the demand of casual riders who prefer electric bikes, expanding the fleet could encourage more casual riders to convert to annual memberships.     
 
@@ -233,7 +232,7 @@ table_data <- missing_info %>%
     col.names = c("Variable", "Missing values"),
     format = ifelse(knitr::is_html_output(), "html", "latex"),
     booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
-  ) 
+  )
 
 custom_table_theme(table_data, table_format)
 ```
@@ -522,7 +521,7 @@ table_data <- tribble(
     caption = "Day with the highest average number of rides",
     format = ifelse(knitr::is_html_output(), "html", "latex"),
     booktabs = ifelse(knitr::is_html_output(), FALSE, TRUE)
-  ) 
+  )
 
 table_format <- ifelse(knitr::is_html_output(), "html", "latex")
 custom_table_theme(table_data, table_format)
