@@ -1,30 +1,40 @@
 # Required libraries
+library(knitr)
 library(kableExtra)
 
-#' Apply custom styling to kable tables
+#' Style Tables
 #'
-#' This function applies custom styling to Kable tables based on the specified
-#' format. For HTML tables, it adds bootstrap options for hover, condensed, and
-#' responsive styles. For LaTeX tables, it applies a striped style.
+#' Apply styling to kable tables based on the specified format.
 #'
-#' @param kable_input A kable object that you want to style.
+#' @param kable_input A kable object to be styled.
 #' @param tbl_format A character string specifying the format of the table.
-#'                   It should be either "html" or "latex".
+#'   Accepted values are "html" and "latex".
 #'
 #' @return A styled kable object.
 #'
-#' @details This function uses the `kable_styling` function from the `kableExtra`
-#'          package to apply different styles depending on the table format.
+#' @details This function applies different styles to kable tables based on the
+#'   specified format. For HTML tables, it adds bootstrap options such as "hover",
+#'   "condensed", and "responsive". For LaTeX tables, it adds options like
+#'   "striped" and "hold_position".
 #'
 #' @examples
 #' \dontrun{
+#' library(knitr)
 #' library(kableExtra)
+#'
+#' # Example for HTML table
 #' kable_input <- knitr::kable(head(mtcars), format = "html")
-#' styled_table <- custom_table_theme(kable_input, "html")
+#' styled_table <- style_tables(kable_input, "html")
+#'
+#' # Example for LaTeX table
+#' kable_input <- knitr::kable(head(mtcars), format = "latex")
+#' styled_table <- style_tables(kable_input, "latex")
 #' }
 #'
+#' @importFrom knitr kable
 #' @importFrom kableExtra kable_styling
-custom_table_theme <- function(kable_input, tbl_format) {
+
+style_tables <- function(kable_input, tbl_format) {
   if (tbl_format == "html") {
     kable_input %>%
       kable_styling(
