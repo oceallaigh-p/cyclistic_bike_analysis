@@ -6,36 +6,31 @@ library(here)
 
 #' Import and Combine CSV Files into a Lazy Data Table
 #'
-#' This function searches for all CSV files in a specified directory, reads them
-#' into R using the vroom package, and combines them into a single lazy data
-#' table for efficient processing. The data is read from the 'raw_data'
-#' subdirectory within the 'data' directory located at the project root, as
-#' specified by the here() function.
+#' Read CSV files from the specified directory and convert them into a
+#' `dtplyr::lazy_dt` object.
 #'
-#' @return A `dtplyr::lazy_dt` object containing the data from all CSV files
-#' in the specified directory.
+#' @return A `dtplyr::lazy_dt` object containing the combined data from all
+#'   CSV files in the specified directory.
 #'
-#' @details This function utilizes the `list.files` function to retrieve all CSV
-#'          files within the specified subdirectory. It then employs `vroom` to
-#'          read these files efficiently. `vroom` is particularly well-suited
-#'          for large datasets as it only reads the data on-demand rather than
-#'          loading it all into memory at once. After reading, the function
-#'          converts the imported data into a `lazy_dt` format, which is a
-#'          dtplyr step to handle data lazily, optimizing for both performance
-#'          and memory usage. This makes it ideal for dealing with large
-#'          datasets or for scenarios where data manipulation needs to be
-#'          efficient and minimized in memory usage. The use of the `here()`
-#'          function ensures that file paths are constructed reliably, regardless
-#'          of where the project directory is currently set in the R environment.
+#' @details This function reads all CSV files from the "data/raw_data" directory,
+#'   combines them into a single data frame, and then converts it into a
+#'   `dtplyr::lazy_dt` object.
 #'
 #' @examples
-#' # Load data assuming your CSV files are stored in the data/raw_data directory
-#' data_lazy <- load_data()
+#' \dontrun{
+#' library(dplyr)
+#' library(dtplyr)
+#' library(vroom)
+#' library(here)
+#'
+#' lazy_data <- csv_to_lazy_dt()
+#' print(lazy_data)
+#' }
 #'
 #' @importFrom vroom vroom
 #' @importFrom dtplyr lazy_dt
 #' @importFrom here here
-#'
+
 csv_to_lazy_dt <- function() {
   return(
     list.files(
