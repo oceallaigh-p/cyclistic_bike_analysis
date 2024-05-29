@@ -107,7 +107,7 @@ data_processed <- data_processed %>%
 # Check for anomalous ride distance ------------------------------------------
 
 ride_distance_stats <- data_processed %>%
-  calculate_summary_stats(ride_distance)
+  calculate_sum_stats(ride_distance)
 
 # Calulate IQR
 iqr_distance <- ride_distance_stats$q75 - ride_distance_stats$q25
@@ -136,7 +136,7 @@ obs_nonanomalous <- data_processed %>%
 # Calculate summary statistics
 # ==============================================================================
 ride_distance_stats_clean <- data_processed %>%
-  calculate_summary_stats(ride_distance)
+  calculate_sum_stats(ride_distance)
 
 # ==============================================================================
 # Calculate percentage of removed observations
