@@ -1,27 +1,33 @@
 # Required libraries
 library(ggplot2)
+library(here)
 
-#' Save a ggplot to a Specified Directory
+#' Save Plots
 #'
-#' This function simplifies the process of saving ggplot2 plots by wrapping around
-#' `ggsave`. It saves plots to a specific directory with pre-defined settings.
+#' Save a ggplot object as a PNG file with specified dimensions and resolution.
 #'
-#' @param file_name The name of the file to save the plot as.
-#' @param plot_name The ggplot object to be saved.
+#' @param filename A character string representing the name of the file (without
+#'   extension) to save the plot as.
+#' @param plot A ggplot object to be saved.
 #'
-#' @return Saves the plot to the specified directory. The function itself
-#' returns nothing.
+#' @return None. This function saves the plot to a file and does not return a value.
 #'
-#' @details The function sets the directory path to 'output/plots' within the
-#' project directory, and uses predefined dimensions and resolution.
-#' Modify these parameters within the function as needed.
+#' @details This function saves a ggplot object as a PNG file in the "output/plots"
+#'   directory with a specified width, height, and resolution. The file name is
+#'   constructed by appending ".png" to the provided filename.
 #'
 #' @examples
-#' p <- ggplot(mtcars, aes(x = mpg, y = wt)) +
+#' \dontrun{
+#' library(ggplot2)
+#' library(here)
+#'
+#' plot <- ggplot(mtcars, aes(x = mpg, y = hp)) +
 #'   geom_point()
-#' save_plots("my_custom_plot.png", p)
+#' save_plots("mtcars_plot", plot)
+#' }
 #'
 #' @importFrom ggplot2 ggsave
+#' @importFrom here here
 
 save_plots <- function(filename, plot) {
   ggsave(
