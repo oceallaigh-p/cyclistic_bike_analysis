@@ -2,31 +2,33 @@
 library(dplyr)
 library(tibble)
 
-#' Count Observations for Each Categorical Variable
+#' Count Categorical Variables
 #'
-#' This function takes a data frame, tibble, or dtplyr lazy_dt and returns the
-#' count of observations for each specified categorical variable.
+#' Calculate the count of each level for specified categorical variables.
 #'
-#' @param data A data frame, tibble, or `dtplyr::lazy_dt` object containing
-#'        the data.
-#' @param categorical_vars A variable or set of variables to group by. These should
-#'        be specified as unquoted variable names or expressions.
+#' @param data A data frame, tibble, or `dtplyr::lazy_dt` containing the data.
+#' @param categorical_vars The categorical variable to group by. This should
+#'   be unquoted variable names.
 #'
-#' @return A tibble where each row represents a category of the input categorical
-#'         variables and includes a count of observations in that category.
+#' @return A tibble containing the counts of each level of the specified
+#'   categorical variable.
 #'
-#' @details This function is useful for quickly summarizing the distribution of
-#'          categories within a dataset. It leverages `dplyr`'s `group_by` and
-#'          `summarise` functions to perform the aggregation and returns the result
-#'          as a tibble, regardless of the input type.
+#' @details This function groups the data by the specified categorical variable
+#'   and calculates the count of each level. It returns a tibble with these
+#'   counts.
 #'
 #' @examples
-#' # Sample data frame
-#' df <- data.frame(category = c("apple", "banana", "carrot", "apple", "banana", "banana"))
+#' \dontrun{
+#' library(dplyr)
+#' library(tibble)
 #'
-#' # Count occurrences of each category
-#' counts <- count_categorical(df, category)
-#' print(counts)
+#' data <- data.frame(
+#'   category1 = c("A", "B", "A", "B", "C"),
+#'   category2 = c("X", "X", "Y", "Y", "Z")
+#' )
+#' result <- count_categorical(data, c(category1, category2))
+#' print(result)
+#' }
 #'
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarise
