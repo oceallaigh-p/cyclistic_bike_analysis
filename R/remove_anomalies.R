@@ -1,30 +1,35 @@
 # Required libraries
+library(dplyr)
 
-#' Remove Anomalies from Ride Data
+#' Remove Anomalies
 #'
-#' This function filters out anomalous ride data that falls outside specified
-#' minimum and maximum thresholds. It is compatible with data frames, tibbles,
-#' or `dtplyr::lazy_dt` objects. Only rides with durations within the inclusive
-#' range defined by `min` and `max` are retained.
+#' Filter out anomalies in a specified column based on given minimum and maximum
+#' thresholds.
 #'
-#' @param data A data frame, tibble, or `dtplyr::lazy_dt` object containing the
-#'        ride data.
-#' @param col_name Unquoted name of the column containing ride durations.
-#' @param min The minimum acceptable value for ride duration.
-#' @param max The maximum acceptable value for ride duration.
+#' @param data A data frame, tibble, or `dtplyr::lazy_dt` containing the data.
+#' @param col_name The column within the data to filter for anomalies. This
+#'   should be an unquoted column name.
+#' @param min The minimum threshold for filtering anomalies.
+#' @param max The maximum threshold for filtering anomalies.
 #'
-#' @return A data frame, tibble, or `dtplyr::lazy_dt` object that contains only
-#'         rides with durations within the specified range.
+#' @return A filtered data frame, tibble, or `dtplyr::lazy_dt` with anomalies removed.
 #'
-#' @details The function uses the `filter` function from `dplyr` to retain only
-#'          those rides where the duration falls within the specified minimum and
-#'          maximum thresholds.
+#' @details This function filters out rows where the specified column's values
+#'   are below the minimum threshold (`min`) or above the maximum threshold (`max`).
 #'
 #' @examples
-#' # Assuming df is your dataset with a column 'duration' for ride times
-#' filtered_data <- remove_anomalies(df, duration, 5, 120)
+#' \dontrun{
+#' library(dplyr)
+#'
+#' data <- data.frame(
+#'   ride_length = c(5, 10, 15, 20, 25, 30, 35, 40, 45, 50)
+#' )
+#' cleaned_data <- remove_anomalies(data, ride_length, min = 10, max = 40)
+#' print(cleaned_data)
+#' }
 #'
 #' @importFrom dplyr filter
+
 remove_anomalies <- function(data, col_name, min, max) {
   data %>%
     filter(
