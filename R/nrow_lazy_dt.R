@@ -9,10 +9,9 @@ library(dtplyr)
 #' evaluation mode. This is particularly useful for large datasets that are not
 #' entirely loaded into memory.
 #'
-#' @param data A `dtplyr_step` object representing a lazy evaluation data table.
+#' @param data A `dtplyr::lazy_dt` object containing the data.
 #'
-#' @return A single integer value representing the count of rows in the provided
-#'         data table.
+#' @return An integer representing the number of observations in the lazy data table.
 #'
 #' @details The function uses `dplyr`'s `summarize()` to compute the count of
 #'          rows, which is then explicitly collected and extracted using
@@ -21,9 +20,14 @@ library(dtplyr)
 #'          memory usage and computational efficiency for large datasets.
 #'
 #' @examples
-#' # Assume `lazy_dt` is a dtplyr_step created from a large data.table
-#' total_rows <- count_rows_lazy_dt(lazy_dt)
-#' print(total_rows)
+#' \dontrun{
+#' library(dplyr)
+#' library(dtplyr)
+#'
+#' lazy_data <- lazy_dt(mtcars)
+#' row_count <- nrow_lazy_dt(lazy_data)
+#' print(row_count)
+#' }
 #'
 #' @importFrom dplyr summarize
 #' @importFrom dplyr n
